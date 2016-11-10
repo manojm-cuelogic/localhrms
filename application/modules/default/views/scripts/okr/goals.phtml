@@ -1,0 +1,159 @@
+<?php $data = $this->data;
+$hideUser = (isset($this->hideUser) && $this->hideUser) ? true : false;
+if(is_array($data) && count($data) > 0) {
+ ?>
+
+    <!--goal details page starts here-->
+
+    <div class="main-wrapper-okrs">
+        <div class="goal-details-header-bg"> <!--goal details-->      
+            <div class="goal-details-btns">
+                <div class="active-btn"><a href="<?php echo BASE_URL.'okr/'?>" >OKR Dashboard </a></div> 
+            </div>
+        </div>
+
+       
+        <div class="goal-wrapper">
+
+            <div class="owner-container" style="<?php echo ($hideUser) ? "display:none;":""; ?>">
+            <h4 style=>Owner</h4>
+            <div class="goal-owners"  style="width:125px; max-height:507px; margin: 10px 0px 0px 0px; padding-top:20px;">
+                <?php 
+                $userId = "";
+                foreach($data as $d) {
+                    if($userId == "") $userId = $d['user_id'];
+                    $imgPath =  MEDIA_PATH."images/default-profile-pic.jpg";
+                    if(strlen(trim($d['profileimg'])) > 0)
+                        $imgPath = PUBLIC_PATH. "uploads/profile/".$r['profileimg'];
+
+                 ?>
+                <div class="updates-profile user-block" data-id="<?php echo $d['user_id']; ?>">
+                    <div class="updates-profile-pic"><img src="<?php echo $imgPath; ?>" alt=""></div>
+                    <div class="employee-name"><?php echo $d['userfullname']; ?></div>
+                </div>
+                <?php } ?>
+
+            </div>
+            </div>
+
+            <div class="owner-container">
+            <h4 class="mrgn-left-15">Goals</h4>
+            <div class="goal-owners">
+                <?php
+                $goal_id = "";
+
+                foreach($data as $d) {
+                    $style = ($d['user_id'] != $userId) ? "style='cursor:pointer;display:none;'" : "style='cursor:pointer;'";
+
+                    foreach($d['goals'] as $goal){
+                        $extraClass = "";
+                        if($goal_id == ""){
+                            $goal_id = $goal['id'];
+                            $extraClass = "assActive";
+                        }
+                    ?>
+
+                        <div data-id="<?php echo $goal['id'] ?>" data-ref-id="<?php echo $goal['owner_id'] ?>" class=" <?php echo $extraClass; ?> goal-block milestone-details-content-bg goal-container-block" <?php echo $style; ?>>
+
+                    
+
+                            <div class="goal-details-display"><?php echo $goal['name'] ?></div>
+                            <!--<div class="goal-details-display">Progress: 0%</div> -->
+                            <div class="goal-details-display">Last Updated: <?php echo sapp_Helper::time_diff_string($goal['updated_at']); ?></div>
+                        </div>
+                    <?php 
+                    }
+                } ?>
+            </div>
+            </div>
+
+            <div class="owner-container mrgn-left-15">
+            <h4>Details</h4>
+            <div class="goal-owners2" id="goal_detail">
+                
+
+            </div>
+            </div>
+
+    <!--goal details page ends here-->
+<script>
+    $(document).ready(function(){
+        $(document).on('click','.goal-icon img.goal-follow-eye', function(){
+            var obj = this;
+            var goal_id = $(this).attr('data-id');
+            var follow = $(this).prev(".isFollowing").val();
+            console.log(follow);
+            follow = (parseInt(follow)) ? 0 : 1; console.log(follow);
+            $.blockUI({ width:'50px',message: $("#spinner").html() });
+            $.post(base_url + '/goal/followunfollowgoal', {goal_id:goal_id, follow:follow}, function(data){
+                    if(follow) {
+                        $(obj).prev(".isFollowing").val(1); 
+                        var imgPath = "<?php echo MEDIA_PATH . 'images/okr/goal_icon.png' ?>";
+                        var title="Unollow this goal";
+                        var f_cnt = $(".follower-count-hidden").val();
+                        f_cnt++;
+                        $(".follower-count-hidden").val(f_cnt);
+                        if(f_cnt > 1)
+                            $('div.goal-followers').html(f_cnt + " followers");
+                        else
+                            $('div.goal-followers').html(f_cnt + " follower");
+                    }
+                    else {
+                        $(obj).prev(".isFollowing").val(0); 
+                        var imgPath = "<?php echo MEDIA_PATH . 'images/okr/goal_icon_gray.png' ?>";
+                        var title="Follow this goal";
+                        var f_cnt = $(".follower-count-hidden").val();
+                        f_cnt--;
+                        $(".follower-count-hidden").val(f_cnt);
+                        if(f_cnt > 1)
+                            $('div.goal-followers').html(f_cnt + " followers");
+                        else
+                            $('div.goal-followers').html(f_cnt + " follower");
+                    }
+                    $(obj).attr({'src':imgPath,'title':title})
+                    //loadComments(true);
+                    $.unblockUI();
+                })
+        })
+        loadGoalDetail(<?php echo $goal_id ?>, false);
+        $('.goal-block').on('click', function() {
+            var g_id = $(this).attr('data-id');
+            //$('.assActive').removeClass('assActive');
+            $('.goal-block.milestone-details-content-bg.goal-container-block').removeClass('assActive');
+            $(this).addClass('assActive');
+            loadGoalDetail(g_id, true);
+        });
+        $('.user-block').on('click', function() {
+            var u_id = $(this).attr('data-id');
+            $('.assActive').removeClass('assActive');
+            $(this).addClass('assActive');
+            $('.goal-block').hide();
+            $('.goal-block[data-ref-id="'+u_id+'"]').show();
+            var g_id = $('.goal-block[data-ref-id="'+u_id+'"]:first').attr('data-id');
+            $('.goal-block[data-ref-id="'+u_id+'"]:first').addClass('assActive');
+            loadGoalDetail(g_id, true);
+        })
+
+        $('.updates-profile.user-block:first'). addClass('assActive');
+        
+    });
+    function loadGoalDetail (goal_id, block) {
+        if(block)
+            $.blockUI({ width:'50px',message: $("#spinner").html() });
+        $.post(base_url + '/goal/getgoaldetails', {goal_id:goal_id}, function(data){
+            if(block)
+                $.unblockUI();
+            $('#goal_detail').html(data);
+        });
+    }
+
+</script>
+<?php } else {
+?>
+    <div class="ml-alert-1-info">
+        <div class="style-1-icon info"></div>
+        No records found!
+    </div>
+
+<?php
+} ?>

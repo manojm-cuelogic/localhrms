@@ -1,0 +1,56 @@
+<div id="cancelleaverequest" style="display:none;">
+	<div class="newframe-div">
+		<input type="hidden" value="" id="objectId" name="objectId">
+		<input type="hidden" value="" id="controllername" name="controllername">
+
+		<div class="new-form-ui">
+			<label class="required">Reason</label>
+			<div class="division">
+			<textarea id="leave_comment"></textarea>
+			</div>
+			<span class="errors" id="leave_comment_err"></span>
+		</div>
+		<div class="new-form-ui-submit">
+			<input type="button" onclick="cancelLeaveWithComment()" value="Submit"/>	
+			<button name="Canceldialog" id="Canceldialog" onclick="$('#cancelleaverequest').dialog('close');" type="button">Cancel</button>
+		</div>
+	</div>
+</div>
+<?php if (count($this->messages)) {?>
+	<div id="dispmsgpendingleaves" class="settingssuccess">
+		<?php 
+		foreach ($this->messages as $message)
+			{
+				$flag = array();				
+				$flag = array_keys($message);
+				echo "<div id='messageData' class='ml-alert-1-$flag[0]'><div style='display:block;'><span class='style-1-icon $flag[0]'></span>";
+				echo $message[$flag[0]];
+				echo "</div></div>";
+			}
+		?>
+	</div>	
+	
+<?php } ?>
+<span id="error_message"></span>
+<?php 
+
+if($this->call == 'ajaxcall'){
+	$div = ''; $endDiv = ''; 
+} else { 
+	$div = '<div id="grid_'.$this->dataArray[0]['objectname'].'" class="all-grid-control">'; $endDiv = '</div>';
+}
+	echo $div.'<div id="msg" style="display:none;font-style: oblique; font-weight: bold; color: green;""></div>'.$this->grid($this->dataArray[0]).$endDiv;
+
+?>
+<script type='text/javascript'>
+$(document).ready(function(){
+<?php if (count($this->messages)) {?>
+      setTimeout(function(){
+			$('#dispmsgpendingleaves').fadeOut('slow');
+		},3000);
+
+<?php } ?>
+
+});
+</script>
+

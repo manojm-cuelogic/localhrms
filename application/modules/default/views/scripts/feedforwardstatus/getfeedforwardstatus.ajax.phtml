@@ -1,0 +1,21 @@
+	<?php if(sizeof($this->ffEmpsStatusData)>0){?>
+		<div class="appraisalinfo" id="appraisalinfo"></div>
+		
+		<?php foreach ($this->ffEmpsStatusData as $emp){?>
+		
+			<div class="manager_feed_div">
+				<img width="44px" height="44px" onerror="this.src='<?php echo DOMAIN; ?>public/media/images/default-profile-pic.jpg'" src="<?php echo DOMAIN; ?>public/uploads/profile/<?php echo $emp['profileimg'];?>">
+				<span><?php echo $emp['userfullname'];?></span>
+				<?php if($emp['ff_status'] == APP_PENDING_EMP){ ?> 
+					<div class="status_div pending"> Pending employee ratings</div>
+				<?php } else { ?>
+					<div class="status_div completed"> Completed</div>
+				<?php }?>
+			</div>
+		<?php }?>
+		
+	<?php }
+	else { 	?>
+	<div class="managerresponsediv_msg"> No data found </div>
+	<?php }?>   
+	

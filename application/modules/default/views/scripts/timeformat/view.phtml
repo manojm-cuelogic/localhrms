@@ -1,0 +1,33 @@
+<?php 
+		if($this->ermsg !='')
+		{
+?>
+     <div class="ml-alert-1-info m1-info-set">
+				<div class="style-1-icon info"></div>
+				No record exist
+	</div>
+
+
+<?php 
+}
+else
+{
+echo $this->form->id; ?>
+        <div class="total-form-controller view-form-detail">
+		<div class="new-form-ui clearb">
+		  <label>Timeformat</label>
+	    <div class="division"><?php echo $this->form->timeformat; ?></div>
+		</div>
+		
+		<div class="new-form-ui clearb textareaheight">
+		  <label>Description</label>
+		<div class="division"><?php echo $this->form->description; ?></div>
+		</div>
+		<div class="new-form-ui-submit">
+		<input type="submit" onclick="changeeditscreen('<?php echo $this->controllername;?>',<?php echo $this->id;?>);" value="Edit" />
+		<!--<input type="submit" onclick="changestatus('<?php //echo $this->controllername;?>',<?php //echo $this->id;?>,'');" value="Delete" />-->
+		<button onclick="window.location.href='<?php echo BASE_URL; ?>timeformat';" type="button" id="Cancel" name="Cancel">Cancel</button>
+		</div>
+</div>  
+
+<?php } ?>      

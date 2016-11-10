@@ -1,0 +1,20 @@
+<div id="error_message" style="display:none;"></div>
+<?php 
+if($this->call == 'ajaxcall'){
+	$div = ''; $endDiv = ''; 
+} else { 
+	$div = '<div id="grid_'.$this->dataArray['objectname'].'" class="all-grid-control">'; $endDiv = '</div>';
+}
+	echo $div.'<div id="msg" style="display:none;font-style: oblique; font-weight: bold; color: green;""></div>'.$this->requisitiongrid($this->dataArray).$endDiv;
+?>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+        <?php $flashMessenger = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger');?>
+    <?php if ($flashMessenger->setNamespace('success')->hasMessages()): ?>
+            <?php foreach ($flashMessenger->getMessages() as $msg): ?>
+                    successmessage('<?php echo trim($msg); ?>');                    
+            <?php endforeach; ?>
+    <?php endif; ?>
+});
+
+</script>

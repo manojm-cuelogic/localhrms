@@ -1,0 +1,84 @@
+<?php 
+$followLinkImgPath = MEDIA_PATH . "images/okr/goal_icon_gray.png";
+$title="Follow this goal";
+if($this->goal['following']) {
+    $followLinkImgPath = MEDIA_PATH . "images/okr/goal_icon.png";
+    $title="Unfollow this goal";
+}
+
+$goal_assesment = new Default_Model_GoalAssessment();
+$isRightsAvailableForDoingAssessment = $goal_assesment->isRightsAvailableForDoingAssessment($this->goal['owner_id'] , $this->goal['id']);
+//var_dump($isRightsAvailableForDoingAssessment);
+//exit;
+?>
+<div class="goal-details-content-bg goals-main-block">
+        <div class="goal-details-headers">
+
+            <div class="goal-title">
+                <?php 
+                    if($this->goal['goal_type_id'] == 1){
+                ?>
+                <a href="javascript:void(0)"><?php echo $this->goal['name']?></a>
+            <?php } else { ?>
+                 <a href="<?php echo BASE_URL."goal/view/id/".$this->goal['id'];?>"><?php echo $this->goal['name']?></a>
+            <?php } ?>
+            </div>
+
+            <div class="goal-followers"><?php echo $this->goal['followers'] ?> follower<?php echo (($this->goal['followers'] > 1) ? "s" : "")?></div>
+            <input type="hidden" value = "<?php echo $this->goal['followers'] ?>" class="follower-count-hidden"/>
+            <div class="goal-icon">
+                <input type="hidden" value="<?php echo $this->goal['following'] ?>" class="isFollowing"/>
+                <?php
+                $auth = Zend_Auth::getInstance();
+                if($auth->hasIdentity()){
+                    $loginUserId = $auth->getStorage()->read()->id;
+                }
+                ?>
+                <img <?php echo (($this->goal['owner_id'] != $loginUserId || $this->goal['goal_type_id'] == 1 ) ? 'class="goal-follow-eye" title="'.$title.'" style="cursor:pointer" ' : ''); ?> data-id="<?php echo $this->goal['id'] ?>" src="<?php echo $followLinkImgPath;?>" /></div>
+        </div>
+
+        <div class="goal-details-inside-bg-1">
+            <div class="goal-description"><?php echo $this->goal['descrption'] ?></div>
+            <?php 
+            //$auth = Zend_Auth::getInstance();
+            if($isRightsAvailableForDoingAssessment && $this->goal['goal_type_id'] == 2)
+            {
+                ?>
+                <div  class="goal-assessment">
+                <a href="<?php echo BASE_URL."assessment/assessmentdetail/goal/".$this->goal['id'];?>" >Assessment: <?php echo $this->goal['assessment_count'] ?></a>
+                </div>
+                <?php
+            } else if($this->goal['goal_type_id'] == 1 && $auth->getStorage()->read()->emprole == MANAGEMENTROLE){
+                ?>
+                    <div  class="goal-assessment">
+                        <a href="<?php echo BASE_URL."goal/editcompanygoal/id/".$this->goal['id'];?>" >Edit</a>
+                    </div>
+                <?php
+            }
+            ?>
+            
+        </div>
+        <?php 
+                    if($this->goal['goal_type_id'] == 2){
+                ?>
+        <div class="goal-linked">Linked to: <a href="<?php echo BASE_URL."goal/view/id/".$this->goal['goal_align_id'];?>"><?php echo $this->goal['goal_align'] ?></a></div>
+        <?php } ?>
+
+        <?php 
+            if($this->goal['goal_type_id'] == 2){
+        ?>
+        <div class="goal-details-inside-bg-2">
+            <div class="goal-details-text-left">Owner : <?php echo $this->goal['owner_name']?></div>
+            <div class="goal-details-text-right">Last Updated: <?php echo date( 'd-M-y' , strtotime($this->goal['updated_at'])) ?></div>
+        </div>
+        <div class="goal-details-inside-bg-2">
+            <div class="goal-details-text-left">Progress: <?php echo (isset($this->goalProgress) ? $this->goalProgress : 0 );?> %</div>
+            <div class="goal-details-text-right">Due Date: <?php echo date( 'd-M-y' , strtotime($this->goal['end_date'])) ?></div>
+        </div>
+        <?php } ?>
+        <div class="goal-details-inside-bg-2">
+            <div class="goal-details-text-left">
+                Keywords: <?php echo $this->goal['keywords'] ?></div>
+            <div class="goal-details-text-right">Quarter: <?php echo $this->goal['quarter'] ?></div>
+        </div>
+    </div>

@@ -1,0 +1,300 @@
+<div id="dialog-confirm" style="display:none;">
+    <div class="newframe-div">
+        <div class="new-form-ui height32">
+            <div class="division">
+                <input type="text" maxlength="10"  id="number_value" name="number_value">
+            </div>
+            <span class="errors" id="errors-contactnumber"></span>
+        </div>
+    </div>
+</div>
+
+<div id="empstatus-alert" style="display:none;">
+    <div class="newframe-div"><div id="empstatusmessage"></div></div>
+</div>
+
+<div id="empleaves-alert" style="display:none;">
+    <div class="newframe-div"><div id="empleavesmessage"></div></div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+    //for menu div to be displayed
+    $(document).ready(function(){
+        var selected_obj = $('li[menu-url="/index.php/welcome"]');
+        var parent_div = selected_obj.attr("parent-div");
+
+        var controllerName = 'index';
+        if(parent_div == '' || parent_div == null)
+        {
+            if(controllerName != 'error'){
+                selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/index']");
+            }else{ // for not authorized pages.
+            }
+            parent_div = selected_obj.attr("parent-div");
+        }
+        if(parent_div == 'undefined') parent_div = '';
+        /*Only for Service Desk */
+        if(parent_div == '' || parent_div == null)
+        {
+            selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/welcome']");
+            if(controllerName == 'servicerequests') {
+                selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/servicerequests/index']");
+            }
+            parent_div = selected_obj.attr("parent-div");
+        }//only for service desk
+
+        selected_obj.addClass("active_menu_class");
+        $('.'+parent_div).addClass("selected_menu_class");
+        $('.'+parent_div).show();
+        $('.acc_li_toggle').next().hide();
+        parent_menu_selected(selected_obj);
+//removing of class for selected child menu
+        $(".side-menu-selected").removeClass("side-menu-selected");
+//end of removing of class for selected child menu
+//to add selected class for selected child menu
+        if(parent_div != "dummy")
+            selected_obj.find("a").addClass("side-menu-selected");
+//end to add selected class for selected child menu
+//hide and show meu arrows by mouse events
+        $( "#menu-shadow" ).mouseenter(function(e) {
+
+            var width = '';
+            width = 1400;		if($('.menu-head').width() > width){//hide scroll arrows if window width > 1310
+
+                $('.simply-scroll-btn').hide();
+            }else{
+                $('.simply-scroll-btn').show();
+            }
+        });
+        $("#menu-shadow").mouseleave(function(e){
+            $('.simply-scroll-btn').hide();
+        });
+        $("#mainmenushowhidebutton").click(function(){
+
+            setdisplaymenu('display');
+        });
+    });
+    function  setdisplaymenu(flag)
+    {
+        if(flag == 'tour')
+        {
+            hideshow_mainmenu = 1;
+        }else{
+            if(hideshow_mainmenu == 1) hideshow_mainmenu = 0;
+            else if(hideshow_mainmenu == 0) hideshow_mainmenu = 1;
+        }
+        $.ajax({
+            type:"post",
+            data:'hideshow_mainmenu='+hideshow_mainmenu,
+            url:base_url+'/index/setsessionval',
+            dataType:'json',
+            success: function(response)
+            {
+                if(response == 1)
+                {
+                    $( "#menu-shadow" ).show(400);
+                    $('#menu-hide-show').css('top','-1px');
+                    $('#mainmenushowhidebutton').children().addClass('show-menu');
+                    $('#mainmenushowhidebutton').children().text('Click Here to Hide Menu');
+                    $('#mainmenushowhidebutton').children().removeClass('hide-menu');
+                }
+                else if(response == 0)
+                {
+                    $( "#menu-shadow" ).hide(400);
+                    $('#menu-hide-show').css('top','0');
+                    $('#mainmenushowhidebutton').children().addClass('hide-menu');
+                    $('#mainmenushowhidebutton').children().text('Click Here to Show Menu');
+                    $('#mainmenushowhidebutton').children().removeClass('show-menu');
+                }
+            }
+        });
+    }
+    function togglesubmenus(id) {
+        $('#acc_li_toggle_'+id).next().toggle();
+        if ($('#acc_li_toggle_'+id).next().is(":visible") == true){
+            $('#acc_li_toggle_'+id).removeClass('acc_li_toggle');
+            $('#acc_li_toggle_'+id).addClass('acc_li_toggle_down');
+        }else{
+            $('#acc_li_toggle_'+id).removeClass('acc_li_toggle_down');
+            $('#acc_li_toggle_'+id).addClass('acc_li_toggle');
+        }
+    }
+    function parent_menu_selected(selected_obj)
+    {
+        //start for removing selected class in parent menu
+        var already_selected_obj = $('.super_selected').parent().parent();
+        var already_selected_id = already_selected_obj.prop('id');
+        var already_selected_class = already_selected_obj.attr("selected-class");
+        $('#'+already_selected_id+" span").removeClass(already_selected_class);
+        $('#'+already_selected_id+" span").removeClass("super_selected");
+        $('#'+already_selected_id).removeClass("link-selected");
+        var dashboard_menu = 'main_parent_173';
+        if(already_selected_id == undefined)  //when dashboard selectes undefined will come
+        {
+            $('#'+dashboard_menu).removeClass("link-selected");
+        }
+        //end for removing selected class in parent menu
+        //to add selected class for parent menu
+        var super_parent = selected_obj.attr("super-parent");
+        var super_selected_class = $('#'+super_parent).attr("selected-class");
+        $('#'+super_parent+" span").addClass(super_selected_class);
+        $('#'+super_parent+" span").addClass("super_selected");
+        $('#'+super_parent).addClass("link-selected");
+        //end to add selected class for parent menu
+
+        var primary_parent = selected_obj.attr("primary_parent");
+        if(primary_parent !='' && typeof(primary_parent) !='undefined')
+        {
+            togglesubmenus(primary_parent);
+        }
+
+    }
+</script>
+<script language='javascript'>
+
+    function hide(){
+        alert('hide')
+    }
+    function show(){
+        alert('show');
+    }
+
+
+</script>
+
+
+<!--Dashboard page starts from here-->
+
+<div class="main-wrapper-okrs">
+    <div class="goal-details-header-bg"> <!--goal details-->
+
+
+
+        <div class="dashboard-tab">
+            <a href="<?php echo BASE_URL?>goal/mygoals">
+            <div id="main_tab_container">
+                <div class="tab_icon"></div>
+                <div class="tab_heading">My goals</div>
+                <div class="tab_entry"><?php echo $this->myGoals['goalCount']?></div>
+            </div>
+            </a>
+
+           <a href="<?php echo BASE_URL?>goal/mygoals/team/1">
+            <div id="main_tab_container">
+                <div class="tab_icon"></div>
+                <div class="tab_heading">Team goals</div>
+                <div class="tab_entry">Direct Reportee: <?php echo $this->teamGoals['userCount']; ?></br>Total Goals: <?php echo $this->teamGoals['goalCount']; ?></div>
+            </div>
+            </a>
+
+            <a href="<?php echo BASE_URL?>goal/mygoals/company/1">
+            <div id="main_tab_container">
+                <div class="tab_icon"></div>
+                <div class="tab_heading">Company goals</div>
+                <div class="tab_entry"><?php echo $this->companyGoals['goalCount']?></div>
+            </div>
+            </a>
+
+            <a href="<?php echo BASE_URL?>goal/goalsfollowing">
+            <div id="main_tab_container">
+                <div class="tab_icon"></div>
+                <div class="tab_heading">Following</div>
+                <div class="tab_entry"><?php echo $this->followingGoals['goalCount']?></div>
+            </div> 
+            </a>
+
+            <a href="<?php echo BASE_URL?>goal/assessgoalslist">
+            <div id="main_tab_container">
+                <div class="tab_icon"></div>
+                <div class="tab_heading">Assess Goals</div>
+                <div class="tab_entry"><?php echo $this->assessmentGoals['goalCount']?></div>
+            </div>
+            </a>
+        </div>
+
+    </div>
+
+
+    <div class="milestones-title">Updates</div>
+
+    <div class="updates-bg"> <!--updates details-->
+
+        <div class="updates-section">
+            <div class="updates-filter">
+                <select id = "comment_filter" class="form-control">
+                    <option value='0' selected>All</option>
+                    <option value='goal'>Goal Comments</option>
+                    <option value='audit'>Only Audit</option>
+                    <option value='milestone'>Milestone(s)</option>
+                </select>
+            </div>
+            <div class="filter-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/filter-icon.png"></div>
+        </div>
+        <div id = 'all_comments' class='comments-on-milestone pre-assessments-bg'>
+                
+        </div>
+    </div>
+
+    <div class="milestones-title teamfollowed" style="display:none;">Updates - Team and Followed</div>
+
+    <div class="updates-bg teamfollowed"  style="display:none;"> <!--updates details-->
+
+        <div class="updates-section">
+            <div class="updates-filter">
+                <select id = "comment_filter_other" class="form-control">
+                    <option value='0' selected>All</option>
+                    <option value='goal'>Goal Comments</option>
+                    <option value='audit'>Only Audit</option>
+                    <option value='milestone'>Milestone(s)</option>
+                </select>
+            </div>
+            <div class="filter-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/filter-icon.png"></div>
+        </div>
+        <div id = 'all_comments_other' class='comments-on-milestone pre-assessments-bg'>
+                
+        </div>
+    </div>
+
+    
+</div>
+<!--Dashboard page ends here-->
+
+<script type="text/javascript">
+$(document).ready(function(){
+    loadComments(false);
+    loadCommentsOthers(false);
+    $('#comment_filter').on('change', function(){
+        loadComments(true);
+    });
+    $('#comment_filter_other').on('change', function(){
+        loadCommentsOthers(true);
+    });
+});
+function loadComments(block) {
+    var goal_id = $("#goal_id_hidden").val();
+    var type = $('#comment_filter').val();
+    if(block)
+        $.blockUI({ width:'50px',message: $("#spinner").html() });
+    $.post(base_url + '/goal/allcomments',{user_id: <?php echo $this->user_id;?>, type:type}, function(data){
+        $('#all_comments').html(data);
+        if(block)
+            $.unblockUI();
+    });
+}
+function loadCommentsOthers(block) {
+    var goal_id = $("#goal_id_hidden").val();
+    var type = $('#comment_filter_other').val();
+    if(block)
+        $.blockUI({ width:'50px',message: $("#spinner").html() });
+    $.post(base_url + '/goal/allteamandfollowedcomments',{user_id: <?php echo $this->user_id;?>, type:type}, function(data){
+        console.log(data);
+        if(data.length != 0) {
+            $(".teamfollowed").show();
+        }
+        $('#all_comments_other').html(data);
+        if(block)
+            $.unblockUI();
+    });
+}
+</script>

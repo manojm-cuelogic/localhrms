@@ -1,0 +1,49 @@
+<?php 
+		if($this->ermsg !='')
+		{
+?>
+     <div class="ml-alert-1-info m1-info-set">
+				<div class="style-1-icon info"></div>
+				No data found.
+	</div>
+
+<?php 
+}
+else
+{
+
+sapp_Global::generateClientValidations($this->form);?>
+<div id="error_message" style="display:none;"></div>
+
+<form name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getId(); ?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod(); ?>">
+		<?php echo $this->form->id; ?>
+        <div class="total-form-controller">
+		<?php if($this->id == '') { ?>
+			<div class="new-form-ui-multi">
+			  <label class="required">Time zone <img class="tooltip" title="Ex: America/Atikokan [EST]" src="<?php echo $this->baseUrl().'/public/media/';?>images/help.png"></label>
+			<div class="division"><?php echo $this->form->timezone; ?></div>
+			<?php if(isset($this->msgarray['timezone'])){?>
+				   <span class="errors" id="errors-<?php echo $this->form->timezone->getId(); ?>"><?php echo $this->msgarray['timezone'];?></span>
+				<?php }?>
+			</div>
+		<?php } else { ?>
+			<div class="new-form-ui clearb">
+			  <label class="required">Time zone <img class="tooltip" title="Ex: America/Atikokan [EST]" src="<?php echo $this->baseUrl().'/public/media/';?>images/help.png"></label>
+			<div class="division"><input type="text" id="timezone" name="timezone" value="<?php echo $this->timezoneVal; ?>" disabled="disabled"/></div>
+			<?php if(isset($this->msgarray['timezone'])){?>
+				   <span class="errors" id="errors-<?php echo $this->form->timezone->getId(); ?>"><?php echo $this->msgarray['timezone'];?></span>
+				<?php }?>
+			</div>
+		
+		<?php } ?>
+		<div class="new-form-ui clearb textareaheight">
+		  <label>Description</label>
+		<div class="division"><?php echo $this->form->description; ?></div>
+		</div>
+		<div class="new-form-ui-submit">
+		<?php echo $this->form->submit; ?>
+		<button onclick="window.location.href='<?php echo BASE_URL; ?>timezone';" type="button" id="Cancel" name="Cancel">Cancel</button>
+		</div>
+</div>        
+</form>
+<?php } ?>

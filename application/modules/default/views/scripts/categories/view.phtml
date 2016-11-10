@@ -1,0 +1,42 @@
+<?php
+
+if($this->ermsg == 'invalidUrl')
+{
+?>
+     <div class="ml-alert-1-info"><div class="style-1-icon info"></div>	Invalid URL</div>
+
+<?php
+}
+else if($this->ermsg =='nodata')
+{
+?>
+     <div class="ml-alert-1-info"><div class="style-1-icon info"></div>	No data found</div>
+
+<?php
+}
+else if($this->ermsg == 'noprivileges')
+{
+?>
+     <div class="ml-alert-1-info"><div class="style-1-icon info"></div>You are not authorized to access this page</div>
+
+<?php
+}
+else
+{
+?>
+<div class="total-form-controller  view-form-detail">
+	<div class="new-form-ui clearb">
+		<label>Category</label>
+		<div class="division"><?php echo $this->form->category; ?></div>
+	</div>
+	<div class="new-form-ui clearb textareaheight">
+		<label>Description</label>
+		<div class="division"><?php echo $this->form->description; ?></div>
+	</div>
+</div>
+<div class="new-form-ui-submit">
+	<input type="button" onclick="window.location.href='<?php echo BASE_URL; ?>categories/edit/id/<?php echo $this->id; ?>';" value="Edit" />
+	<button onclick="window.location.href='<?php echo BASE_URL; ?>categories';" id="Cancel" name="Cancel" type="button" >Cancel</button>
+</div>  
+
+<?php	}	?>

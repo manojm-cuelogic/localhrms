@@ -1,0 +1,252 @@
+<?php
+
+echo"<script language='javascript'>
+	   		
+	function hide(){
+		alert('hide')
+	}
+	function show(){
+		alert('show');
+	}
+
+
+</script>
+";
+
+
+echo $this->htmlcontent;
+if ($this->htmlcontent == '') {
+    
+    echo "<div class='left_dashboard ml-alert-1-info'><div class='style-1-icon info'></div>You have not configured your widgets.
+				<a href='" . BASE_URL . "viewsettings/1'> Click here  </a>
+				to configure.</div>";
+}
+?>
+<div class="right_dashboard">
+<?php
+if ((!empty($this->loginuserRole) && $this->loginuserRole == 1) || (!empty($this->loginuserGroup) && $this->loginuserGroup != 5)) {
+?>
+<div class="dashboard_birthday birthday">
+<?php
+    if (!empty($this->todyasBirthdays)) {
+?>
+<div class="to_daybirth">
+	<?php
+	        echo "<pre class='pre_class birthday_head'><h4>Birthdays Today</h4>";
+	        echo date('M d, Y');
+	        echo "</pre>";
+	?>
+
+	<div id="today_bday_name" class="today_birthdayname">
+	<?php
+	        
+	        $count_todays_birth_dates = sizeof($this->todyasBirthdays);
+		    
+	        // Display upto four today birth days
+	        echo '<ul class= "today_bday_list less">';
+	        for ($i = 0; $i < $count_todays_birth_dates; $i++) {
+	            $birthday_emp_name = $this->todyasBirthdays[$i]['userfullname'];// . " " . $this->todyasBirthdays[$i]['lastname'];
+	            $shorten_name = $birthday_emp_name;
+	            echo '<li style="white-space:normal !important;">' . $shorten_name;
+	            //to remove ',' after last name
+	            if ($i < 3 && $i != ($count_todays_birth_dates - 1))
+	                echo '</li>';
+	            echo '</li>';
+	        }
+	        echo '</ul>';
+	        // Display 'View More' link when there are more than four today birthdays
+	        if ($count_todays_birth_dates > 4) {
+	?>
+	</div>
+	<a id="more_today_bdays" class="plus-icon-view" href="javascript:void(0)"></a>
+
+<?php
+      }
+?>
+</div>
+
+<?php
+    } else {
+        echo '<div id="today_bday_name" class="to_daybirth no_birthday">No birthdays today. </div>';
+        
+    }
+?>
+</div>
+	<?php
+    if (!empty($this->upcomingBirthdyas)) {
+        echo '<div id="upcmng_bday_name" class="">
+        <div class="upcoming_birth">
+        <div class="upcoming-event-img"></div>
+        <h4 class="dashbord_title">Upcoming Birthdays</h4>';
+        $upcomingNames = $this->upcomingBirthdyas;
+          echo $upcomingBirthdyas;
+        if (!empty($upcomingNames)) {
+            $count_upcoming_birth_dates = sizeof($upcomingNames);
+
+            // Display upto four upcoming birth days
+            
+            echo '<div id="upcmg_limit"> <ul class="upcmg_bday_list less_upcoming" >';
+            for ($u = 0; $u < $count_upcoming_birth_dates; $u++) {
+                $upcmg_birthday_name = $upcomingNames[$u]['userfullname'];
+                $shorten_name        = $upcmg_birthday_name;
+                echo '<li title="' . $upcmg_birthday_name . '"><label>' . $shorten_name . "</label><span>" . sapp_Global::change_date($upcomingNames[$u]['dob'], 'birthday') . "</span>" . "</li>";
+            }
+            echo '</ul> </div>';
+        }
+        
+        else {
+            echo 'No upcoming Birthdays.';
+        }
+        
+        // Display 'View More' link when there are more than four upcoming birthdays
+       // echo "alert('count_upcoming_birth_dates')"
+        if ($count_upcoming_birth_dates > 4) {
+
+?>
+
+	<a id="more_upcmng_bdays" class="plus-icon-view" href="javascript:void(0)"></a>
+	<?php
+        }
+        
+        echo '</div>';
+    }
+?>
+
+<div class="dashboard_birthday anniversary">
+<?php
+
+    if (!empty($this->todaysWorkAnniversary)) {
+?>
+<div class="to_daybirth">
+<?php
+        
+        //echo "<pre>"; print_r($deptBuCnt); echo "</pre>";
+        echo "<pre class='pre_class work_anniversary anniversary_head'>
+        <h4>Work Anniversary Today</h4>";
+        echo date('M d, Y');
+        echo "</pre>";
+?>
+
+<div id="today_bday_name work_anniversary" class="today_birthdayname">
+<?php
+
+        $count_todays_work_anniversay_dates = sizeof($this->todaysWorkAnniversary);
+
+        // Display upto four today birth days
+        echo '<ul class= "today_bday_list work_anniv_list less_today_bday">';
+        for ($i = 0; $i < $count_todays_work_anniversay_dates; $i++) {
+            $work_anniversay_emp_name = $this->todaysWorkAnniversary[$i]['userfullname'];// . " " . $this->todaysWorkAnniversary[$i]['lastname'];
+            $shorten_name = $work_anniversay_emp_name;
+            echo '<li style="white-space:normal !important;">' . $shorten_name;
+            //to remove ',' after last name
+            if ($i < 3 && $i != ($count_todays_work_anniversay_dates - 1))
+                echo '</li>';
+            echo '</li>';
+        }
+        echo '</ul>';
+        
+        // Display 'View More' link when there are more than four today birthdays
+        if ($count_todays_work_anniversay_dates > 4) {
+?>
+	<a id="more_today_anniversary" class="plus-icon-view" href="javascript:void(0)"></a>
+	</div>
+<?php
+        }    
+?>
+</div>
+</div>
+<?php
+    }
+?>
+<?php
+}
+if ($this->announcementPrivilege == 'true') {
+    $annData   = $this->announcementsData;
+    $ann_count = count($annData);
+    if ($ann_count > 0) {
+?>
+	<div class="company_announc " ><pre class="dashbord_title announcement">Company Announcements</pre>
+	  <ul><?php
+        for ($i = 0; ($i < $ann_count && $i < 4); $i++) {
+            $attachments = isset($annData[$i]['attachments']) ? count((array) json_decode($annData[$i]['attachments'])) : 0;
+            $clas        = ($attachments > 1) ? 'multi_files' : 'single_file';
+?>
+			<li onclick="window.location.href='<?php
+            echo BASE_URL . 'announcements/view/id/' . $annData[$i]['id'];
+?>'">
+				<div class="annou_txt"><?php
+            echo $annData[$i]['title'];
+?></div>
+				<?php
+            if ($attachments > 0) {
+?>
+				<span class = "<?php
+                echo $clas;
+?>"><?php
+                echo $attachments;
+?></span><?php
+            }
+?>
+				<span class="annou_date"><?php
+            //echo sapp_Global::change_date($annData[$i]['modifieddate'], 'announcement');
+?></span>
+			</li>
+	  
+ 	<?php
+        }
+        if ($ann_count > 4) {
+?>
+ 	  	<a class="view_more_annou" href="<?php
+            echo BASE_URL . 'announcements';
+?>">View More</a>
+ 	<?php
+        }
+        
+        echo '</ul></div>';
+    } else {
+        echo '<div class="no_announ no_birthday no_announ_bord">No Announcements</div>';
+    }
+}
+?>
+
+</div>
+<!-- Show all today birthdays when user click on more button -->
+<input type="hidden" id="today_birthdays" value='<?php
+echo json_encode($this->todyasBirthdays);
+?>' />
+</div>
+
+<script type="text/javascript">
+
+$( document ).ready(function() {
+	var window_width = $('.interview_shed_block').width();
+    var interview_shed_block = window_width*(99/100);
+    $('.interview_shed_box').css("width", (interview_shed_block-233));	   
+
+   $(window).resize(function() {
+	   var window_width = $('.interview_shed_block').width();
+	    var interview_shed_block = window_width*(99/100);
+	    $('.interview_shed_box').css("width", (interview_shed_block-233));	   
+  });
+
+   $(".interview_shed_box").show();
+
+	// Show all today birthdays when user click on more button
+	$("#more_today_bdays").click(function(){
+		$(".today_bday_list").toggleClass('more');
+		$(this).toggleClass('minus-icon-view');
+	});
+
+	$("#more_upcmng_bdays").click(function(){
+		$(".upcmg_bday_list").toggleClass('less_upcoming');
+		$(this).toggleClass('minus-icon-view');
+	});
+
+	$("#more_today_anniversary").click(function(){
+		$(".work_anniv_list").toggleClass('less_today_bday');
+		$(this).toggleClass('minus-icon-view');
+	});
+
+});
+
+</script>

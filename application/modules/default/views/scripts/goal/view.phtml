@@ -1,0 +1,593 @@
+<?php if(isset($this->rowexist)) { ?>
+<div class="ml-alert-1-info">
+    <div class="style-1-icon info"></div>
+    Invalid Request
+</div> 
+<?php } else { ?>
+<div id="milestone_add" style="display:none;">
+    <div class="newframe-div">
+        <input type="hidden" value="" id="milestoneId" name="milestoneId">
+        <input type="hidden" value="add" id="type" name="type">
+
+        <div class="new-form-ui form-inline">
+            <label class="required">Milestone Name</label>
+            <div class="division">
+            <input type="text" id="milestone_name" />
+           
+            </div>
+            <span class="errors" id="milestone_err"></span>
+        </div>
+        <div class="new-form-ui form-inline">
+            <label class="required">Measurement Criteria</label>
+            <div class="division">
+                <input type="text" id="measurement_criteria"></textarea>
+            </div>
+            <span class="errors" id="criteria_err"></span>
+        </div>
+        <div class="new-form-ui">
+            
+            <div class="division">
+                <select id='criteria_unit'>
+                    <?php foreach($this->meausurementCriteria as $m_cri) {
+                        echo "<option value='". $m_cri['id']."'>". $m_cri['name']."</option>";
+                    } ?>
+                </select>
+            </div>
+        </div>
+         
+        <div class="new-form-ui-submit">
+            <input type="button" onclick="addEditMilestone()" id="addEditMilestone_btn" value="Submit"/>    
+            <button name="Canceldialog" class="cancel-popup-btn" id="Canceldialog" onclick="$('#milestone_add').dialog('close');" type="button">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="milestone_comment_add" style="display:none;">
+    <div class="newframe-div">
+        <input type="hidden" value="" id="commentMilestoneId" name="milestoneId">
+
+        <div class="new-form-ui" >
+            <label>Milestone: </label>
+            <span id="milestone-title"></span>
+            <label class="required">Comment</label>
+            <div class="division">
+                <textarea id="milestone_comment_text" ></textarea>           
+            </div>
+            <span class="errors" id="milestone_comment_err"></span>
+        </div>         
+        <div class="new-form-ui-submit" >
+            <input type="button" onclick="addMilestoneComment()" value="Submit"/>    
+            <button name="Canceldialog" id="Canceldialog" class="cancel-popup-btn" onclick="$('#milestone_comment_add').dialog('close');" type="button">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="movetogoal_dialog" style="display:none;">
+    <div class="newframe-div">
+        <input type="hidden" value="" id="moveMilestoneId" name="moveMilestoneId">
+
+        <div class="new-form-ui">
+            <label>Select Goal</label>
+            <div class="division">
+                <select id='goalList'>
+                    <option>Select Goal</option>
+                    <?php foreach($this->employeeOtherGoals as $other_goals) {
+                        echo "<option value='". $other_goals['id']."'>". $other_goals['name']."</option>";
+                    } ?>
+                </select>
+            </div>
+            <span class="errors" id="move_milestone_err"></span>
+        </div>      
+        <div class="new-form-ui-submit" >
+            <input type="button" onclick="moveMilestonetoGoal()" value="Submit"/>    
+            <button name="Canceldialog" id="Canceldialog" onclick="$('#movetogoal_dialog').dialog('close');" type="button">Cancel</button>
+        </div>
+    </div>
+</div>
+<?php
+if($this->can_change_owner)
+{
+    ?>
+     
+<div id="goalChangeOwner" style="display:none;">
+    <div class="newframe-div">
+    <div class="modal-form">
+            <label>Assign To </label>
+            <?php
+                if ($this->activeUsers) {
+                    if(!$this->selectName)
+                    {
+                        $this->selectName = 'peoples[]';
+                    }
+                    ?>
+                    <select   id="goal_owner_id" data-placeholder="Choose a user..." class="my-select not_appli" name="<?php echo $this->selectName; ?>">
+                <?php
+                    foreach ($this->activeUsers as $activeUser) {
+                        $profileImgSrc = MEDIA_PATH . 'images/default-profile-pic.jpg';
+                        if (!empty($activeUser['image']) && file_exists("public/uploads/profile/" . $activeUser['image'])) {
+                            $profileImgSrc = DOMAIN . "public/uploads/profile/" . $activeUser['image'];
+                        }
+                        ?>
+                    <option value="<?php echo $activeUser['id']; ?>" 
+                            <?php 
+                            if( in_array($activeUser['id'], $this->selectedUsers) )
+                            {
+                                echo 'selected';
+                            }
+                            ?>
+                            data-img-src="<?php echo $profileImgSrc; ?>"><?php echo $activeUser['name']; ?></option>
+                            <?php
+                        }
+                    
+                    ?>
+                </select>
+                 <?php
+                        }
+                    
+            ?>
+        <?php
+        echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+            'goal' => $this->goal,
+        ));
+    ?>
+        
+        
+
+           <!-- <label>Assign To</label>
+            <div class="division">                
+                <select id="goal_owner_id1" name='goal_owner_id' >
+                <option value='<?php echo $this->user["id"]; ?>'><?php echo $this->user['userfullname']; ?></option>
+                <?php 
+                    foreach ($this->team_members as $member) 
+                    {
+                        ?> 
+                        <option <?php if($member['user_id'] ==  $this->goal['owner_id']) echo 'selected' ?> value='<?php echo  $member['user_id'] ?>'> 
+                            <?php echo $member['userfullname'] ?> 
+                        </option>
+                        <?php
+                    } ?>
+               
+            </select>
+            </div>
+            -->
+        </div>
+         
+        <div class="new-form-ui-submit">
+            <input type="button" onclick="changeGoalOwner()" value="Save"/>    
+            <button name="Canceldialog" class="cancel-popup-btn" id="Canceldialog" onclick="$('#goalChangeOwner').dialog('close');" type="button">Cancel</button>
+        </div>
+    </div>
+</div>
+    <?php
+}
+?>
+<!--goal details page starts here-->
+
+<div class="main-wrapper-okrs">
+    <div class="goal-details-header-bg"> <!--goal details-->
+
+
+        <div class="goal-details-btns">
+            <?php if($this->isEditable) { ?>
+            <div class="gray-btn" onclick="window.location='<?php echo BASE_URL."goal/edit/id/".$this->goal['id'];?>'">Edit</div>
+            <?php } ?>
+
+
+            <div id="addMilestoneBtn" class="active-btn <?php if(!$this->canAssess) {  echo 'btn-not-allowed'; } ?> " >Add milestone</div>
+         
+        </div>
+        
+        <?php if($this->canAssess || $this->isArchiveable  || $this->canChangeOwner){ ?>
+        <div class="goal-details-collapse"><img src="<?php echo MEDIA_PATH;?>images/okr/collapse-menu.png">
+             <div class="collapse-item">
+            <ul>
+              <?php
+                //if($this->canAssess)
+                if($this->canChangeOwner)
+                {
+                    ?>
+                     <li><a id="goalChangeOwnerBtn" href="javascript:void(0)">Change owner</a></li>
+                    <?php
+                }
+
+                if($this->canAssess){
+                ?>
+               <li><a href="">Assessment</a>
+                    <ul class="collapse-sub-menu">
+                        <li><a href="<?php echo BASE_URL ."assessment/addpeople/goal/".$this->goalId;?>">
+                    Add People</a></li>
+                        <li><a href="<?php echo BASE_URL ."assessment/goalassessment/goal/".$this->goalId;?>
+                    ">Details</a></li>
+                    </ul>
+                    <!--<li><a href=""> Archive</a></li>-->
+                </li>  
+                <?php } ?>  
+
+                 <?php if($this->isArchiveable) { ?>
+                <li><a href="<?php echo BASE_URL."goal/archivegoal/id/".$this->goal['id'];?>" > Archive</a></li>
+
+                <?php } ?>
+               
+              
+            </ul>
+
+        </div>
+         <?php } ?>
+        </div>
+    </div>
+
+    <?php
+        echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+            'goal' => $this->goal,
+            'goalProgress' => $this->goalProgress
+        ));
+    ?>
+    <div class="add-goal-comment"><!--goal comment-->
+        <input type="text" placeholder="Add Goal Comment *" id="goal_comment">
+        <input type="hidden" id="goal_id_hidden" value="<?php echo $this->goal['id']; ?>" />
+    </div>
+    <div class="comment-btns">
+            <input id="submit_goal_comment" type="button" class="active-btn" value="Save"/>
+    </div>
+    <div class="milestones-title">Milestones</div>
+    <!--milestone details-->
+        <div>
+    <?php if(isset($this->milestones) && is_array($this->milestones) && count($this->milestones) > 0) {
+            echo $this->partialLoop('goal/partialMilestone.phtml', $this->milestones);
+        } else {
+            ?></br/>
+            <div class="ml-alert-1-info">
+                <div class="style-1-icon info"></div>
+                No milestone added!
+            </div><?php
+        }
+    ?>
+            </div>
+    
+
+    
+
+
+    <div class="milestones-title">Updates</div>
+
+    <div class="updates-bg"> <!--updates details-->
+
+        <div class="updates-section">
+            <div class="updates-filter">
+                <select id = "comment_filter" class="form-control">
+                    <option value='' selected>All</option>
+                    <option value='goal'>Goal Comments</option>
+                    <?php if($this->canAssess){ ?>
+                    <option value='audit' >Only Audit</option>
+                    <?php } ?>
+                    <option value='milestone'>Milestone(s)</option>
+                </select>
+            </div>
+            <div class="filter-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/filter-icon.png"></div>
+        </div>
+        <div id = 'all_comments' class='comments-on-milestone '>
+                
+        </div>
+    </div>
+</div>
+
+<!--goal details page ends here-->
+<script type="text/javascript">
+var milestones = <?php echo json_encode($this->milestones); ?>;
+var follow = <?php echo ($this->goal['following']) ? 0 : 1; ?>;
+$(document).ready(function(){
+    loadComments(false);
+    $('#comment_filter').on('change', function(){
+        loadComments(true);
+    });
+    $('#submit_goal_comment').on('click', function(){
+        if($.trim($('#goal_comment').val()) =="") {
+            $('.add-goal-comment').css('border','1px solid #fd7788');
+            setTimeout(function(){
+                $('.add-goal-comment').css('border','1px solid #b3b3b3')
+            }, 2000);
+            return;
+        } else {
+            $.post(base_url + '/goal/addgoalcomment', {goal_id: $("#goal_id_hidden").val(), comment: $.trim($('#goal_comment').val())}, function(data){
+                loadComments(true);
+                $('#goal_comment').val("")
+            })
+        }
+    });
+    
+    $(document).on('click','.goal-icon img.goal-follow-eye', function(){
+        var obj = this;
+        var goal_id = $(this).attr('data-id');
+        var follow = $(this).prev(".isFollowing").val();
+        //console.log(follow);
+        follow = (parseInt(follow)) ? 0 : 1; console.log(follow);
+        $.blockUI({ width:'50px',message: $("#spinner").html() });
+        $.post(base_url + '/goal/followunfollowgoal', {goal_id:goal_id, follow:follow}, function(data){
+                if(follow) {
+                    $(obj).prev(".isFollowing").val(1); 
+                    var imgPath = "<?php echo MEDIA_PATH . 'images/okr/goal_icon.png' ?>";
+                    var title="Unollow this goal";
+                    var f_cnt = $(".follower-count-hidden").val();
+                    f_cnt++;
+                    $(".follower-count-hidden").val(f_cnt);
+                    if(f_cnt > 1)
+                        $('div.goal-followers').html(f_cnt + " followers");
+                    else
+                        $('div.goal-followers').html(f_cnt + " follower");
+                }
+                else {
+                    $(obj).prev(".isFollowing").val(0); 
+                    var imgPath = "<?php echo MEDIA_PATH . 'images/okr/goal_icon_gray.png' ?>";
+                    var title="Follow this goal";
+                    var f_cnt = $(".follower-count-hidden").val();
+                    f_cnt--;
+                    $(".follower-count-hidden").val(f_cnt);
+                    if(f_cnt > 1)
+                        $('div.goal-followers').html(f_cnt + " followers");
+                    else
+                        $('div.goal-followers').html(f_cnt + " follower");
+                }
+                $(obj).attr({'src':imgPath,'title':title})
+                //loadComments(true);
+                $.unblockUI();
+            })
+    })
+    $('#addMilestoneBtn').on('click', function(){
+        $('#type').val('add');
+        
+        if($(this).hasClass('btn-not-allowed'))
+            return false;
+
+        $("#milestone_add").dialog({
+                                    open: function(event, ui) {
+                                         },
+
+                                    draggable:false, 
+                                    resizable: false,
+                                    height:'auto',
+                                    title: "Add Milestone",
+                                    modal: true, 
+                                    close: function( event, ui ) {
+                                          //closedialog('');
+                                          //$("#cancelleaverequest").hide();
+                                    }
+                                });
+    });
+    $('#goalChangeOwnerBtn').on('click', function()
+    {
+        $("#goalChangeOwner").dialog({
+                                    open: function(event, ui) {
+                                         },
+
+                                    draggable:false, 
+                                    resizable: false,
+                                    height:'auto',
+                                    title: "Goal Change Owner",
+                                    modal: true, 
+                                    close: function( event, ui ) {
+                                          //closedialog('');
+                                          //$("#cancelleaverequest").hide();
+                                    }
+                                });
+    });
+    $('.editMilestoneBtn').on('click', function(){
+
+        if($(this).hasClass('btn-not-allowed'))
+        return false;
+
+        $('#type').val('edit');
+        thisMilestoneId = $(this).attr('data-id');
+        $('#milestoneId').val(thisMilestoneId);
+       
+        $.each(milestones, function(i,v) {
+            if(v.id == thisMilestoneId) {
+                $('#milestone_name').val(v.title);
+                $("#measurement_criteria").val(v.target);
+                $("#criteria_unit").val(v.measurement_criteria_id).trigger('change');
+            }
+        })
+        $("#milestone_add").dialog({
+                                    open: function(event, ui) {
+                                         },
+
+                                    draggable:false, 
+                                    resizable: false,
+                                    height:'auto',
+                                    title: "Edit Milestone",
+                                    modal: true, 
+                                    close: function( event, ui ) {
+                                          //closedialog('');
+                                          //$("#cancelleaverequest").hide();
+                                    }
+                                });
+    });
+    $(".progress-submit-btn").on('click', function(){
+        
+        if($(this).hasClass('btn-not-allowed'))
+        return false;
+
+        var milestone_id = $(this).attr('data-id');
+
+
+
+
+        if($.trim($('#progress_'+milestone_id).val()) == "") {
+            return;
+        } else if(isNaN($('#progress_'+milestone_id).val())) {
+            $('#progress_'+milestone_id).css('border','1px solid #dd6666');
+            $('#progress_'+milestone_id).val($('#progress_'+milestone_id).attr('data-val'))
+            setTimeout(function(){
+                $('#progress_'+milestone_id).css('border','1px solid #c6c6c6');
+            }, 2000);
+            return;
+        } else if (Number($('#progress_'+milestone_id).val()) > Number($('#progress_'+milestone_id).attr('data-target'))) {
+            $('#progress_'+milestone_id).css('border','1px solid #dd6666');
+            $('#progress_'+milestone_id).val($('#progress_'+milestone_id).attr('data-val'))
+            setTimeout(function(){
+                $('#progress_'+milestone_id).css('border','1px solid #c6c6c6');
+            }, 2000);
+            return;
+        }
+        // 1px solid #c6c6c6
+        $.blockUI({ width:'50px',message: $("#spinner").html() });
+        $.post(base_url + '/goal/addmilestoneprogress', {milestone_id: milestone_id, progress: $.trim($('#progress_'+milestone_id).val())}, function(data){
+                //loadComments(true);
+                //$.unblockUI();
+                window.location.reload();
+            })
+    });
+    $('.milestone-row').find('.comment').on('click', function(){
+        var m_id = $(this).attr('data-id');
+        //alert(m_id)
+        $('#commentMilestoneId').val(m_id);
+        $('#milestone-title').html($('.milestone-title-'+m_id).html());
+         $("#milestone_comment_add").dialog({
+                                    open: function(event, ui) {
+                                         },
+
+                                    draggable:false, 
+                                    resizable: false,
+                                    height:'auto',
+                                    title: "Add Milestone Comment",
+                                    modal: true, 
+                                    close: function( event, ui ) {
+                                          //closedialog('');
+                                          //$("#cancelleaverequest").hide();
+                                    }
+                                });
+    });
+    $('.movetogoal').on('click',function(){
+        var m_id = $(this).attr('data-id');  
+        $('#moveMilestoneId').val(m_id) ;
+        $("#movetogoal_dialog").dialog({
+                                    open: function(event, ui) {
+                                         },
+
+                                    draggable:false, 
+                                    resizable: false,
+                                    height:'auto',
+                                    title: "Move Milestone to Another Goal",
+                                    modal: true, 
+                                    close: function( event, ui ) {
+                                          //closedialog('');
+                                          $("#moveMilestoneId").val('');
+                                    }
+                                });
+    });
+});
+function loadComments(block) {
+    var goal_id = $("#goal_id_hidden").val();
+    var type = $('#comment_filter').val();
+    if(block)
+        $.blockUI({ width:'50px',message: $("#spinner").html() });
+    $.post(base_url + '/goal/allcomments',{goal_id: goal_id, type:type}, function(data){
+        if($.trim(data)==""){
+              $('#all_comments').html("No comments available");
+        }else{
+            $('#all_comments').html(data);
+        }
+        
+        if(block)
+            $.unblockUI();
+    });
+}
+function addEditMilestone() {
+    if($('#type').val() == 'add') addMileStone();
+    else if($('#type').val() == 'edit') editMileStone();
+}
+function editMileStone () {
+    $("#milestone_add").find('.errors').html("")
+    if($.trim($('#milestone_name').val()) == '') {
+        $("#milestone_err").html("Required field");
+        return false;
+    } else if($.trim($('#measurement_criteria').val()) == '') {
+        $("#criteria_err").html("Required field");
+        return false;
+    } else if(isNaN($.trim($('#measurement_criteria').val()))) {
+        $("#criteria_err").html("Only numeric values allowed");
+        return false;
+    }
+    $('#addEditMilestone_btn').hide();
+    $.post(base_url + '/goal/editmilestone', {
+        milestone_id : $('#milestoneId').val(),
+        goal_id : $("#goal_id_hidden").val(),
+        name    : $("#milestone_name").val(),
+        target  : $("#measurement_criteria").val(),
+        criteria_unit: $("#criteria_unit").val()
+    }, function(data) {
+            window.location.reload(); 
+    });
+}
+function addMileStone () {
+    $("#milestone_add").find('.errors').html("")
+    if($.trim($('#milestone_name').val()) == '') {
+        $("#milestone_err").html("Required field");
+        return false;
+    } else if($.trim($('#measurement_criteria').val()) == '') {
+        $("#criteria_err").html("Required field");
+        return false;
+    }  else if(isNaN($.trim($('#measurement_criteria').val()))) {
+        $("#criteria_err").html("Only numeric values allowed");
+        return false;
+    }
+    $('#addEditMilestone_btn').hide();
+    $.post(base_url + '/goal/addmilestone', {
+        goal_id : $("#goal_id_hidden").val(),
+        name    : $("#milestone_name").val(),
+        target  : $("#measurement_criteria").val(),
+        criteria_unit: $("#criteria_unit").val()
+    }, function(data) {
+            window.location.reload(); 
+    });
+}
+
+function moveMilestonetoGoal () {
+    $("#move_milestone_err").html("")
+    if($.trim($('#goalList').val()) == '') {
+        $("#move_milestone_err").html("Required field");
+        return false;
+    }
+    $.post(base_url + '/goal/ajaxmovemilestonetoanothergoal', {
+        goal_id  : $('#goalList').val(),
+        milestone_id  : $('#moveMilestoneId').val(),
+    }, function(data) {
+            window.location = "<?php echo BASE_URL; ?>goal/view/id/" + $('#goalList').val();
+            // loadComments(true); 
+            // $('#movetogoal_dialog').dialog('close');
+            // $("#move_milestone_err").html("");
+            // $('#goalList').val("");
+            // $('#moveMilestoneId').val("");
+    });
+}
+
+function addMilestoneComment () {
+    $("#milestone_comment_add").find('.errors').html("")
+    if($.trim($('#milestone_comment_text').val()) == '') {
+        $("#milestone_comment_err").html("Required field");
+        return false;
+    }
+    $.post(base_url + '/goal/ajaxaddmilestonecomment', {
+        goal_id  : $("#goal_id_hidden").val(),
+        milestone_id  : $('#commentMilestoneId').val(),
+        comment: $("#milestone_comment_text").val()
+    }, function(data) {
+            loadComments(true); 
+            $('#milestone_comment_add').dialog('close');
+            $("#milestone_comment_add").find('.errors').html("");
+            $('#milestone_comment_text').val("");
+            $('#commentMilestoneId').val("");
+    });
+}
+
+function changeGoalOwner () 
+{
+    $.post(base_url + '/goal/ajaxchangegoalowner', {
+        user_id : $("#goal_owner_id").val(),
+        goal_id : $("#goal_id_hidden").val(),
+      
+    }, function(data) {
+            window.location.reload(); 
+    });
+}
+</script>
+
+<?php } ?>
+

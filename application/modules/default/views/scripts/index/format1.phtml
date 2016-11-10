@@ -1,0 +1,23 @@
+<div id="format1_div" class="fltleft"><h4 >Business Units</h4>
+<?php
+$deptBuCnt = $this->format1;  
+//echo "<pre>"; print_r($deptBuCnt); echo "</pre>";
+
+	 $buCnt = $deptBuCnt['BuCnt'];
+	 $deptCnt = $deptBuCnt['DeptCnt'];
+?>
+<div style="width:200px;height:50px;">
+<table style="width:180px;border:1px solid black;">
+  <tr>
+    <th style="width:50;">Units</th>
+    <th style="width:50;">Depts</th>
+  </tr>
+  <tr>
+    <td style="width:50px;height:50px; padding-left:18px;"><?php echo $buCnt; ?></td>
+    <td style="width:50px;height:50px; padding-left:18px;"><?php echo $deptCnt; ?></td>
+  </tr>
+  
+</table>
+</div>
+
+</div>

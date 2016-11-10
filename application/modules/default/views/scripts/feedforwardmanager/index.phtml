@@ -1,0 +1,43 @@
+        	<div class="new-form-ui" id="ffdiv">
+	            <label>Feedforward</label>
+	            <div class="division">
+	            	<select id="ff_id" name="ff_id" onchange="getManagerRatings(this.value)">
+						<option  value="">Select Feedforward</option>
+						<?php if(!empty($this->ffdataarr)) { 
+									foreach($this->ffdataarr as $value) {?>
+							<option  value="<?php echo $value['id']?>"><?php echo $value['mode']?></option>
+						<?php }}?>
+					</select>
+					<span class="errors" id="errors-ff_id"></span>
+				</div>
+        	</div>
+        	
+			<div id="feedforward_mgr_data" class="feedforward_mgr_data">
+			</div>
+
+<script type="text/javascript">
+
+function getManagerRatings(id){
+	$("#feedforward_mgr_data").html("");
+	if(id)
+	{
+		$.ajax({
+         	url: base_url+"/feedforwardmanager/getmanagersratings/format/html",
+         	type : 'POST',	
+			data : 'id='+id,
+			dataType: 'html',
+			beforeSend: function () {
+				$.blockUI({ width:'50px',message: $("#spinner").html() });
+			},
+			success : function(response){
+				$.unblockUI();
+				$("#feedforward_mgr_data").html(response);	
+			}
+    	});			
+	}else
+	{
+		$("#feedforward_mgr_data").html("");
+	}
+}
+
+</script>

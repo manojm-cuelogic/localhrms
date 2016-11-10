@@ -1,0 +1,108 @@
+<?php 
+	$date = $this->updated_at; 
+	$now = date("Y-m-d H:i:s");
+?>
+<style type="text/css">
+    .percentage-box {
+        width: 300px;
+        height: auto;
+    }
+    .percentage-box input, .percentage-box span {
+        float: left;
+    } 
+    .percentage-box span {
+        margin-left: 10px;
+        line-height: 30px;
+    }
+</style>
+
+<div class="milestone-details-content-bg">
+    <div class="goal-details-inside-bg-1">
+        <div class="milestone-details milestone-title-<?php echo $this->id; ?>"><?php  $this->title; ?></div>
+
+        <div class="milestone-details-content-bg milestone-main-container">
+
+            <div class="milestone-row">
+                <span class="pull-left"><?php echo $this->title; ?></span>
+                <span class="pull-right toggle-box ">
+                    <?php 
+                        if($this->partialLoop()->view->canAssess){ ?>
+                    <div class="menu-toggle">
+                    <img src="<?php echo MEDIA_PATH;?>images/okr/collapse-menu.png">
+                    <div class="collapse-item">
+                        <ul>
+                            <li><a class="movetogoal" data-id="<?php echo $this->id; ?>" href="javascript:void(0);">Move to goal</a></li>
+                            <li><a class="converttogoal"  href="<?php echo BASE_URL ."goal/convertmilestonetogoal/id/".$this->id;?>
+                                ">Convert Goal</a></li>
+                                <li><a href="<?php echo BASE_URL ."assessment/milestoneassessment/goal/".$this->partialLoop()->view->goalId."/milestone/".$this->id;?>
+                                ">Assessment</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                     <?php                
+                                }
+                                ?>
+
+                    <div data-id="<?php echo $this->id; ?>" class="gray-btn editMilestoneBtn <?php if(!$this->partialLoop()->view->isEditable) echo 'btn-not-allowed'; ?> ">edit</div>
+                </span>
+            </div>
+        <div class="milestone-row">
+            <span class="pull-right"><strong>Assessment: </strong><?php echo $this->assessment_count; ?></span>
+        </div>
+        <div class="milestone-row">
+            <div class="new-form-ui percentage-box pull-left">
+            <input type='text' id="progress_<?php echo $this->id; ?>" data-target = "<?php echo $this->target; ?>" data-val = "<?php echo $this->progress; ?>"  value="<?php echo $this->progress; ?>" /><span><?php echo ucwords($this->unit); ?></span> 
+            </div>
+            <span class="pull-right"><strong>Target: </strong><?php echo $this->target. " " . ucwords($this->unit); ?>
+            </span>
+        </div>
+        <div class="milestone-row">
+            <div class="pull-left">
+            <span class="comment" data-id="<?php echo $this->id; ?>">Comment <img src="<?php echo MEDIA_PATH;?>images/okr/comments-icon.png"></span>
+            <span>Last Updated: <?php echo sapp_Helper::time_diff_string($date); ?></span>
+            </div>
+
+            <div class="milestone-btns">
+                        <div class="gray-btn">cancel</div>
+                                             
+                         <?php 
+                         if(!$this->partialLoop()->view->isEditable) { 
+
+                           echo '<div data-id="'.$this->id.'" class= "progress-submit-btn active-btn btn-not-allowed" >save</div>';
+                       }else {
+
+                            echo '<div data-id="'.$this->id.'" class= "progress-submit-btn active-btn" >save</div>';
+
+                       }
+                       ?>
+                           
+
+
+            </div>
+        </div> 
+    </div>
+        <!-- <div class="goal-details-inside-bg-1">
+            <div class="milestone-details"><?php echo $this->title; ?></div>
+
+            <div class="milestone-edit-btn"><div data-id="<?php echo $this->id; ?>" class="gray-btn editMilestoneBtn">edit</div></div>
+            <div class="milestone-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/collapse-menu.png"></div>
+        </div>
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-assesments">Assessment: <?php echo $this->assessment_count; ?></div>
+        </div>
+        <div class="goal-details-inside-bg-1">
+            <div class="new-form-ui percentage-box"><input type='text' id="progress_<?php echo $this->id; ?>" value="<?php echo $this->progress; ?>" /><span><?php echo ucwords($this->unit); ?></span></div>
+            <div class="milestone-percentage-target">Target: <?php echo $this->target. " " . ucwords($this->unit); ?></div>
+        </div>
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-comments" data-id="<?php echo $this->id; ?>">Comments</div>
+            <div class="milestone-comments-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/comments-icon.png"></div>
+            <div class="milestone-updated">Last Updated: <?php echo sapp_Helper::time_diff_string($date); ?></div>
+            <div class="milestone-btns">
+                <div class="gray-btn">cancel</div>
+                <div data-id="<?php echo $this->id; ?>" class="progress-submit-btn active-btn">save</div>
+            </div>
+        </div> -->
+
+    </div>
+    </div>

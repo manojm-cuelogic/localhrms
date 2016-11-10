@@ -1,0 +1,49 @@
+<?php
+foreach($this->result as $r) {
+    ?>
+    <!-- <div class="updates-details">
+        <div class="updates-profile">
+            <div class="updates-profile-pic"><img src="<?php echo MEDIA_PATH;?>images/okr/employee-deafult-pic1.png" alt=""></div>
+            <div class="employee-name"><?php echo $r['userfullname'] ?></div>
+        </div>
+
+        <div class="updates-content">
+            <div class="first-line">Goal: <?php echo $r['title']; ?></div>
+            <div class="first-line">Comment: <?php echo $r['comment']; ?></div>
+            <div class="updates-days"><?php echo sapp_Helper::time_diff_string($r['updated_at']); ?></div>
+        </div>
+    </div> -->
+
+
+    <?php 
+        $imgPath =  MEDIA_PATH."images/default-profile-pic.jpg";
+        if(isset($r['profileimg']) && strlen(trim($r['profileimg'])) > 0) $imgPath = PUBLIC_PATH. "uploads/profile/".$r['profileimg'];
+    ?>
+    <div class="updates-details">
+  
+                        <div class="assessment-content assessment-container">
+                        <div class="assessment-comment-display">
+                            <div class="updates-profile profile-inner">
+                            <div class="updates-profile-pic"><img src="<?php echo $imgPath; ?>" alt=""></div>
+                            <div class="employee-name"><?php echo $r['userfullname'] ?></div>
+                            
+                        </div>
+                        <div class="comment-inner">
+                            <?php if($r['type'] != 'milestone') { ?>
+                                <p><span>Goal: </span><?php echo $r['title']; ?></p>
+                            <?php } else { ?>
+                                <p><span>Milestone: </span><?php echo $r['title']; ?></p>  
+                            <?php } ?>
+                           <!-- <p><span>Commented By: </span><?php echo $r['userfullname']; ?></p>  -->
+                            <p><span>Comment: </span><?php echo $r['comment']; ?></p>  
+                            </div>
+                    
+                             <div class="assessment-time"><?php echo sapp_Helper::time_diff_string($r['updated_at']); ?></div>
+                        
+                        </div>
+                        </div>
+                    </div>
+
+    <?php
+}
+

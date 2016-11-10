@@ -1,0 +1,292 @@
+<div id="dialog-confirm" style="display:none;">
+    <div class="newframe-div">
+        <div class="new-form-ui height32">
+            <div class="division">
+                <input type="text" maxlength="10" id="number_value" name="number_value">
+            </div>
+            <span class="errors" id="errors-contactnumber"></span>
+        </div>
+    </div>
+</div>
+<div id="empstatus-alert" style="display:none;">
+    <div class="newframe-div">
+        <div id="empstatusmessage"></div>
+    </div>
+</div>
+<div id="empleaves-alert" style="display:none;">
+    <div class="newframe-div">
+        <div id="empleavesmessage"></div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    //for menu div to be displayed
+    $(document).ready(function() {
+        var selected_obj = $('li[menu-url="/index.php/welcome"]');
+        var parent_div = selected_obj.attr("parent-div");
+
+        var controllerName = 'index';
+        if (parent_div == '' || parent_div == null) {
+            if (controllerName != 'error') {
+                selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/index']");
+            } else { // for not authorized pages.
+            }
+            parent_div = selected_obj.attr("parent-div");
+        }
+        if (parent_div == 'undefined') parent_div = '';
+        /*Only for Service Desk */
+        if (parent_div == '' || parent_div == null) {
+            selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/welcome']");
+            if (controllerName == 'servicerequests') {
+                selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/servicerequests/index']");
+            }
+            parent_div = selected_obj.attr("parent-div");
+        } //only for service desk
+
+        selected_obj.addClass("active_menu_class");
+        $('.' + parent_div).addClass("selected_menu_class");
+        $('.' + parent_div).show();
+        $('.acc_li_toggle').next().hide();
+        parent_menu_selected(selected_obj);
+        //removing of class for selected child menu
+        $(".side-menu-selected").removeClass("side-menu-selected");
+        //end of removing of class for selected child menu
+        //to add selected class for selected child menu
+        if (parent_div != "dummy")
+            selected_obj.find("a").addClass("side-menu-selected");
+        //end to add selected class for selected child menu
+        //hide and show meu arrows by mouse events
+        $("#menu-shadow").mouseenter(function(e) {
+
+            var width = '';
+            width = 1400;
+            if ($('.menu-head').width() > width) { //hide scroll arrows if window width > 1310
+
+                $('.simply-scroll-btn').hide();
+            } else {
+                $('.simply-scroll-btn').show();
+            }
+        });
+        $("#menu-shadow").mouseleave(function(e) {
+            $('.simply-scroll-btn').hide();
+        });
+        $("#mainmenushowhidebutton").click(function() {
+
+            setdisplaymenu('display');
+        });
+    });
+
+    function setdisplaymenu(flag) {
+        if (flag == 'tour') {
+            hideshow_mainmenu = 1;
+        } else {
+            if (hideshow_mainmenu == 1) hideshow_mainmenu = 0;
+            else if (hideshow_mainmenu == 0) hideshow_mainmenu = 1;
+        }
+        $.ajax({
+            type: "post",
+            data: 'hideshow_mainmenu=' + hideshow_mainmenu,
+            url: base_url + '/index/setsessionval',
+            dataType: 'json',
+            success: function(response) {
+                if (response == 1) {
+                    $("#menu-shadow").show(400);
+                    $('#menu-hide-show').css('top', '-1px');
+                    $('#mainmenushowhidebutton').children().addClass('show-menu');
+                    $('#mainmenushowhidebutton').children().text('Click Here to Hide Menu');
+                    $('#mainmenushowhidebutton').children().removeClass('hide-menu');
+                } else if (response == 0) {
+                    $("#menu-shadow").hide(400);
+                    $('#menu-hide-show').css('top', '0');
+                    $('#mainmenushowhidebutton').children().addClass('hide-menu');
+                    $('#mainmenushowhidebutton').children().text('Click Here to Show Menu');
+                    $('#mainmenushowhidebutton').children().removeClass('show-menu');
+                }
+            }
+        });
+    }
+
+    function togglesubmenus(id) {
+        $('#acc_li_toggle_' + id).next().toggle();
+        if ($('#acc_li_toggle_' + id).next().is(":visible") == true) {
+            $('#acc_li_toggle_' + id).removeClass('acc_li_toggle');
+            $('#acc_li_toggle_' + id).addClass('acc_li_toggle_down');
+        } else {
+            $('#acc_li_toggle_' + id).removeClass('acc_li_toggle_down');
+            $('#acc_li_toggle_' + id).addClass('acc_li_toggle');
+        }
+    }
+
+    function parent_menu_selected(selected_obj) {
+        //start for removing selected class in parent menu
+        var already_selected_obj = $('.super_selected').parent().parent();
+        var already_selected_id = already_selected_obj.prop('id');
+        var already_selected_class = already_selected_obj.attr("selected-class");
+        $('#' + already_selected_id + " span").removeClass(already_selected_class);
+        $('#' + already_selected_id + " span").removeClass("super_selected");
+        $('#' + already_selected_id).removeClass("link-selected");
+        var dashboard_menu = 'main_parent_173';
+        if (already_selected_id == undefined) //when dashboard selectes undefined will come
+        {
+            $('#' + dashboard_menu).removeClass("link-selected");
+        }
+        //end for removing selected class in parent menu
+        //to add selected class for parent menu
+        var super_parent = selected_obj.attr("super-parent");
+        var super_selected_class = $('#' + super_parent).attr("selected-class");
+        $('#' + super_parent + " span").addClass(super_selected_class);
+        $('#' + super_parent + " span").addClass("super_selected");
+        $('#' + super_parent).addClass("link-selected");
+        //end to add selected class for parent menu
+
+        var primary_parent = selected_obj.attr("primary_parent");
+        if (primary_parent != '' && typeof(primary_parent) != 'undefined') {
+            togglesubmenus(primary_parent);
+        }
+
+    }
+</script>
+<script language='javascript'>
+    function hide() {
+        alert('hide')
+    }
+
+    function show() {
+        alert('show');
+    }
+</script>
+<!--page - adding new goal - starts here -->
+<!--Header section of the page starts here-->
+<div class="okrs-header">
+    <h2 class="pull-left">Search Goals</h2>
+    <div class="pull-right">
+        <div class="active-btn">Search</div>
+    </div>
+</div>
+<!--Header section of the page ends here-->
+<!-- Create goal form starts  -->
+<div class="okrs-content-bg okrs-search-goal">
+    <div class="create_goal_form ">
+        <div class="align_goal_divider">
+            <div class="align_goal_divider_1">
+                <div class="create_goal_form">
+                    <label>Owner</label>
+                    <div class="division">
+                        <select multiple="multiple" placeholder="Select Owner">
+                            <option value="1" label="company goal">Company Goal</option>
+                            <option value="2" label="ninad shah">Ninad Shah</option>
+                            <option value="3" label="vivek">Vivek</option>
+                            <option value="4" label="xyz">XYZ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="align_goal_divider_1">
+                <div class="create_goal_form ">
+                    <label>Reporting Manager</label>
+                    <div class="division">
+                        <select multiple="multiple" placeholder="Reporting Manager">
+                            <option value="1" label="company goal">Goal 1</option>
+                            <option value="2" label="ninad shah">Goal 2</option>
+                            <option value="3" label="vivek">Goal 3</option>
+                            <option value="4" label="xyz">Goal 4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="create_goal_form">
+        <label class="inline">Linked To Goal</label>
+        <div class="division">
+            <select>
+                <option value="1" label="company goal">Company Goal</option>
+                <option value="2" label="ninad shah">Ninad Shah</option>
+                <option value="3" label="vivek">Vivek</option>
+                <option value="4" label="xyz">XYZ</option>
+            </select>
+        </div>
+    </div>
+    <div class="create_goal_form">
+        <label class="required">Goal Name</label>
+        <div class="division">
+            <!-- Common class -->
+            <input type="text" value="Type your goal" onBlur="if(this.value=='')this.value='Type your goal'" onFocus="if(this.value=='Type your goal')this.value=''">
+        </div>
+    </div>
+    <div class="create_goal_form">
+        <label class="inline">Assessment Cycle</label>
+        <div class="division">
+            <select>
+                <option value="1" label="company goal">Company Goal</option>
+                <option value="2" label="ninad shah">Ninad Shah</option>
+                <option value="3" label="vivek">Vivek</option>
+                <option value="4" label="xyz">XYZ</option>
+            </select>
+        </div>
+    </div>
+    <div class="align_goal_divider">
+        <!-- Period, Date section -->
+        <div class="create_goal_startdate">
+            <div class="create_goal_form ">
+                <label>From</label>
+                <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" value="">
+                </div>
+            </div>
+        </div>
+        <div class="create_goal_enddate">
+            <div class="create_goal_form ">
+                <label>To</label>
+                <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" value="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="create_goal_form">
+        <label class="inline">Goal Status</label>
+        <div class="division">
+            <select multiple="multiple" placeholder="Goal Status">
+                <option value="1" label="company goal">Company Goal</option>
+                <option value="2" label="ninad shah">Ninad Shah</option>
+                <option value="3" label="vivek">Vivek</option>
+                <option value="4" label="xyz">XYZ</option>
+            </select>
+        </div>
+    </div>
+    <!-- Create goal form ends  -->
+
+    <div class="create_goal_form">
+        <label class="inline">Assessment Cycle</label>
+        <div class="division">
+            <select>
+                <option value="1" label="company goal">Company Goal</option>
+                <option value="2" label="ninad shah">Ninad Shah</option>
+                <option value="3" label="vivek">Vivek</option>
+                <option value="4" label="xyz">XYZ</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="create_goal_form">
+        <label class="inline">Assessment</label>
+        <div class="division">
+            <div class="option-row">
+                <input type="radio" name="assessment" value="All(Selected)"><label class="options">All(Selected)</label>
+            </div>
+            <div class="option-row">
+                <input type="radio" name="assessment" value="All(Selected)"><label class="options">All(Selected)</label>
+            </div>
+            <div class="option-row">
+                <input type="radio" name="assessment" value="All(Selected)"><label class="options">All(Selected)</label>
+            </div>
+            <div class="option-row">
+                <input type="radio" name="assessment" value="All(Selected)"><label class="options">All(Selected)</label>
+            </div>
+        </div>
+    </div>
+</div>
+<!--page - adding new goal - ends here -->

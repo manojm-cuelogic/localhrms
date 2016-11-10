@@ -1,0 +1,50 @@
+<?php 
+	$date = $this->updated_at; 
+	$now = date("Y-m-d H:i:s");
+?>
+<style type="text/css">
+    .percentage-box {
+        width: 300px;
+        height: auto;
+    }
+    .percentage-box input, .percentage-box span {
+        float: left;
+    } 
+    .percentage-box span {
+        margin-left: 10px;
+        line-height: 30px;
+    }
+</style>
+<div class="milestone-details-content-bg milestone-container">
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details"><?php echo $this->title; ?></div>
+            
+        </div>
+        <div class="milestone-units">
+            <div class="assessment"><span class="pull-right"><strong>Assessment: </strong><?php echo $this->assessment_count; ?></span></div>
+            <div class="percent-target">
+                <span class="pull-left"><?php echo $this->progress; ?></span>
+            <span class="pull-right"><strong>Target: </strong><?php echo $this->target. " " . ucwords($this->unit); ?></span>
+            </div>
+            <div class="last-updated">
+                <span class="last-updated">Last Updated: <?php echo sapp_Helper::time_diff_string($date); ?></span>
+            </div>
+            
+            
+        </div>
+       <!--  <div class="goal-details-inside-bg-1">
+            <div class="milestone-assesments">Assessment: <?php echo $this->assessment_count; ?></div>
+        </div>
+        <div class="goal-details-inside-bg-1">
+            <div class="new-form-ui percentage-box">
+                <div value="<?php echo $this->progress; ?>" /><span><?php echo ucwords($this->unit); ?></span>
+                </div>
+            
+            <div class="milestone-percentage-target">Target: <?php echo $this->target. " " . ucwords($this->unit); ?></div>
+        </div>
+        <div class="goal-details-inside-bg-1">
+           
+            <div class="milestone-updated">Last Updated: <?php echo sapp_Helper::time_diff_string($date); ?></div>
+            
+        </div> -->
+    </div>

@@ -1,0 +1,20 @@
+<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+	<span style='color:#3b3b3b;'>Dear <?php echo ucfirst($this->emp_name);?>,</span><br />
+    <div style='padding:20px 0 0 0;color:#3b3b3b;'>
+        The following requisition(s) are about to expire on <?php echo $this->print_date;?>.
+        <div style='padding:10px 0 0 0;'>
+            <ol>
+<?php 
+            foreach($this->req as $rec_code)
+            {
+?>
+                    <li> <?php echo $rec_code;?></li>
+<?php 
+            }
+?>
+            </ol>
+        </div>
+    </div>
+    <div style="padding:20px 0 10px 0;">Please <a href="<?php echo $this->base_url; ?>" target="_blank" style="color:#b3512f;">click here</a> to login  and update the requisition details.</div>
+</div>      
+	  

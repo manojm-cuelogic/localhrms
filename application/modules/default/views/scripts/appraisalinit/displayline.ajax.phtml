@@ -1,0 +1,47 @@
+<?php 
+
+$init_data = $this->init_data;
+$init_id = $this->init_id;
+$call = $this->call;
+?>
+	
+<div id="iddiv_accordion">
+<?php 
+if($call == 'add_edit')
+{
+	if($init_data['initialize_status']!=1)
+	{
+?>    
+    <div class="addnewqs" id="id_add_new" style="float: left; margin-left: 29px; margin-top: 10px; margin-bottom: 10px;">+Add Line Managers</div>
+    <div id="idline_content" class="step_2_acc_box_bg"></div>
+<?php 
+	}
+}
+?>    
+    <div id="id_acc_container"></div>        
+</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){    
+<?php 
+if($call == 'add_edit')
+{
+?>     
+    $('#id_add_new').click(function(){            
+        addlinemanager('<?php echo $init_id;?>','add','','');
+    });
+    
+<?php 
+}
+if(!empty($init_data['manager_level_type']))
+{
+?>        
+    construct_accordion('<?php echo $init_id;?>','<?php echo $call;?>');
+<?php         
+}
+?> 
+$("#info_message").html('Configure Line Managers');
+});//end of ready function
+</script>

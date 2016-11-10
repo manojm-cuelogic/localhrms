@@ -1,0 +1,18 @@
+<?php
+$i=0;
+			if (!empty($this->attachments)) {
+				foreach ($this->attachments as $k => $v){
+                    if(in_array(strtolower(sapp_Htmlhelper::getExtension($v["new_name"])), array('jpg','png','gif','jpeg'))) {?>
+                        <a href="<?php echo $this->path.$v["new_name"];?>" rel="prettyPhoto[pp_gal]" class="click_view_link_class js_click_view" title="<?php echo $v["original_name"];?>">
+                        <?php if($i == 0){ ?>Click to view<?php }?>
+                        </a>
+                    <?php } else {?>
+                        <a class="click_view_link_class js_click_view" href="<?php echo $this->path.$v["new_name"];?>?iframe=true&width=80%&height=90%" rel="prettyPhoto[pp_gal]" title="<?php echo $v["original_name"];?>">
+                        <?php if($i == 0){ ?>Click to view<?php }?>
+                        </a>
+<?php 				}
+					$i++;
+				}
+			}
+                
+?>

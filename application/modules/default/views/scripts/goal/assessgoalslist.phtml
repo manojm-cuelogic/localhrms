@@ -1,0 +1,10 @@
+<?php
+	
+		echo "<h1 class='h1class'>Goals with assess rights</h1>";
+		$hideUser = false;
+	//echo "<pre>"; print_r($this->data);exit;
+
+	echo $this->partial('okr/goals.phtml', array(
+	    'data' => $this->data, 'hideUser' => $hideUser
+	));
+?>

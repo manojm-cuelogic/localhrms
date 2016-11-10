@@ -1,0 +1,77 @@
+
+<?php 
+
+if($this->ermsg != '')
+{
+?>
+<div class="ml-alert-1-info m1-info-set-2">
+    <div class="style-1-icon info"></div>
+       No data found.
+</div>
+<?php 
+}
+else 
+{
+$res = $this->data;
+$id = $this->id;
+$previ_data = $this->previ_data;
+$appraisalInfo = $this->checkActiveApp;
+
+// Get appraisal text Ex:'Yearly Appraisal (Q 1) - 2015'
+$appstring = ''; 	 
+$appstring = sapp_PerformanceHelper::getAppraisalText($appraisalInfo);
+?>
+
+<?php 
+if($this->ermsg == '')  { ?>
+<div class="requisitions-block">
+		<div id="deptinfo" class="deptinfo">
+			Business Unit :<span><?php echo $this->buname.''.($this->deptname!=''?' - '.$this->deptname:''); ?></span>
+		</div>	
+		<div id="appraisalinfo" class="appraisalinfo">
+			<?php echo $appstring;?>
+		</div>
+
+<div class="total-form-controller cancel-set data-view-details">
+    <div class="position_rel">
+       
+   </div>
+   
+   <div class="cofig_title" style="margin-left: 0px;padding-top: 0px; margin-bottom:20px;">
+   	<div class="fltleft">Ratings</div>
+   
+    	<div class="new-form-ui-submit "  style="margin-top: 0px; float: right; width: auto; margin-left: 0px; clear:none; ">
+			<div class="back-to-page" style="position: relative; float: right; top: 0px;">
+				<input type="button" onclick="window.location.href='<?php echo BASE_URL; ?>appraisalratings';" name="Back" value="Back">
+			</div>
+			<?php if($appraisalInfo['status'] == 1 && $appraisalInfo['employee_response']==1) { ?>
+            	<input type="button" class="fltright" onclick="changeeditscreen('<?php echo $this->controllername;?>',<?php echo $this->id;?>);" value="Edit" />
+            <?php } ?>	
+        </div>
+   
+   </div>
+   
+ <table width="100%" border="0" cellspacing="0" cellpadding="0" class="requisition-table view-table-data">
+  <tr class="req-no-form">
+<td width="20%"><span class="head_txt">Rating Value</span></td>
+<td><span class="head_txt">Rating Text </span></td>
+</tr>
+  <?php  
+  $i = 0;
+  foreach ($res as $data)
+ 	 {
+ 	 		if($i%2 == 0)
+ 	 			$class = 'req-bg-form';
+ 	 		else 
+ 	 			$class = 'req-no-form';	
+ 	 	?>
+<tr class="<?php echo $class;?>">
+<td ><?php echo $data['rating_value'];?></td>
+<td><?php echo $data['rating_text'];?></td>
+</tr>
+<?php $i++; } ?>
+   </table>
+   </div>
+</div>
+
+<?php } }?>

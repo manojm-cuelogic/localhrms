@@ -1,0 +1,17 @@
+<?php 
+$baseUrl = $this->serverUrl().$this->baseUrl();
+echo $this->form->id; ?>
+        <div class="total-form-controller">
+			<div class="new-form-ui clearb">
+			  <label class="required">Assignment Entry Reason Code</label>
+			<div class="division"><?php echo $this->form->assignmententryreasoncode; ?></div>
+			</div>	
+			<div class="new-form-ui clearb textareaheight">
+			  <label>Description</label>
+			<div class="division"><?php echo $this->form->description; ?></div>
+			</div>
+       </div>		
+		<div class="new-form-ui-submit">
+			<input type="submit" onclick="changeeditscreen('<?php echo $this->controllername;?>',<?php echo $this->id;?>);" value="Edit" />			
+			<button onclick="window.location.href='<?php echo BASE_URL; ?>assignmententryreasoncode';" type="button" >Cancel</button>
+		</div>

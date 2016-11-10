@@ -1,0 +1,26 @@
+<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+    
+	<span style='color:#3b3b3b;'>Dear <?php echo ucfirst($this->mgr_name);?>,</span><br />
+	
+	<div style='padding:20px 0 0 0;'>		
+		The time sheet submission is pending from <?php echo date('m-d-Y',strtotime($this->ls_week));?> to <?php echo date('m-d-Y',strtotime($this->ls_day));?> for the following employee(s).
+	</div>
+			
+	<div style='padding:10px 0 0 0;'>
+		<ol>
+			<?php 
+			foreach($this->emp_arr as $key=>$value)
+			{
+			?>
+				<li> <?php echo $value;?></li>
+			<?php 
+			}
+		     ?>
+		</ol>
+	</div>	
+	
+	<div style="padding:20px 0 10px 0;">Please <a href="<?php echo $this->base_url;?>" target="_blank" style="color:#b3512f;">click here</a> to login and check the time sheet details.</div>
+
+</div> 
+	  
+

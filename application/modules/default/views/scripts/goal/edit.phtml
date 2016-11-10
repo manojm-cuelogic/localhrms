@@ -1,0 +1,268 @@
+
+<?php if(isset($this->rowexist) || $this->isEditable == false) { ?>
+
+    <?php if($this->isEditable == false){ ?> 
+        <div class="page-not-authorized"><div class="div-authorized"></div><p class="sry-text">You are not authorized to access this page.</p></div>
+        <?php } else {
+            ?>
+            <div class="ml-alert-1-info">
+            <div class="style-1-icon info"></div>
+            Invalid request.
+            </div>
+        <?php           
+        }
+     ?>
+<?php } else { ?>
+
+<!--page - adding new goal - starts here -->
+
+<!--Header section of the page starts here-->
+<form id="goal_form" method="POST">
+<div class="okrs-content-bg">
+    <div class="create_goal_header">
+        <div class="create_goal_title">Edit Goal</div>
+        <div class="divider_right"></div>
+        <div class="owner_text">Owner</div>
+        <div class="owner_image"><img src="<?php echo MEDIA_PATH;?>images/okr/employee-deafult-pic.png" alt=""></div>
+        <div class="create_goal_owner">
+            <select name='goal_form[goal_owner_id]' disabled>
+                <option value='<?php echo $this->user["id"]; ?>'><?php echo $this->user['userfullname']; ?></option>
+                <?php foreach ($this->team_members as $member) {
+                    echo "<option value='" . $member->user_id . "'>" . $member->userfullname . "</option>";
+                } ?>
+               
+            </select>
+        </div>
+    </div>
+</div>
+
+<!--Header section of the page ends here-->
+
+
+
+
+
+<!-- Create goal form starts  -->
+<div class="okrs-content-bg">
+    <div class="create_goal_form ">
+        <label class="required">What is your Goal?</label>
+        <div class="division"> <!-- Common class -->
+            <input required="true" name='goal_form[name]' type="text" value="<?php echo $this->goal['name']; ?>" placeholder="Type your goal" >
+            <span class="error"></span>
+        </div>
+    </div>
+
+
+    <div class="create_goal_form ">
+        <label class="required">Describe your Goal?</label>
+        <div class="division">
+            <input required="true" name='goal_form[description]' type="text" value="<?php echo $this->goal['descrption']; ?>" placeholder="Description for your goal">
+            <span class="error"></span>
+        </div>
+    </div>
+
+
+    <div class="align_goal_divider">
+        <div class="extra-titles">Align your Goal? <sub style="color:red; font-size:13px;">*</sub></div>
+        <div class="align_goal_divider_1">
+            <div class="create_goal_form">
+                <label>Owner</label>
+                <div class="division">
+                    <select required="true" name='goal_form[align_goal_owner]' id= "align_goal_owner">
+                        <option value="">Select Owner</option>
+                        <option value="-1" <?php echo (count($this->managers) > 0 ? "" : "selected"); ?> label="company goal">Company Goal</option>
+                        <?php 
+                            $managers = $this->managers;
+                            for($i = count($managers)-1; $i >= 0; $i--) {
+                                $selected = ($managers[$i]['id'] == $this->aligned_goal['owner_id']) ? "selected" : "";
+                                echo '<option '.$selected.' value="' . $managers[$i]['id'] . '"><img src="http://localhost/cuelogic-hrms-php/public/media/images/default-profile-pic.jpg"></img>' . $managers[$i]['name'] . '</option>';
+                            }
+                        ?>
+                    </select>
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+        <div class="align_goal_divider_1">
+            <div class="create_goal_form ">
+                <label>Goal</label>
+                <div class="division">
+                    <select required="true" name='goal_form[align_goal_id]' id= "align_goal_id">
+                        <option value=''>Please select goal</option>
+                        <?php foreach($this->default_align_goals as $dag) {
+                            $selected = ($dag['id'] == $this->aligned_goal['id']) ? "selected" : "";
+                            echo "<option ".$selected." value='" . $dag['id'] . "'>" . $dag['name'] . "</option>";
+                        } ?>
+                    </select>
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="create_goal_form keyword-div">
+        <label>Keywords</span></label>
+        <div class="division">
+            <input required="true" id="goal_keyword" value="<?php echo $this->keywords; ?>" name='goal_form[align_keyword_id]' type="text" placeholder="Select your keyword(s)Training, Delivery, Technology, Hiring, HR, Sales" />
+            <span class="error"></span>
+        </div>
+    </div>
+
+
+
+    <div class="align_goal_divider"> <!-- Period, Date section -->
+        <div class="create_goal_period">
+            <div class="create_goal_form ">
+                <label>Which Period</label>
+                <div class="division">
+                    <select required="true" id="align_period_id" name='goal_form[align_period_id]'>
+                        <option value=''>Select Period</option>
+                        <?php foreach($this->cycles as $cycle) {
+                            $selected = ($cycle['id'] == $this->goal['assessment_cycle_id']) ? "selected" : "";
+                            echo '<option ' . $selected . ' value="' . $cycle['id'] . '">' . $cycle['displayName'] . '</option>';
+                        } ?>
+                    </select>
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="create_goal_startdate">
+            <div class="create_goal_form  new-form-ui">
+                <label>Start date</label> <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" id="startDate" value=""  required="true" name='goal_form[align_start_date]' />
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="create_goal_enddate">
+            <div class="create_goal_form  new-form-ui">
+                <label>End date</label>  <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" id="endDate" value="" required="true" name='goal_form[align_end_date]' />
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="create_goal_form keyword-div">
+        <label>&nbsp;</label>
+        <div class="division">
+            <button type="button" class="submit-btn active-btn">Save</button>&nbsp;
+            <button type="button" class="gray-btn">Cancel</button>
+        </div>
+    </div>
+    <!-- Create goal form ends  -->
+</div>
+</form>
+<!--page - adding new goal - ends here -->
+
+<script>
+    var cycles = <?php echo json_encode($this->cycles); ?>;
+    $(document).on('ready', function(){
+        $('#align_goal_owner').on('change', function() {
+            owner_id = $('#align_goal_owner').val();
+            $('#align_goal_id').val('');
+            $.blockUI({ width:'50px',message: $("#spinner").html() });
+            $.post(base_url+"/goal/getallgoals",{owner_id:owner_id},function(data){
+                
+                data = JSON.parse(data);//console.log(data);
+                $.unblockUI();
+                var html = '<option value="">Please select goal</option>';
+                $.each(data['result'], function(i, v) {
+                    html += "<option value='" + v.id + "'>" + v.name + "</option>";
+                })
+                $('#align_goal_id').html(html).val('').trigger('change');
+            });
+        });
+        $('#goal_keyword').tokens({
+                <?php if(count($this->allKeywords) > 0) { ?>
+                  source : [ '<?php echo implode("','",$this->allKeywords) ?>' ],
+                  <?php } else { ?>
+                    source : [],
+                    <?php } ?>
+              <?php if(strlen(trim($this->keywords)) > 0) { ?>
+              initValue : [ '<?php echo implode("','",explode(",",$this->keywords)) ?>' ]
+              <?php } ?>
+
+            });
+           // $('.tokenfield').tokenfield()
+        var yearrange = '<?php echo date(Y); ?>:<?php echo date(Y); ?>';
+        $('#startDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true,
+                         onClose:function(){
+                                        var minDate = new Date($('#startDate').val());
+                                         $("#endDate").datepicker( "option", "minDate", minDate );
+                                    }
+            });
+        var yearrange = '<?php echo date(Y); ?>:<?php echo date(Y); ?>';
+        $('#endDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true,
+                    onClose:function(){
+                                        var maxDate = new Date($('#endDate').val());
+                                        $( "#startDate" ).datepicker( "option", "maxDate", maxDate );
+                                    }
+            });
+            $('.submit-btn').on('click', function(){
+                if(validateForm()) {
+                    var keywords= "";
+                    $(".tokens-list-token-holder").each(function(i,v){
+                        if(i != 0) keywords += ",";
+                        keywords += $(v).find('p').html();
+                    })
+                    console.log(keywords);
+                    $('#goal_keyword').val(keywords);
+                    //console.log($('#goal_keyword').val());
+                    if($('#goal_keyword').length == 0) {
+                        var ht = "<input id='goal_keyword' type='text' value='"+keywords+"' name='goal_form[align_keyword_id]' />";
+                        $(".keyword-div").append(ht);
+                    } else { $('#goal_keyword').val(keywords);}
+                    $('#goal_form').submit();
+                }
+            });
+            $('#align_period_id').on('change', function() {
+                var id = $('#align_period_id').val();
+                $.each(cycles, function(i,v){
+                    if(v.id == id) {
+                        $('#startDate').datepicker('setDate', new Date(v.startDate));
+                        $('#endDate').datepicker('setDate', new Date(v.endDate));
+                    }
+                })
+            });
+            $('#startDate').datepicker('setDate', new Date('<?php echo $this->goal["start_date"]; ?>'));
+            $('#endDate').datepicker('setDate', new Date('<?php echo $this->goal["end_date"]; ?>'));
+    });
+    function validateForm() {
+        $('.error').html("");
+        var noerror = true;
+        $('[required="true"]').each(function(i,v) {
+            if($.trim($(v).val()) == '') {
+                noerror = false;
+                $(v).parent().find('.error').html("This can not be blank");
+            } //else console.log($.trim($(v).val()));
+        });
+        return noerror;
+    }
+</script>
+
+<?php } ?>

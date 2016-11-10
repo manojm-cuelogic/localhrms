@@ -1,0 +1,37 @@
+<?php
+	
+	$storage = new Zend_Auth_Storage_Session();
+	$data = $storage->read();
+	$request = Zend_Controller_Front::getInstance();
+	$controllerName = $request->getRequest()->getControllerName();
+    $module = $request->getRequest()->getModuleName();  
+        
+        
+	if($data != "") {
+		if($controllerName == 'wizard' || $controllerName == 'hrwizard')
+			include "wizardheader.phtml";
+		elseif ($module == 'timemanagement' && $controllerName != "reports")
+			include "timemanagementheader.phtml";
+		else
+			include "hrmsheader.phtml";
+	} 
+	else {       
+		include "defaultheader.phtml";
+	}
+?>
+
+<?php echo $this->layout()->content; ?>
+<?php 
+if($data != "") {
+	if($controllerName == 'wizard' || $controllerName == 'hrwizard')
+		include "wizardfooter.phtml";
+	elseif ($module == 'timemanagement' && $controllerName != "reports")
+		include "timemanagementfooter.phtml";		
+	else		
+		include "hrmsfooter.phtml";
+}
+else
+{
+	include "defaultfooter.phtml";
+}
+?>

@@ -1,0 +1,11 @@
+<?php 
+if(!empty($this->candsData))
+{
+	foreach ($this->candsData as $cand)		
+	echo "<option label='".$cand['candidate_name']."' value='".$cand['id']."'>".$cand['candidate_name']."</option>";
+}else
+{
+  echo "nocandidates";
+}
+?> 
+ 

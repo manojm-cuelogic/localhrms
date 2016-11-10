@@ -1,0 +1,16 @@
+<?php
+	if($this->isCompany){
+		echo "<h1 class='h1class'>Company Goals</h1>";
+		$hideUser = true;
+	} elseif($this->isTeam){
+		echo "<h1 class='h1class'>Team Goals</h1>";
+		$hideUser = false;
+	} else {
+		echo "<h1 class='h1class'>My Goals</h1>";
+		$hideUser = true;
+	}
+
+	echo $this->partial('okr/goals.phtml', array(
+	    'data' => $this->data, 'hideUser' => $hideUser
+	));
+?>

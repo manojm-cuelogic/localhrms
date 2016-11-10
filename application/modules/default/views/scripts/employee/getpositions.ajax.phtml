@@ -1,0 +1,16 @@
+
+<?php 
+	if($this->flag != 'true')
+	{
+	foreach ($this->positionlistArr as $positionlist) {
+			$this->employeeform->position_id->addMultiOption($positionlist['id'],utf8_encode($positionlist['positionname']));
+		}
+		echo $this->employeeform->position_id;
+	}
+	else
+	{
+	    echo "nopositions";
+	}
+
+?> 
+ 

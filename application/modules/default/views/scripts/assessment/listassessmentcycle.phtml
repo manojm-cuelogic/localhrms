@@ -1,0 +1,52 @@
+<form id="goal_form" method="POST">
+
+
+<!--Header section of the page ends here-->
+<!-- Create goal form starts  -->
+    <div class="goal-details-header-bg"> <!--goal details-->      
+            <div class="goal-details-btns">
+                <div class="active-btn"><a href="<?php echo BASE_URL."assessment/addassessmentcycle/" ?>">Add Assessment Cycle</a></div> 
+            </div>
+        </div>
+    <div class="all-grid-control">
+    <div class="details_data_display_block newtablegrid">
+        <div class="table-header"><span>Assessment List</span></div>
+            
+                <table class="grid" align="center" width="100%" cellspacing="0" cellpadding="4" border="0">
+                    <thead>
+                        <tr>
+                            
+                                <th>Financial Start Date</th>
+            <th>Financial End Date</th>
+            <th>Frequency</th>
+            <th width="90"><span class="action-text">Action</span></th>
+                        </tr>
+
+        </thead>
+        <tbody>
+            
+            <?php
+        foreach ($this->accessmentPeriod as $assessmentPeriod) {
+            ?>
+        <tr class="row1" >
+            
+            <td><?php echo $assessmentPeriod['start_date_financial_year'] ?></td>
+            <td><?php echo $assessmentPeriod['end_date_financial_year'] ?></td>
+            <td><?php echo $assessmentPeriod['name'] ?></td>
+            <td><a href="<?php echo BASE_URL."assessment/editassessmentcycle/id/".$assessmentPeriod['pid'];?>">edit</a></td>
+        </tr>
+            <?php
+        }
+        ?>
+        
+
+        </tbody>
+</table>
+                    
+
+     </div>
+     </div>
+    
+    
+    
+</form>

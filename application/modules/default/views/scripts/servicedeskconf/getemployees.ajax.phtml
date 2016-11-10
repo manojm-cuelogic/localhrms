@@ -1,0 +1,40 @@
+<?php 
+$options_data = "";
+$servicedesk_data = "";
+   $options_data .= sapp_Global::selectOptionBuilder('', 'Select Receiver');
+   $servicedesk_data .= sapp_Global::selectOptionBuilder('', 'Select category');
+if(!empty($this->employeedata))
+{
+		foreach ($this->employeedata as $employee) {
+			$options_data .= sapp_Global::selectOptionBuilder($employee['user_id'],utf8_encode($employee['userfullname']));
+		}
+		 $output['employee'] = $options_data;
+		 
+}else
+{
+  		$output['employee'] = "noemployees";
+}
+
+if(!empty($this->servicedeskData))
+{
+		foreach ($this->servicedeskData as $servicedeskres) {
+			$servicedesk_data .= sapp_Global::selectOptionBuilder($servicedeskres['id'],utf8_encode($servicedeskres['service_desk_name']));
+		}
+		 $output['servicedesk'] = $servicedesk_data;
+		 
+}else
+{
+  		$output['servicedesk'] = "nodata";
+}
+
+if(!empty($this->implementationdata))
+{
+	$output['implement'] = $this->implementationdata['service_desk_flag'];
+}else
+{
+	$output['implement'] = '';
+}
+
+echo json_encode($output);
+?> 
+ 

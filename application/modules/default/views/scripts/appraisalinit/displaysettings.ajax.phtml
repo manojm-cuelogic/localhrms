@@ -1,0 +1,34 @@
+<?php 
+		$initializationdata = $this->initializationdata; 
+		 if($this->settingflag == 1)
+		{
+			
+			if(!empty($this->questionsArr))
+				{
+?>
+				<form name="assignquestions" id="formid" action="" method="post" style="padding-top: 20px;" class="steps_questions">					
+				<?php 		
+						sapp_PerformanceHelper::questions_privileges($this->questionsArr,$this->appraisalid,$this->checkArr,$this->initializationdata);
+				?>
+				</form>	<div class="clear"></div>
+				 </div>
+<?php 
+				}else 
+				{?>
+					<!--  <div class="employeeresponsediv" style="overflow: hidden;" id="employeeresponsediv">	
+					<div class="managerresponsediv_msg"> Questions not yet configured.</div>-->
+					<div style="clear: both;position: relative;top: 17px;width: 92%;" class="ml-alert-1-error">
+						<div class="style-1-icon error"></div>
+							Questions are not configured. <a href="<?php echo BASE_URL.'/appraisalquestions/add'?>" style="color:#A31414;text-decoration: none;font-weight: bold;">Click here </a> to configure questions.
+					</div>
+<?php 			}
+		}else
+		{
+					sapp_PerformanceHelper::employee_group_questions_privileges($this->groupEmployeeCountArr,$this->appraisalid,$this->initializationdata,'edit');
+		}			
+?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#msg_div").hide();
+	});
+</script>

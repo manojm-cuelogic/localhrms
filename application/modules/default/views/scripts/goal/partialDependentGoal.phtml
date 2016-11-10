@@ -1,0 +1,24 @@
+<div class="milestone-details-content-bg milestone-container">
+        <!-- <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">
+            	<strong>Goal</strong> : <?php echo $this->name; ?>
+
+            </div>
+            <div class="milestone-details"><strong>Owner</strong> : <?php echo $this->userfullname; ?></div>
+            
+        </div> -->
+        <div class="milestone-units">
+            <div class="percent-target">
+                <span class="pull-left"><strong>Goal: </strong><a href="<?php echo BASE_URL."goal/view/id/".$this->id;?>"><?php echo $this->name; ?></a></span>
+            	<span class="pull-right"><strong>Status: <?php echo (($this->is_archieved)? "<span style='color:#474;'>Archived</span>": "<span style='color:#f77;'>Not Archived</span>"); ?></strong></span>
+            </div>
+            <div class="percent-target">
+                <span class="pull-left"><strong>Owner: </strong><?php echo $this->userfullname; ?></span>
+            	<span class="pull-right"><strong>Last Updated: </strong><?php echo sapp_Helper::time_diff_string($this->updated_at); ?></span>
+            </div>
+            
+            
+            
+        </div>
+        
+</div>

@@ -1,0 +1,13 @@
+<?php
+$format2 = $this->format2;  
+//echo "<pre>"; print_r($deptBuCnt); echo "</pre>";  ?>
+
+<div class="fltleft"><h4 >Employees</h4>
+	<div class="fltleft"><?php echo $total_emp = $format2[0]; ?></div>
+	<div class = "clearall"></div>
+	<div class="fltleft">
+		<div class="fltleft"> <?php echo $activ_emp = $format2[2];?></div>
+		<div class = "clearall"></div>
+		<div class="fltright"><?php echo $inActive_emp = ($total_emp)-($activ_emp); ?></div>
+	</div>
+</div>

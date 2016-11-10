@@ -1,0 +1,134 @@
+<form id="goal_form" method="POST">
+<div class="okrs-content-bg">
+    <div class="create_goal_header">
+        <div class="create_goal_title">Edit Assessment</div>
+        <div class="divider_right"></div>
+        
+    </div>
+</div>
+
+<!--Header section of the page ends here-->
+<!-- Create goal form starts  -->
+<div class="okrs-content-bg-addassement-cycle">
+    
+    <div class="align_goal_divider mrgn-top-30"> <!-- Period, Date section -->
+        
+        <div class="create_goal_startdate">
+            <div class="create_goal_form new-form-ui ">
+                <label>Financial Year Start</label> <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" disabled value="<?php echo $this->accessmentPeriod['start_date_financial_year'] ?>"  required="true" name='assessment[start_date]' />
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="create_goal_enddate">
+            <div class="create_goal_form new-form-ui ">
+                <label>Financial Year End</label>  <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" disabled value="<?php echo $this->accessmentPeriod['end_date_financial_year'] ?>" required="true" name='assessment[end_date]' />
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+        <div class="create_goal_period" id="assessmentFre">
+            <div class="create_goal_form ">
+                <label>Assessment Frequency</label>
+                <div class="division">
+                    <select disabled required="true" id="align_period_id" onchange="getPeriods(this.value)" name='assessment[frequency]'>
+                        <option value=''>Select Period</option>
+                        <?php foreach($this->accessmentFrequency as $frequency) {
+                            echo '<option '.($frequency['id'] == $this->accessmentPeriod['frequency_assessment_id'] ? 'selected' : '' ).' value="' . $frequency['id'] . '">'. 
+                                    $frequency['name'] .
+                                    '</option>';
+                        } ?>
+                    </select>
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="align_goal_divider mrgn-top-30" id="period-cont" >
+        <div class="create_goal_startdate">
+            <div class="create_goal_form new-form-ui ">
+                <div style="display:block"><label>Periods:</label><br/>&nbsp;</div> <!-- add date plugin from leave request page here -->
+                <?php foreach ($this->accessmentCycles as $aC) { ?>
+                <div id="periods" class="division">
+                    <input type="text" name = "cycle[<?php echo $aC['id']?>]" value="<?php echo $aC['display_name']; ?>"/>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <div class="create_goal_form keyword-div">
+        <label>&nbsp;</label>
+        <div class="division">
+            <input type="submit" class="submit-btn active-btn" value="Save">
+        </div>
+    </div>
+    <!-- Create goal form ends  -->
+</div>
+</form>
+
+<script>
+     var yearrange = '<?php echo date(Y, strtotime('-5 years')); ?>:<?php echo date(Y , strtotime('+5 years') ); ?>';
+        $('#startDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true ,
+                    onClose:function(){
+
+                                    var minDate = new Date($('#startDate').val());
+                                    $("#endDate").datepicker( "option", "minDate", minDate );
+                                    var d = new Date(minDate);
+//                                    d.setFullYear(d.getFullYear() + 1 , d.getMonth(), d.getDay() - 1 );
+                                    d.setFullYear(d.getFullYear() + 1 , d.getMonth());
+                                    d.setDate(d.getDate() - 1);
+                                    $('#endDate').datepicker('setDate', d );
+                                    $('#assessmentFre').show();
+                                    $('#period-cont').show();
+                                }
+            });
+        $('#endDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true ,
+                    onClose:function(){
+                                   var maxDate = new Date($('#endDate').val());
+                                   $( "#startDate" ).datepicker( "option", "maxDate", maxDate );
+                               }
+            });
+            
+    function getPeriods(frequencyId)
+   {
+       var startDate = $( "#startDate" ).val();
+       var endDate = $( "#endDate" ).val();
+       
+       $.ajax({
+        type:"post",		
+        url:base_url+'/assessment/getperiods',
+        data : { frequency_id: frequencyId, start_date : startDate, end_date : endDate },
+        dataType:'json',
+        success: function(response)
+        {
+            if(response.data)
+            $('#periods').html(response.data);
+        }
+    });
+   }
+</script>

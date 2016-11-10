@@ -1,0 +1,29 @@
+<?php
+	
+	$storage = new Zend_Auth_Storage_Session();
+	$data = $storage->read();
+	$request = Zend_Controller_Front::getInstance();
+	$controllerName = $request->getRequest()->getControllerName();
+
+	if($data != "") {
+		if($controllerName == 'wizard')
+			include "wizardheader.phtml";
+		else
+			include "analyticsheader.phtml";
+	} 
+	else {       
+		include "defaultheader.phtml";
+	}
+?>
+
+<?php echo $this->layout()->content; ?>
+<?php 
+	if($data != "") {
+		if($controllerName == 'wizard')
+			include "wizardfooter.phtml";
+		else		
+			include "hrmsfooter.phtml";
+	}else{
+		include "defaultfooter.phtml";
+	}
+?>

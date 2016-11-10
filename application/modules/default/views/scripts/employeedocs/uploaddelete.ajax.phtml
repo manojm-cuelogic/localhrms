@@ -1,0 +1,10 @@
+<?php $j=0; foreach ($this->attachments as $k => $v){
+									if(in_array(strtolower(sapp_Htmlhelper::getExtension($v["new_name"])), array('jpg','png','gif','jpeg'))) {?>
+		                        		<a class="click_view_link_class js_click_view" href="<?php echo EMP_DOC_FILES_PATH.$v["new_name"];?>" rel="prettyPhoto[pp_gal<?php echo $this->doc_id;?>]" title="<?php echo $v["original_name"];?>">
+		                        			<?php if($j == 0){ ?><?php echo count($this->attachments);?> Attachment(s)<?php }?>
+		                        		</a>
+		                    		<?php } else {?>
+		                        		<a class="click_view_link_class js_click_view" href="<?php echo EMP_DOC_FILES_PATH.$v["new_name"];?>?iframe=true&width=80%&height=90%" rel="prettyPhoto[pp_gal<?php echo $this->doc_id;?>]" title="<?php echo $v["original_name"];?>">
+		                        			<?php if($j == 0){ ?><?php echo count($this->attachments);?> Attachment(s)<?php }?>
+		                        		</a>
+									<?php }$j++;}?>

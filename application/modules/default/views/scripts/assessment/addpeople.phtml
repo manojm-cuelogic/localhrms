@@ -1,0 +1,142 @@
+
+<!--page - adding new goal - starts here -->
+<!--Header section of the page starts here-->
+  <?php 
+    if($this->isAddPeopleRightAvailable){
+                    ?>
+<form name="okr_add_people" method="post" enctype="multipart/form-data">
+    <div class="okrs-content-bg">
+        <div class="create_goal_header assessment-header">
+            <div class="okrs-title-main assessment_title">
+          
+                    <p>Add people for assessment to the goals owned by</p>
+
+                    
+            </div>
+
+            <div class="owner_image">
+                <img src="<?php echo $this->userProfileImage; ?>" alt="">
+            </div>
+            <div class="assessment_owner">
+                <p class="okrs-title-main">&nbsp;&nbsp;<?php echo $this->userfullname; ?></p>
+            </div>
+           <!--  <div style="float:right; margin-top:13px;">
+                <input type="submit" class="active-btn" value="Save" >
+        </div> -->
+    </div>
+    </div>
+<!--Header section of the page ends here-->
+<!-- Create goal form starts  -->
+<div class="okrs-main-container">
+
+    <div class="okrs-row">
+
+        <div class="assessment-left">
+            <span class="assessment-goal">Goals</span>
+            <div class="assessment-selection">
+
+                <span class="checkbox">
+                    <input id="check1" type="checkbox" name="check" value="check1">
+
+                    <label for="check1">Select All</label></span>
+                <div class="assessment-goal-seletion">
+                    <?php
+                    if($this->userGoals)
+                    {
+                        foreach ($this->userGoals as $goal)
+                        {
+                            ?>
+                            <div class="selection-row">
+                        <span class="checkbox">
+                            <input id="goal<?php echo $goal['id'] ?>" onclick="getSelectedPeople(<?php echo $goal['id'] ?>)" type="checkbox" name="goals[]" value="<?php echo $goal['id'] ?>">
+
+                        </span>
+                        <div class="goals-list">
+                            <p><?php echo $goal['name'] ?></p>
+                        </div>
+                    </div>
+                        <?php
+                        }
+                        
+                    }
+                    ?>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="assessment-right">
+            <span class="assessment-goal">People who can do assessment for selected goal</span>
+            <div class="assessment-selection">
+                <?php
+                if ($this->defaultUsersRightsForDoingAssessment) {
+                    foreach ($this->defaultUsersRightsForDoingAssessment as $defaultUserRightsForDoingAssessment) {
+                        $profileImgSrc = MEDIA_PATH . 'images/default-profile-pic.jpg';
+                        if (!empty($this->userProfileImage) && file_exists("public/uploads/profile/" . $defaultUserRightsForDoingAssessment['image'])) {
+                            $profileImgSrc = DOMAIN . "public/uploads/profile/" . $defaultUserRightsForDoingAssessment['image'];
+                        }
+                        ?>
+
+                        <div class="selection-row">
+                            <div class="owner_image">
+                                <img src="<?php echo $profileImgSrc; ?>" alt="">
+                            </div>
+                            <div class="assessment_owner">
+                                <p class="okrs-title-main"><?php echo $defaultUserRightsForDoingAssessment['name'] ?></p>
+                            </div>
+
+                        </div>
+        <?php
+    }
+}
+?>
+                <div id="selectAddPeople">
+               <?php
+//        echo $this->partial('assessment/getselectedpeople.phtml', array(
+//            'activeUsers' => $this->activeUsers,
+//        ));
+        ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<div class="save-row">
+    <div style="float:right; margin-top:13px;">
+                <input type="submit" class="active-btn" value="Save">
+        </div>
+</div>
+</div>
+
+</form>
+
+<?php
+    } else {
+?>
+    <div class='style-1-icon error'  style="width:100%; display:block;" > Invalid goal or not enough privileges to add people</div>
+
+  <?php  }
+?>
+<script type="text/javascript">
+   function getSelectedPeople()
+   {
+       var goalIds = [];
+        $("input[name='goals[]']").each( function ()
+        {
+            var sThisVal = (this.checked ? $(this).val() : "");
+            if(sThisVal) goalIds.push(sThisVal);
+        });
+        console.log(goalIds);
+       $.ajax({
+        type:"post",		
+        url:base_url+'/assessment/getselectedpeople',
+        data : { goal_ids: goalIds },
+//        dataType:'json',
+        success: function(response)
+        {
+            //console.log(response);
+            $('#selectAddPeople').html(response);
+             $(".my-select").chosen({width:"100%"});
+        }
+    });
+   }
+</script>

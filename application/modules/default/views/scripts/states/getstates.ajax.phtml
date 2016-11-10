@@ -1,0 +1,25 @@
+<?php 
+if(!empty($this->statesmodeldata))
+{
+	if($this->con == 'state')
+	{
+		foreach ($this->statesmodeldata as $state) {
+			$this->statesform->state->addMultiOption($state['state_id_org'].'!@#'.$state['state'],utf8_encode($state['state']));
+		}
+		echo $this->statesform->state;
+	}
+	else
+	{
+		foreach ($this->statesmodeldata as $state) {
+			$this->statesform->state->addMultiOption($state['id'].'!@#'.$state['state_name'],utf8_encode($state['state_name']));
+		}
+		if($this->con != 'nootheroption')
+		 $this->statesform->state->addMultiOption('other','Other');
+		echo $this->statesform->state;
+	}
+}else
+{
+ echo "nostates";
+}	
+?> 
+ 

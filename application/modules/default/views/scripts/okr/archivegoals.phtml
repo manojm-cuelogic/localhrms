@@ -1,0 +1,351 @@
+<div id="dialog-confirm" style="display:none;">
+    <div class="newframe-div">
+        <div class="new-form-ui height32">
+            <div class="division">
+                <input type="text" maxlength="10"  id="number_value" name="number_value">
+            </div>
+            <span class="errors" id="errors-contactnumber"></span>
+        </div>
+    </div>
+</div>
+
+<div id="empstatus-alert" style="display:none;">
+    <div class="newframe-div"><div id="empstatusmessage"></div></div>
+</div>
+
+<div id="empleaves-alert" style="display:none;">
+    <div class="newframe-div"><div id="empleavesmessage"></div></div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+    //for menu div to be displayed
+    $(document).ready(function(){
+        var selected_obj = $('li[menu-url="/index.php/welcome"]');
+        var parent_div = selected_obj.attr("parent-div");
+
+        var controllerName = 'index';
+        if(parent_div == '' || parent_div == null)
+        {
+            if(controllerName != 'error'){
+                selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/index']");
+            }else{ // for not authorized pages.
+            }
+            parent_div = selected_obj.attr("parent-div");
+        }
+        if(parent_div == 'undefined') parent_div = '';
+        /*Only for Service Desk */
+        if(parent_div == '' || parent_div == null)
+        {
+            selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/welcome']");
+            if(controllerName == 'servicerequests') {
+                selected_obj = $("li[menu-url='http://hrms.cuelogic.co.in/index.php/servicerequests/index']");
+            }
+            parent_div = selected_obj.attr("parent-div");
+        }//only for service desk
+
+        selected_obj.addClass("active_menu_class");
+        $('.'+parent_div).addClass("selected_menu_class");
+        $('.'+parent_div).show();
+        $('.acc_li_toggle').next().hide();
+        parent_menu_selected(selected_obj);
+//removing of class for selected child menu
+        $(".side-menu-selected").removeClass("side-menu-selected");
+//end of removing of class for selected child menu
+//to add selected class for selected child menu
+        if(parent_div != "dummy")
+            selected_obj.find("a").addClass("side-menu-selected");
+//end to add selected class for selected child menu
+//hide and show meu arrows by mouse events
+        $( "#menu-shadow" ).mouseenter(function(e) {
+
+            var width = '';
+            width = 1400;		if($('.menu-head').width() > width){//hide scroll arrows if window width > 1310
+
+                $('.simply-scroll-btn').hide();
+            }else{
+                $('.simply-scroll-btn').show();
+            }
+        });
+        $("#menu-shadow").mouseleave(function(e){
+            $('.simply-scroll-btn').hide();
+        });
+        $("#mainmenushowhidebutton").click(function(){
+
+            setdisplaymenu('display');
+        });
+    });
+    function  setdisplaymenu(flag)
+    {
+        if(flag == 'tour')
+        {
+            hideshow_mainmenu = 1;
+        }else{
+            if(hideshow_mainmenu == 1) hideshow_mainmenu = 0;
+            else if(hideshow_mainmenu == 0) hideshow_mainmenu = 1;
+        }
+        $.ajax({
+            type:"post",
+            data:'hideshow_mainmenu='+hideshow_mainmenu,
+            url:base_url+'/index/setsessionval',
+            dataType:'json',
+            success: function(response)
+            {
+                if(response == 1)
+                {
+                    $( "#menu-shadow" ).show(400);
+                    $('#menu-hide-show').css('top','-1px');
+                    $('#mainmenushowhidebutton').children().addClass('show-menu');
+                    $('#mainmenushowhidebutton').children().text('Click Here to Hide Menu');
+                    $('#mainmenushowhidebutton').children().removeClass('hide-menu');
+                }
+                else if(response == 0)
+                {
+                    $( "#menu-shadow" ).hide(400);
+                    $('#menu-hide-show').css('top','0');
+                    $('#mainmenushowhidebutton').children().addClass('hide-menu');
+                    $('#mainmenushowhidebutton').children().text('Click Here to Show Menu');
+                    $('#mainmenushowhidebutton').children().removeClass('show-menu');
+                }
+            }
+        });
+    }
+    function togglesubmenus(id) {
+        $('#acc_li_toggle_'+id).next().toggle();
+        if ($('#acc_li_toggle_'+id).next().is(":visible") == true){
+            $('#acc_li_toggle_'+id).removeClass('acc_li_toggle');
+            $('#acc_li_toggle_'+id).addClass('acc_li_toggle_down');
+        }else{
+            $('#acc_li_toggle_'+id).removeClass('acc_li_toggle_down');
+            $('#acc_li_toggle_'+id).addClass('acc_li_toggle');
+        }
+    }
+    function parent_menu_selected(selected_obj)
+    {
+        //start for removing selected class in parent menu
+        var already_selected_obj = $('.super_selected').parent().parent();
+        var already_selected_id = already_selected_obj.prop('id');
+        var already_selected_class = already_selected_obj.attr("selected-class");
+        $('#'+already_selected_id+" span").removeClass(already_selected_class);
+        $('#'+already_selected_id+" span").removeClass("super_selected");
+        $('#'+already_selected_id).removeClass("link-selected");
+        var dashboard_menu = 'main_parent_173';
+        if(already_selected_id == undefined)  //when dashboard selectes undefined will come
+        {
+            $('#'+dashboard_menu).removeClass("link-selected");
+        }
+        //end for removing selected class in parent menu
+        //to add selected class for parent menu
+        var super_parent = selected_obj.attr("super-parent");
+        var super_selected_class = $('#'+super_parent).attr("selected-class");
+        $('#'+super_parent+" span").addClass(super_selected_class);
+        $('#'+super_parent+" span").addClass("super_selected");
+        $('#'+super_parent).addClass("link-selected");
+        //end to add selected class for parent menu
+
+        var primary_parent = selected_obj.attr("primary_parent");
+        if(primary_parent !='' && typeof(primary_parent) !='undefined')
+        {
+            togglesubmenus(primary_parent);
+        }
+
+    }
+</script>
+<script language='javascript'>
+
+    function hide(){
+        alert('hide')
+    }
+    function show(){
+        alert('show');
+    }
+
+
+</script>
+
+
+
+
+<!--Archive goal page starts here-->
+
+<div class="main-wrapper-okrs">
+    <div class="goal-details-header-bg">
+
+
+        <div class="goal-details-btns">
+            <div class="gray-btn">cancel</div>
+            <div class="danger-btn" id="showPopup">archive</div>
+        </div>
+
+    </div>
+
+
+    <div class="goal-details-content-bg">
+        <div class="goal-details-headers">
+            <div class="goal-title">Name of the Goal</div>
+            <div class="goal-followers">10 followers</div>
+            <div class="goal-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/goal_icon.png"></div>
+        </div>
+
+        <div class="goal-details-inside-bg-1">
+            <div class="goal-description">description of the goal</div>
+            <div class="goal-assessment">Assessment: 2</div>
+        </div>
+        <div class="goal-linked">Linked to: name of the goal to which this goal is linked, clicking on this will take you that goal</div>
+
+        <div class="goal-details-inside-bg-2">
+            <div class="goal-details-text-left">Owner: Ninad Shah</div>
+            <div class="goal-details-text-right">
+                Last Updated: 24hrs</div>
+        </div>
+        <div class="goal-details-inside-bg-2">
+            <div class="goal-details-text-left">Progress: 10%</div>
+            <div class="goal-details-text-right">Due Date: 10/06/16</div>
+        </div>
+        <div class="goal-details-inside-bg-2">
+            <div class="goal-details-text-left">
+                Keywords: Process, Okrs, HR</div>
+            <div class="goal-details-text-right">Quarter:Q3</div>
+        </div>
+    </div>
+
+
+
+    <div class="milestones-title">Milestones</div>
+    <div class="milestone-details-content-bg">
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">code coverage Second line if coverage is long</div>
+            <div class="milestone-assesments">Assessment: 2</div>
+        </div>
+
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">Progress: 10%</div>
+            <div class="milestone-updated-archive">Last Updated:24 hrs</div>
+
+        </div>
+    </div>
+
+    <div class="milestone-details-content-bg">
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">code coverage Second line if coverage is long</div>
+            <div class="milestone-assesments">Assessment: 2</div>
+        </div>
+
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">Progress: 10%</div>
+            <div class="milestone-updated-archive">Last Updated:24 hrs</div>
+
+        </div>
+    </div>
+
+
+    <div class="milestone-details-content-bg">
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">code coverage Second line if coverage is long</div>
+            <div class="milestone-assesments">Assessment: 2</div>
+        </div>
+
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">Progress: 10%</div>
+            <div class="milestone-updated-archive">Last Updated:24 hrs</div>
+
+        </div>
+    </div>
+
+
+
+    <div class="add-goal-comment">
+        <input type="text" value="Add Goal Comment" onBlur="if(this.value=='')this.value='Add Goal Comment"
+               onFocus="if(this.value=='Add Goal Comment')this.value=''">
+    </div>
+
+
+    <div class="milestones-title">Updates</div>
+
+    <div class="updates-bg">
+
+        <div class="updates-section">
+            <div class="updates-filter">
+                <select class="form-control">
+                    <option>Goal Comments</option>
+                    <option>Only Audit</option>
+                    <option>Milestone(s)</option>
+                </select>
+            </div>
+            <div class="filter-icon"><img src="<?php echo MEDIA_PATH;?>images/okr/filter-icon.png"></div>
+        </div>
+
+        <div class="updates-details">
+            <div class="updates-profile">
+                <div class="updates-profile-pic"><img src="<?php echo MEDIA_PATH;?>images/okr/employee-deafult-pic1.png" alt=""></div>
+                <div class="employee-name">Ninad Shah</div>
+            </div>
+
+            <div class="updates-content">
+                <div class="first-line">Goal: An ambitious goals, really ambit</div>
+                <div class="first-line">Comment: This is going to be one tough journey, bring it on</div>
+                <div class="updates-days">5 days ago</div>
+            </div>
+        </div>
+
+
+
+        <div class="updates-details">
+            <div class="updates-profile">
+                <div class="updates-profile-pic"><img src="<?php echo MEDIA_PATH;?>images/okr/employee-deafult-pic1.png" alt=""></div>
+                <div class="employee-name">Ninad Shah</div>
+            </div>
+
+            <div class="updates-content">
+                <div class="first-line">Goal: An ambitious goals, really ambit</div>
+                <div class="first-line">Comment: This is going to be one tough journey, bring it on</div>
+                <div class="updates-days">5 days ago</div>
+            </div>
+        </div>
+
+
+
+        <div class="updates-details">
+            <div class="updates-profile">
+                <div class="updates-profile-pic"><img src="<?php echo MEDIA_PATH;?>images/okr/employee-deafult-pic1.png" alt=""></div>
+                <div class="employee-name">Ninad Shah</div>
+            </div>
+
+            <div class="updates-content">
+                <div class="first-line">Goal: An ambitious goals, really ambit</div>
+                <div class="first-line">Comment: This is going to be one tough journey, bring it on</div>
+                <div class="updates-days">5 days ago</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--Archive goal page ends here-->
+<!-- archive goal popup starts -->
+<div style="width:380px; height:300px;" id='archivegoalpopup'>
+    <div class="popup-bg">
+        <h1>Are you sure you want to Archive?</h1>
+        <a class="cls" href="#">×</a>
+        <p>This operation cant be undone</p>
+        <div class="gray-btn">cancel</div>
+        <div class="danger-btn popup-btns">archive</div>
+    </div>
+</div>
+<div id="overlay">
+
+</div>
+<!-- archive goal popup ends -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#archivegoalpopup').hide();
+        $('#showPopup').click(function(){
+            $('#archivegoalpopup').toggle();
+            $('#overlay').addClass('overlay');
+        });
+        $('#archivegoalpopup .gray-btn, .cls').click(function(){
+            $('#overlay').removeClass('overlay');
+            $('#archivegoalpopup').toggle();
+        });
+
+    });
+</script>

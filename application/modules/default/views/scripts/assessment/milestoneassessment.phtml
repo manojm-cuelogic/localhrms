@@ -1,0 +1,142 @@
+
+<!--goal details page starts here-->
+<?php 
+    if(!$this->isRightsAvailableForDoingAssessment)
+    { 
+?>
+
+<div id="errordiv">
+  <h2><div class="page-not-authorized"><div class="div-authorized"></div><p class="sry-text">You are not authorized to access this page.</p></div></h2>
+</div>
+
+<?php } else { ?>
+<div class="main-wrapper-okrs">
+
+<?php
+    echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+            'goal' => $this->goal,
+    )); 
+?>
+
+    <div class="milestone-details-content-bg">
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details"><?php echo $this->milestone['title'] ?></div>
+            <div class="milestone-assesments">Assessment: <?php echo $this->milestone['assessment_count'] ?></div>
+        </div>
+
+        <div class="goal-details-inside-bg-1">
+            <div class="milestone-details">Progress: <?php echo $this->milestone['progress']; 
+                echo ($this->milestone['unit'] == 'percentage') ? '%' : '';
+            ?></div>
+            <div class="milestone-updated-archive">Last Updated: <?php echo date( 'd-M-y' , strtotime($this->goal['updated_at'])) ?></div>
+
+        </div>
+    </div>
+
+    <form method="post" name="goalassessment_from" id="goalassessment_from">
+        <div class="score">
+          <span class="pull-left"> Score</span> <input type="range"  
+                  id="assessment_score"
+                  min="<?php echo $this->score_range['min_score'] ?>" max="<?php echo $this->score_range['max_score'] ?>"                 
+                    step="1"                  
+                    value="<?php echo $this->score_range['min_score'] ?>"                 
+                    data-orientation="vertical" style="width: 85%"
+                    name="score"autocomplete="off"
+                    > <span id="current_score" class="pull-right"> <?php echo $this->score_range['min_score'] ?> </span>
+           <input type="hidden" name="scheme_id" value="<?php echo $this->score_range['id'] ?>" >
+        </div>
+        
+       
+
+        <div class="add-goal-comment"><!--goal comment-->
+            <input type="text" placeholder="Add Comment" name="comment" id="comment">
+            
+        </div>
+        <span id="commentError" class="error"></span>
+        <div class="comment-btns">
+            <input type="button"  class="gray-btn" value="Cancel"/>
+            <input disabled="disabled" id="submit" type="submit" onclick="return validateSave()" class="active-btn disabled" value="Save"/>
+        </div>
+        
+    </form>
+
+</div>
+
+<div class="milestones-title">Previous Assessments</div>
+
+<div class="pre-assessments-bg"> <!--previous assessments-->
+
+    <?php
+        if($this->previous_assessments)
+        {
+            foreach($this->previous_assessments as $preAssessment)
+            {
+                ?>
+                <div class="updates-details">
+                    <div class="updates-profile">
+                        <div class="updates-profile-pic">
+                            <img src="<?php echo MEDIA_PATH;?>images/okr/employee-deafult-pic1.png" alt=""></div>
+                        <div class="employee-name"><?php echo $preAssessment['userfullname'] ?></div>
+                    </div>
+
+                    <div class="assessment-content">
+                        <div class="assessment-score">Score <?php echo $preAssessment['score'] ?>/<?php echo $preAssessment['max_score'] ?></div>
+                        <div class="assessment-time"><?php //echo $preAssessment['created_at'] ?> mins back</div>
+                    </div>
+                    <div class="assessment-content">
+                        <div class="assessment-comment-display">
+                            <?php echo $preAssessment['comment'] ?>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+    ?>
+    
+
+
+
+</div>
+
+<script>
+    $('#assessment_score').change(function(){
+        $('#current_score').text(this.value);
+    })
+    $('input, select, textarea').on('change', checkForm);
+    function checkForm()
+    {
+        var comment = document.getElementById('comment').value;
+        var assessment_score = document.getElementById('assessment_score').value;
+        if(assessment_score >= 1 && comment != '')
+        {
+           $("#submit").prop("disabled", false).removeClass('disabled');
+        }
+        else
+        {
+             $("#submit").prop("disabled", true).addClass('disabled');
+        }
+    }
+    
+    function validateSave()
+    {
+        if($('#assessment_score').val() >= 1)
+        {
+             var comment = document.getElementById('comment').value;
+            if(comment == '' || comment == null)
+            {
+                $('#commentError').html('Please Add Comment');
+                return false;
+            }
+             if(!confirm("Do you want to save this milestone assessement? Once added it can not be undone."))
+            {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+</script>
+<?php } ?>

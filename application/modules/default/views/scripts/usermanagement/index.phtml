@@ -1,0 +1,25 @@
+<div id="error_message" style="display:none;">
+</div>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+    <?php 
+            if(isset($_SESSION['usermanagement_msg']))
+            {
+    ?>
+                successmessage('<?php echo $_SESSION['usermanagement_msg']; ?>');                    
+    <?php 
+           unset($_SESSION['usermanagement_msg']);
+           }
+    ?>
+});
+
+</script>
+<?php 
+
+if($this->call == 'ajaxcall'){
+	$div = ''; $endDiv = ''; 
+} else { 
+	$div = '<div id="grid_'.$this->dataArray['objectname'].'" class="all-grid-control">'; $endDiv = '</div>';
+}
+	echo $div.'<div id="msg" style="display:none;font-style: oblique; font-weight: bold; color: green;""></div>'.$this->grid($this->dataArray).$endDiv;
+?>

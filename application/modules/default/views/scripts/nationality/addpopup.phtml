@@ -1,0 +1,51 @@
+<?php if($this->popup == 'close') { ?>	
+	<div class="ml-alert-1-success">
+	<div class="style-1-icon success"></div>
+	Nationality <?php echo $this->eventact; ?> successfully.
+	</div>
+
+	<?php } 
+else
+{
+sapp_Global::generateClientValidations($this->form);?>
+<div id="error_message" style="display:none;"></div>
+
+<form name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getId(); ?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod(); ?>">
+		<?php echo $this->form->id; ?>
+        <div class="total-form-controller">
+		    <div class="new-form-ui clearb">
+			  <label class="required">Nationality Code <img class="tooltip" title="Ex: USA" src="<?php echo $this->baseUrl().'/public/media/';?>images/help.png"></label>
+			<div class="division"><?php echo $this->form->nationalitycode; ?></div>
+			<?php if(isset($this->msgarray['nationalitycode'])){?>
+			   <span class="errors" id="errors-<?php echo $this->form->nationalitycode->getId(); ?>"><?php echo $this->msgarray['nationalitycode'];?></span>
+			<?php }?>
+			</div>
+							
+			<div class="new-form-ui clearb textareaheight">
+			  <label>Description</label>
+			<div class="division"><?php echo $this->form->description; ?></div>
+			</div>
+	
+		<div class="new-form-ui-submit">
+		<?php echo $this->form->submit; ?>
+		<button onclick="closeiframepopup('<?php echo $this->controllername;?>','cancel');" type="button" >Cancel</button>
+		</div>
+</div>        
+</form>
+<?php }?>
+<script language='javascript'>
+
+	<?php if($this->popup != '') { ?>
+				closeiframeAddPopup("<?php echo $this->nationalitycodeData ;?>",'<?php echo $this->controllername; ?>','nationalityid','Nationality'); 
+	<?php } ?>
+	</script>
+<script type='text/javascript'>
+	$(document).ready(function() { 
+		<?php if (count($this->messages)) {?>
+			  setTimeout(function(){
+					$('#popupmessage').fadeOut('slow');
+				},3000);
+
+		<?php } ?>
+	});
+</script>

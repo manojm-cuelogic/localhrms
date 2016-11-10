@@ -1,0 +1,177 @@
+
+<!--assessment goal starts here-->
+<div class="main-wrapper-okrs">
+<?php 
+    if($this->isRightsAvailableForDoingAssessment)
+    {
+?>
+    <!--Header section of the page starts here-->
+    <div class="okrs-header">
+        <h2 class="pull-left">Assessment Details</h2>
+        <div class="pull-right">
+            <?php 
+            if($this->isRightsAvailableForDoingAssessment)
+            {
+                ?>
+                 <div onclick="assess()" class="active-btn">Assess</div>
+                <?php
+            }
+            ?>
+           
+        </div>
+    </div>
+    <!--Header section of the page ends here-->
+    <div class="assessment-details-left">
+        
+        <div class="" id="goal_<?php echo $this->goal['id'] ?>" onclick="getAssessmentDetail('goal' , <?php echo $this->goal['id'] ?>, '<?php echo $this->goal['name'] ?>' )" >
+        <?php
+        echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+            'goal' => $this->goal,
+        ));
+        ?>
+        </div>
+
+        <?php
+        if ($this->milestones) 
+        {
+            foreach ($this->milestones as $milestone)
+            {
+                
+                ?>
+                <div id="milestone_<?php echo $milestone['id'] ?>" onclick="getAssessmentDetail('milestone' , <?php echo $milestone['id'] ?> , '<?php echo $milestone['title'] ?>' )" class="milestone-details-content-bg assessment-container">
+                <div class="goal-details-inside-bg-1">
+                    <div class="milestone-details"><?php echo $milestone['title'] ?></div>
+                    <div class="milestone-assesments">Assessment: <?php echo $milestone['assessment_count'] ?></div>
+                </div>
+                <p>Second line if  milestone is long</p>
+                <div class="goal-details-inside-bg-1">
+                    <div class="milestone-details">Progress: <?php echo $milestone['progress']; 
+                        echo ($milestone['unit'] == 'percentage') ? '%' : '';
+                    ?></div>
+                    <div class="milestone-updated-archive">Last Updated: <?php echo date( 'd-M-y' , strtotime($milestone['updated_at'])) ?></div>
+
+                </div>
+                </div>
+            <?php
+            }
+        }
+        ?>
+
+    </div>
+
+
+
+
+    <div class="asseessment-user-details assessment-details-right">
+        <h2 class="assmenttype-header" id="selectedAssessment"></h2>
+        
+        <div class="pre-assessments-bg" id="assessmentDetailsData">
+            <!--previous assessments-->
+            
+        </div>
+    </div>
+    <?php } else {?>
+
+    <div id="errordiv">
+  <h2><div class="page-not-authorized"><div class="div-authorized"></div><p class="sry-text">You are not authorized to access this page.</p></div></h2>
+</div>
+
+<?php } ?>
+</div>
+<!--assessment goal ends here-->
+<script type="text/javascript"> 
+    var MEDIA_PATH = '<?php echo MEDIA_PATH;?>';
+    var currentAssessmentType = '';
+    var currentAssessmentTypeId = '';
+    
+function assess()
+{
+    if(currentAssessmentType == 'goal')
+    {
+        var url = base_url+'/assessment/goalassessment/goal/' + currentAssessmentTypeId;
+    }
+    else if(currentAssessmentType == 'milestone')
+    {
+         var url = base_url+'/assessment/milestoneassessment/goal/<?php echo $this->goal['id'] ?>/milestone/' +currentAssessmentTypeId;
+    }
+    window.location = url;
+}
+
+function getAssessmentDetail(type , typeId , typeTitle)
+{
+    if($('#'+ type + "_" + typeId).hasClass('assActive'))
+    {
+        return false;
+    }
+    currentAssessmentType = type;
+    currentAssessmentTypeId = typeId;
+    $('.assActive').removeClass('assActive');
+    $('#'+ type + "_" + typeId).addClass('assActive');
+    $('#selectedAssessment').html(type + ' : ' +  typeTitle.substring(0,30) + '..');
+    
+     $.ajax({
+        type:"post",		
+        url:base_url+'/assessment/getassessmentdetaildata',
+        data : { type: type , id : typeId },
+        dataType:'json',
+        success: function(response)
+        {
+            if(response.status === 'success')
+            {
+                var assessment = '';
+                if(response.data.length > 0)
+                {
+                    
+                    for(var i = 0 ; i <= response.data.length ; i++)
+                    {
+                        assessment += createPreviousAssessmentView(response.data[i]);
+                    }
+                    
+                }
+                else
+                {
+                    assessment += '<div class="updates-details">';
+                    assessment += 'No Assessment Detail Found!!';
+                    assessment += '</div>';
+                }
+                $('#assessmentDetailsData').html(assessment);
+            }
+            
+        }
+    });
+        
+}
+
+function createPreviousAssessmentView(data)
+{
+    var assessment = '';
+    if(data)
+    {
+        assessment += '<div class="updates-details">';
+        assessment += '<div class="update-top-section">';
+        assessment += '<div class="updates-profile">';
+        assessment += '<img src="'+MEDIA_PATH+'images/employee-deafult-pic1.png" alt="">';
+        assessment += '<p class="employee-name">'+data.userfullname+'</p>';
+        assessment += '</div>';
+        assessment += '<div class="assessment-content">';
+        assessment += '<div class="assessment-score">Score '+data.score+'/'+data.max_score+'</div>';
+        assessment += '<div class="assessment-time">'+data.updated_at+'</div>';
+        assessment += '</div>';
+        assessment += '</div>';
+        assessment += '<div class="assessment-content comment-section">';
+        assessment += '<div class="assessment-comment-display">';
+        assessment +=  data.comment;
+        assessment += '</div>';
+        assessment += '</div>';
+        assessment += '</div>';
+    }
+    
+    return assessment;
+    
+    
+}
+$(document).ready(function(){
+    getAssessmentDetail('goal' , <?php echo $this->goal['id'] ?> , '<?php echo $this->goal['name'] ?>');
+});
+
+</script>

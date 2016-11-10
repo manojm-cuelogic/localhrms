@@ -1,0 +1,62 @@
+<form name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getId(); ?>"	action="<?php echo $this->form->getAction();?>"	method="<?php echo $this->form->getMethod(); ?>">
+<div class="background-check-div">
+<div class="separetor-heading"><span class="required">Employee Configuration</span></div>
+    <div class="emp-check-div-inputs">
+        <?php echo $this->form->checktype; ?>
+    </div>
+	<?php if(isset($this->msgarray['checktype'])){?>
+        <span class="errors" id="errors-<?php echo $this->form->checktype->getId(); ?>"><?php echo $this->msgarray['checktype'];?></span>
+    <?php }
+    ?>
+</div>
+<div class="emp-check-div-inputs mrgetop20">
+    <label><?php echo $this->form->checkall; ?>
+        <?php echo $this->form->checkall->getLabel(); ?>
+    </label>
+</div>
+
+<div class="new-form-ui-submit mrgetop20">
+	<?php echo $this->form->submit;?>
+	<button	onclick="window.location.href='<?php echo BASE_URL; ?>empconfiguration';" type="button" id="Cancel" name="Cancel">Cancel</button>
+</div>
+
+
+</form>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+
+	$("#checkall").change(function() { 
+	    if(this.checked) {
+	    	$("input[name='checktype[]']").each(function(idx, elem) {		    		
+		    		var elemid = $(elem).attr('id');		    		
+		    		document.getElementById(elemid).checked = true;	    		   
+	    		});
+	     }else{
+	    	$('.empconfigcheckbox').removeAttr('checked');
+		}
+	});
+
+	$(".empconfigcheckbox").change(function() { 
+	    if(!(this.checked)) {
+	    		    	
+	    	$('#checkall').removeAttr('checked');
+		}
+	    else
+	    {
+	    	var is_checked_flag = true;
+	    	$("input[name='checktype[]']").each(function(idx, elem) {
+
+	    		var is_checked = $(this).prop("checked");
+    		   	if(!is_checked) is_checked_flag = false;
+    		});
+	    
+    		if(!is_checked_flag) 
+        		$('#checkall').removeAttr('checked');
+    		else
+        		document.getElementById('checkall').checked = true;
+        		
+	    }
+	});	
+});   
+</script>

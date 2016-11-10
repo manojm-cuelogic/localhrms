@@ -1,0 +1,48 @@
+<?php 
+	if($this->ermsg !='')
+	{
+?>
+     <div class="ml-alert-1-info m1-info-set"><div class="style-1-icon info"></div>No data found.</div>
+<?php 
+}
+else
+{
+$baseUrl = $this->serverUrl().$this->baseUrl();
+echo $this->form->id; ?>
+        <div class="total-form-controller view-form-detail">
+		    <div class="new-form-ui clearb">
+			  <label>Country</label>
+			 <div class="division"><?php echo $this->form->countryid; ?></div>
+			</div>
+			<div class="new-form-ui clearb">
+			  <label>State</label>
+			 <div class="division"><?php echo $this->form->state; ?></div>
+			</div>
+			<div class="new-form-ui clearb">
+			  <label>City</label>
+			 <div class="division"><?php echo $this->form->city; ?></div>
+			</div>
+		<div class="new-form-ui-submit">									
+            <input onclick="window.location.href='<?php echo BASE_URL; ?>cities';" type="button"  value="Back"  />
+		</div>
+</div>		
+<script type='text/javascript'>
+ <?php if($this->cityValue!='') { ?>	
+			var Cityval = '<?php echo $this->cityValue; ?>';								
+			var cityData = document.getElementById('city');
+												
+			for(var i = 0 ; i <= cityData.length ; i++)
+			{
+				if(cityData.options[i] !== undefined)
+				{										
+					if (cityData.options[i].value == Cityval) 
+					{						
+                                            cityData.options[i].selected = true;											
+                                            break;
+					}
+				}
+			}
+			
+	<?php } ?>	
+</script>
+<?php } ?>

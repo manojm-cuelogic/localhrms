@@ -1,0 +1,46 @@
+ <?php $userdetails = $this->userdetails;
+ 	  $first_name = "";
+	  if (!empty($userdetails['firstname'])) {
+	 	  if(!empty($userdetails['prefix_name']))
+	 	  {
+	 	  	$first_name = $userdetails['prefix_name'].' '.$userdetails['firstname'];
+	 	  }else
+	 	  {
+	 	  	$first_name = $userdetails['firstname'];
+	 	  }
+ 	  }
+ ?>
+
+    
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" class="requisition-table view-table-data" style="margin-bottom: 20px;">
+		<tbody>
+			<tr class="req-bg-form">
+					<td width="20%"><span class="head_txt">Employee Id</span></td>
+					<td width="30%"><?php echo $userdetails['employeeId'];?></td>
+					<td width="20%"><span class="head_txt">Email</span></td>
+					<td width="30%"><?php echo $userdetails['emailaddress'];?></td>
+			</tr>
+			<tr class="req-no-form">
+					<td width="20%"><span class="head_txt">First Name</span></td>
+					<td width="30%"><?php echo $first_name;?></td>
+					<td width="20%"><span class="head_txt">Last Name</span></td>
+					<td width="30%"><?php echo (!empty($userdetails['lastname']) ? $userdetails['lastname'] : ""); ?></td>
+			</tr>
+			<tr class="req-bg-form">
+					<td width="20%"><span class="head_txt">Role</span></td>
+					<td width="30%"><?php echo $userdetails['emprole_name'];?></td>
+					<td width="20%"><span class="head_txt">Position</span></td>
+					<td width="30%"><?php echo (!empty($userdetails['position_name']) ? $userdetails['position_name'] : ""); ?></td>
+			</tr>
+			<tr class="req-no-form">
+					<td width="20%"><span class="head_txt">Jobtitle</span></td>
+					<td width="30%"><?php echo (!empty($userdetails['jobtitle_name']) ? $userdetails['jobtitle_name'] : ""); ?></td>
+					<td width="20%"><span class="head_txt">Date of Joining</span></td>
+					<td width="30%"><?php echo $userdetails['date_of_joining'];?></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+

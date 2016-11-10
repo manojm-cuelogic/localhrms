@@ -1,0 +1,30 @@
+<?php 
+$options_data = "";
+$options_data .= sapp_Global::selectOptionBuilder('', 'Select State');  
+if(!empty($this->statesmodeldata))
+{
+	if($this->con == 'state')
+	{
+		foreach ($this->statesmodeldata as $state) {
+			$options_data .= sapp_Global::selectOptionBuilder($state['state_id_org'].'!@#'.$state['state'], utf8_encode($state['state']));
+		}
+		$options_data .= "</optgroup>";
+		echo $options_data;
+	}
+	else
+	{
+		foreach ($this->statesmodeldata as $state) {
+			$options_data .= sapp_Global::selectOptionBuilder($state['id'].'!@#'.$state['state_name'], utf8_encode($state['state_name']));
+		}
+		if($this->con == 'otheroption')
+		{
+		 $options_data .= sapp_Global::selectOptionBuilder('other','Other');
+		}
+		echo $options_data;
+	}
+}
+else
+{
+ echo "nostates";
+}	
+?>

@@ -1,0 +1,42 @@
+	<div class="box">
+		<div class="request">
+			<div class="landing-page-holder">
+				<img class="hrms_landing_image" src="<?php echo MEDIA_PATH;?>images/cuelogic-logo_half.png" alt="HRMS" />
+				<label class="hrms_heading">CUELOGIC</label>
+				<label class="hrms_desc">Human Resource Management System</label>
+				<a class='login-hrm login' href='<?php echo $this->authUrl?>'>Log In to HRMS</a>
+				<?php if(isset($this->messages[0])) { ?>
+				<span class="login-error" ><?php echo (isset($this->messages[0]) ? $this->messages[0] : "");?></span>
+				<?php } ?>
+			</div>
+				<a href="javascript:void(0)" class="feature-option login" id="hrm_feature">Cuelogic HRM Feature</a>
+		</div>
+	</div>
+	</div>
+	</div>
+
+
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	<?php if (count($this->messages)) {?>
+		$('#loginpopdiv').show();
+		$("#hometab").removeClass("active");
+		$("#loginbutton").addClass("active");
+		setTimeout(function() {
+			$('.login-error').remove();
+		}, 3000);
+	<?php } ?>
+});
+
+$('#emailaddress').keydown(function(e) {
+	var code = e.keyCode || e.which;
+	if(code == 13) { //Enter keycode
+	   sendPassword();
+	}
+});
+
+</script>

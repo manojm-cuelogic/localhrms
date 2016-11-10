@@ -1,0 +1,258 @@
+
+<!--page - adding new goal - starts here -->
+<!--Header section of the page starts here-->
+
+<!--Header section of the page ends here-->
+<!-- Create goal form starts  -->
+<form name="search_goal_form" method="get" enctype="multipart/form-data" action="<?php echo BASE_URL ?>goal/searchresults/">
+    <div class="okrs-header">
+        <h2 class="pull-left">Search Goals</h2>
+        <div class="pull-right">
+            <input type="submit" class="active-btn" value="Search">
+        </div>
+    </div>
+<?php
+if(!isset($_COOKIE['search_result_zero'])) {
+} else {?>
+    
+    <div class="ml-alert-1-info">
+        <div class="style-1-icon info"></div>
+        <?php echo  $_COOKIE['search_result_zero']; ?>
+    </div>
+    <?php setcookie("search_result_zero", "", time() - 3600 , "/");
+}
+?>
+    <div class="okrs-content-bg okrs-search-goal">
+        <div class="create_goal_form ">
+            <div class="align_goal_divider">
+
+                <div class="align_goal_divider_1">
+                    <div class="create_goal_form">
+                        <div class="division">
+                            <div class="option-row">
+                                <input type="radio" name="search[user]" id="user_owner" checked value="owner">
+                                <label for="user_owner" class="options">Owner</label>
+                            </div>
+                            <div class="option-row">
+                                <input type="radio" name="search[user]" id="user_reporting_manager"  value="reporting_manager">
+                                <label for="user_reporting_manager" class="options">Reporting Manager</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="align_goal_divider_1">
+                    <div class="create_goal_form ">
+                        <div class="create_goal_form">
+                            <div class="division">
+                                <?php
+                                echo $this->partial('assessment/getselectedpeople.phtml', array(
+                                    'activeUsers' => $this->activeUsers,
+                                    'selectName' => 'search[selected_users][]',
+                                ));
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="horiz-form">
+        <div class="form-group form-inline">
+            <label class="inline custom-label">Linked To Goal</label>
+            <div class="division custom-select">
+
+                <?php
+                if ($this->activeUsers) 
+                {
+                    ?>
+                    <select id="align_goal_owner"  class="not_appli my-select" name="search[align_user]">
+                        <option value="" >Select User</option>
+                        <?php
+                            foreach ($this->activeUsers as $activeUser) 
+                            {
+                                $profileImgSrc = MEDIA_PATH . 'images/default-profile-pic.jpg';
+                                if (!empty($activeUser['image']) && file_exists("public/uploads/profile/" . $activeUser['image'])) {
+                                    $profileImgSrc = DOMAIN . "public/uploads/profile/" . $activeUser['image'];
+                                }
+                                ?>
+                                <option value="<?php echo $activeUser['id']; ?>"  data-img-src="<?php echo $profileImgSrc; ?>">
+                                    <?php echo $activeUser['name']; ?>
+                                </option>
+                                    <?php
+                            }
+                                ?>
+                    </select>
+                    <?php
+                }
+                ?>
+
+              
+            </div>
+        </div>
+        <div class="create_goal_form form-group form-inline">
+            <label class="required">Linked Goal Name</label>
+            <div class="division">
+                <select name='search[align_goal_id]' id= "align_goal_id">
+                        <option value=''>Please select goal</option>
+                       
+                </select>
+            </div>
+        </div>
+        </div>
+        <div class="form-group form-block">
+            <label class="inline custom-label">Goal Name</label>
+            <div class="division">
+
+                <input type="text" maxlength="500" name="search[name]" placeholder="Search by goal name">
+
+              
+            </div>
+        </div>
+        
+        <div class="create_goal_form">
+            <label class="inline">Assessment Cycle</label>
+            <div class="division">
+                <select  id="align_period_id" name='search[assessment_cycle_id]'>
+                        <option value=''>Select Period</option>
+                        <?php foreach($this->cycles as $cycle) {
+                            echo '<option value="' . $cycle['id'] . '">' . $cycle['displayName'] . '</option>';
+                        } ?>
+                    </select>
+            </div>
+        </div>
+        <div class="align_goal_divider">
+            <!-- Period, Date section -->
+            <div class="create_goal_startdate">
+                <div class="create_goal_form ">
+                    <label>From</label>
+                    <!-- add date plugin from leave request page here -->
+                    <div class="division">
+                        <input type="text2" id="startDate" value=""    name='search[start_date]' />
+                    </div>
+                </div>
+            </div>
+            <div class="create_goal_enddate">
+                <div class="create_goal_form ">
+                    <label>To</label>
+                    <!-- add date plugin from leave request page here -->
+                    <div class="division">
+                        <input type="text2" id="endDate" value=""  name='search[end_date]' />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="create_goal_form">
+            <label class="inline">Goal Status</label>
+            <div class="division">
+                <select  name='search[status]'>
+                        <option value=''>Select Goal Status</option>
+                        <option value="planned">Planned</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="archived">Archived</option>
+                </select>
+                
+            </div>
+        </div>
+        <!-- Create goal form ends  -->
+
+
+        <div class="create_goal_form">
+            <label class="inline">Assessment</label>
+            <div class="division">
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="" checked="checked" ><label class="options">All(Selected)</label>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="assessment_self" id="assessment_self"><label for="assessment_self" class="options">Self Assessment done</label>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="assessment_manager" id="assessment_manager" ><label for="assessment_manager" class="options">Manager Assessment done</label>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="assessment_any" id="assessment_any"><label for="assessment_any" class="options">Any Assessment done</label>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="assessment_no" id="assessment_no"><label for="assessment_no" class="options">No Assessment done</label>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="assessment_no_manager" id="assessment_no_manager" ><label for="assessment_no_manager" class="options">No Manager Assessment done</label>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="search[assessment]" value="assessment_no_self" id="assessment_no_self" ><label for="assessment_no_self" class="options">No Self Manager Assessment done</label>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</form>
+<!--page - adding new goal - ends here -->
+
+<script type="text/javascript">
+        $(document).on('ready', function(){
+        $('#align_goal_owner').on('change', function() {
+            owner_id = $('#align_goal_owner').val()
+            $.blockUI({ width:'50px',message: $("#spinner").html() });
+            $.post(base_url+"/goal/getallgoals",{owner_id:owner_id},function(data){
+                
+                data = JSON.parse(data);console.log(data);
+                $.unblockUI();
+                var html = '<option value="">Please Select Goal</option>';
+                $.each(data['result'], function(i, v) {
+                    html += "<option value='" + v.id + "'>" + v.name + "</option>";
+                })
+                $('#align_goal_id').html(html);
+                $("select:not(.not_appli)").select2({escapeMarkup: function(m) { return m; }});
+            });
+        });
+        
+        var yearrange = '<?php echo date(Y); ?>:<?php echo date(Y); ?>';
+        $('#startDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true ,
+                         onClose:function(){
+                                        // var minDate = new Date($('#date_of_joining').val());
+                                        // $('#date_of_joining').trigger('blur');
+                                        // $( "#date_of_leaving" ).val("");
+                                        // $( "#date_of_leaving" ).datepicker( "option", "minDate", minDate );
+                                    }
+            });
+        var yearrange = '<?php echo date(Y); ?>:<?php echo date(Y); ?>';
+        $('#endDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true ,
+                         onClose:function(){
+                                        // var minDate = new Date($('#date_of_joining').val());
+                                        // $('#date_of_joining').trigger('blur');
+                                        // $( "#date_of_leaving" ).val("");
+                                        // $( "#date_of_leaving" ).datepicker( "option", "minDate", minDate );
+                                    }
+            });
+            var cycles = <?php echo json_encode($this->cycles); ?>;
+            $('#align_period_id').on('change', function() {
+                var id = $('#align_period_id').val();
+                $.each(cycles, function(i,v){
+                    if(v.id == id) {
+                        $('#startDate').datepicker('setDate', new Date(v.startDate));
+                        $('#endDate').datepicker('setDate', new Date(v.endDate));
+                    }
+                })
+            });
+        });
+
+    </script>

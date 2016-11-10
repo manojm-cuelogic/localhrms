@@ -1,0 +1,22 @@
+
+<?php 
+$options_data = "";	
+$options_data .= sapp_Global::selectOptionBuilder('', 'Select A Reporting Manager');
+if($this->flag != 'true')
+{
+    if(count($this->RMdata) >0)
+    {
+        foreach ($this->RMdata as $data) 
+        {                
+            $options_data .= sapp_Global::selectOptionBuilder($data['id'],ucwords(utf8_encode($data['name'])),$data['profileimg']);
+        }
+    }        
+    echo $options_data;
+}
+else
+{
+    echo "nomanagers";
+}
+
+?> 
+ 

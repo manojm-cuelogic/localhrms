@@ -1,0 +1,32 @@
+ <?php
+if ($this->activeUsers) {
+    if(!$this->selectName)
+    {
+        $this->selectName = 'peoples[]';
+    }
+    ?>
+    <select  multiple="multiple" class="my-select not_appli" name="<?php echo $this->selectName; ?>">
+<?php
+    foreach ($this->activeUsers as $activeUser) {
+        $profileImgSrc = MEDIA_PATH . 'images/default-profile-pic.jpg';
+        if (!empty($activeUser['image']) && file_exists("public/uploads/profile/" . $activeUser['image'])) {
+            $profileImgSrc = DOMAIN . "public/uploads/profile/" . $activeUser['image'];
+        }
+        ?>
+    <option value="<?php echo $activeUser['id']; ?>" 
+            <?php 
+            if( in_array($activeUser['id'], $this->selectedUsers) )
+            {
+                echo 'selected';
+            }
+            ?>
+            data-img-src="<?php echo $profileImgSrc; ?>"><?php echo $activeUser['name']; ?></option>
+            <?php
+        }
+    
+    ?>
+</select>
+ <?php
+        }
+    
+    ?>

@@ -1,0 +1,89 @@
+<?php
+
+class Default_Form_ethniccode extends Zend_Form
+{
+	public function init()
+	{
+		$this->setMethod('post');
+		
+		$this->setAttrib('action', BASE_URL.'ethniccode/edit');
+		$this->setAttrib('id', 'formid');
+		$this->setAttrib('name', 'ethniccode');
+
+
+        $id = new Zend_Form_Element_Hidden('id');
+		
+		$ethniccode = new Zend_Form_Element_Text('ethniccode');
+        $ethniccode->setAttrib('maxLength', 20);
+        
+        
+        $ethniccode->setRequired(true);
+        $ethniccode->addValidator('NotEmpty', false, array('messages' => 'Please enter ethnic code.'));  
+        $ethniccode->addValidators(array(
+						 array(
+							 'validator'   => 'Regex',
+							 'breakChainOnFailure' => true,
+							 'options'     => array( 
+							 'pattern' =>'/^[a-zA-Z][a-zA-Z0-9\-\s]*$/i',
+								 'messages' => array(
+										 'regexNotMatch'=>'Please enter valid ethnic code.'
+								 )
+							 )
+						 )
+					 )); 
+		$ethniccode->addValidator(new Zend_Validate_Db_NoRecordExists(
+                                              array('table'=>'main_ethniccode',
+                                                        'field'=>'ethniccode',
+                                                      'exclude'=>'id!="'.Zend_Controller_Front::getInstance()->getRequest()->getParam('id').'" and isactive=1',    
+                                                 ) )  
+                                    );
+        $ethniccode->getValidator('Db_NoRecordExists')->setMessage('Ethnic code already exists.'); 	
+		
+		$ethnicname = new Zend_Form_Element_Text('ethnicname');
+        $ethnicname->setAttrib('maxLength', 20);
+        
+        
+        $ethnicname->setRequired(true);
+        $ethnicname->addValidator('NotEmpty', false, array('messages' => 'Please enter ethnicity.'));  
+        $ethnicname->addValidators(array(
+						 array(
+							 'validator'   => 'Regex',
+							 'breakChainOnFailure' => true,
+							 'options'     => array( 
+							 'pattern' =>'/^[a-zA-Z][a-zA-Z\s]*$/i',
+								 'messages' => array(
+										 'regexNotMatch'=>'Please enter valid ethnicity.'
+								 )
+							 )
+						 )
+					 )); 
+		$ethnicname->addValidator(new Zend_Validate_Db_NoRecordExists(
+                                              array('table'=>'main_ethniccode',
+                                                        'field'=>'ethnicname',
+                                                      'exclude'=>'id!="'.Zend_Controller_Front::getInstance()->getRequest()->getParam('id').'" and isactive=1',    
+                                                 ) )  
+                                    );
+        $ethnicname->getValidator('Db_NoRecordExists')->setMessage('Ethnicity already exists.'); 	
+		
+		$description = new Zend_Form_Element_Textarea('description');
+        $description->setAttrib('rows', 10);
+        $description->setAttrib('cols', 50);
+		$description ->setAttrib('maxlength', '200');
+		
+
+        $submit = new Zend_Form_Element_Submit('submit');
+		
+		 $submit->setAttrib('id', 'submitbutton');
+		 $submit->setLabel('Save');
+
+		$url = "'ethniccode/saveupdate/format/json'";
+		$dialogMsg = "''";
+		$toggleDivId = "''";
+		$jsFunction = "'redirecttocontroller(\'ethniccode\');'";;
+		 
+
+
+		 $this->addElements(array($id,$ethniccode,$ethnicname,$description,$submit));
+         $this->setElementDecorators(array('ViewHelper')); 
+	}
+}

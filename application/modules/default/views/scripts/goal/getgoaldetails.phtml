@@ -1,0 +1,19 @@
+<div class="main-wrapper-okrs">
+    
+
+    <?php
+        echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+            'goal' => $this->goal,
+            'goalProgress' => $this->goalProgress
+        ));
+    ?>
+     <div class="milestones-title">Milestones</div><!--milestone details-->
+    <?php if(isset($this->milestones) && is_array($this->milestones) && count($this->milestones) > 0) {
+            echo $this->partialLoop('goal/partialMilestoneDetails.phtml', $this->milestones);
+        } else { ?>
+        	<div class="ml-alert-1-info">
+                <div class="style-1-icon info"></div>
+                No milestone added!
+            </div>
+        <?php } ?>
+</div>

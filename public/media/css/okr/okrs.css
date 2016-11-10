@@ -1,0 +1,1842 @@
+@charset "utf-8";
+
+/*common classes used in html*/
+
+.okrs-content-bg {
+    padding: 2%;
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    margin: 0px 0 20px 6px;
+    border-radius: 5px;
+    height: auto;
+}
+
+.okrs-content-bg-addassement-cycle {
+    padding: 2%;
+    border: 1px solid #cfcfcf;
+    background-color: #ffffff;
+    margin: 0px 0 20px 6px;
+    border-radius: 5px;
+    height: auto;
+    overflow: auto;
+}
+
+
+.okrs-content-bg:page-break-after: {
+    content: "";
+    clear: both;
+}
+
+.active-btn {
+    display: inline-block;
+    padding: .200rem 0.5rem;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: .15rem;
+    color: #fff;
+    background-color: #0072bc;
+    border-color: #0275d8;
+    text-transform: uppercase;
+    font-family: 'PTSansRegular', sans-serif;
+}
+
+
+.active-btn a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.gray-btn {
+    display: inline-block;
+    padding: .200rem 0.5rem;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    color: #fff;
+    background-color: #808080;
+    border-color: #8c8c8c;
+    text-transform: uppercase;
+    font-family: 'PTSansRegular', sans-serif;
+}
+
+.gray-btn.red-btn {
+    background-color: #008542;
+}
+
+
+.danger-btn {
+    display: inline-block;
+    padding: .200rem 0.5rem;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    color: #fff;
+    background-color: #cc0000;
+    border-color: #b30000;
+    text-transform: uppercase;
+    font-family: 'PTSansRegular', sans-serif;
+}
+
+.okrs-title-main {
+    text-align: left;
+    text-transform: uppercase;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #3B3B3B;
+    font-weight: bold;
+    padding-left: 12px;
+    margin-top: 10px;
+}
+
+.disabled {
+    opacity: .5;
+    cursor: crosshair;
+}
+
+
+/*Dashboard Css starts here*/
+
+.dashboard-tab {
+    width: 100%;
+    height: auto;
+}
+
+#main_tab_container {
+    width: 160px;
+    height: 125px;
+    background-image: linear-gradient(-90deg, rgb(229, 243, 249) 0%, rgb(209, 244, 255) 100%);
+    border-color: rgb(178, 220, 235);
+    border-width: 1px;
+    float: left;
+    margin-left: 5px;
+    border-radius: 6px;
+    border-style: solid;
+    margin-top: 6px;
+}
+
+.tab_icon {
+    width: 40px;
+    height: 30px;
+    margin: 15px 0 0 0;
+    background-color: gray;
+}
+
+.tab_heading {
+    padding: 10px;
+}
+
+.tab_heading {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #3b3b3b;
+    font-family: 'PTSansCaptionBold', sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.tab_entry {
+    padding: 0 0 10px 0;
+    font-weight: normal;
+    text-transform: capitalize;
+    font-size: 12px;
+    color: #3b3b3b;
+    font-family: 'PTSansCaptionBold', sans-serif;
+}
+
+.container_update {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+.name {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #3b3b3b;
+    font-family: 'PTSansCaptionBold', sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    width: 130px;
+}
+
+.update_goal {
+    padding: 10px;
+    background-color: #ffffff;
+    margin: 40px 0 0px 6px;
+    overflow: hidden;
+}
+
+.update_heading {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #208BBD;
+    font-family: 'PTSansCaptionBold', sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    width: 46.5%;
+    text-align: left;
+    margin-left: 0px;
+    float: left;
+}
+
+.filter {
+    float: right;
+}
+
+
+/*Dashboard CSS ends here*/
+
+
+/* Adding new goal - page css starts here */
+
+.create_goal_header {
+    width: 100%;
+    height: 50px;
+}
+
+.create_goal_title {
+    width: 14%;
+    height: 20px;
+    float: left;
+    border-color: rgb(178, 220, 235);
+    border-width: 1px;
+    border-style: solid;
+    color: #3b3b3b;
+    padding: 15px 15px;
+    text-align: center;
+    display: inline-block;
+    background-image: linear-gradient(-90deg, rgb(229, 243, 249) 0%, rgb(209, 244, 255) 100%);
+    font-family: 'PTSansCaptionBold', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0px;
+}
+
+.owner_text {
+    width: 5%;
+    height: 20px;
+    float: left;
+    color: #3b3b3b;
+    font-family: 'PTSansCaptionBold', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding-top: 18px;
+    margin-left: 28px;
+}
+
+.owner_image {
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    float: left;
+    border: 1px solid #c6c6c6;
+    margin-top: 5px;
+    margin-left: 3px;
+}
+
+.create_goal_owner {
+    width: 22%;
+    height: 20px;
+    padding-top: 12px;
+    float: left;
+}
+
+.divider_right {
+    width: 4%;
+    height: 50px;
+    border-right: 1px dotted #c6c6c6;
+    float: left;
+}
+
+.create_goal_form {
+    padding: 0px;
+    color: #3b3b3b;
+    margin: 0 15px 0px 0px;
+    height: 80px;
+    position: relative;
+}
+
+.create_goal_form label,
+.grpnamecls label {
+    font-family: 'PTSansRegular', sans-serif;
+    color: #3b3b3b;
+    font-size: 13px;
+    font-weight: normal;
+    height: auto;
+    padding: 0;
+    margin: 0px 0 2px 0;
+    text-align: left;
+    float: left;
+    clear: both;
+    min-height: 20px;
+}
+
+.create_goal_form label input[type="radio"] {
+    float: left;
+}
+
+.create_goal_form label .tooltip {
+    top: 2px;
+    position: relative;
+}
+
+.create_goal_form label.required:after,
+.imp-text {
+    color: red;
+    content: " *";
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.create_goal_form .division {
+    float: left;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    position: relative;
+}
+
+.create_goal_form .division .add-coloum {
+    float: left;
+    width: 100%;
+    clear: both;
+    font-family: 'PTSansRegular', sans-serif;
+    color: #208BBD;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.create_goal_form input[type="text"],
+.new-form-ui input[type="password"],
+.grpnamecls input[type="text"] {
+    border: 1px solid #c6c6c6;
+    width: 100%;
+    float: left;
+    background-color: #ffffff;
+    height: 27px;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 13px;
+    color: #828282;
+    padding: 0 8px;
+    -webkit-box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.10);
+    text-align: left;
+    outline: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.create_goal_form input[type="text2"] {
+    border: 1px solid #c6c6c6;
+    width: 184px;
+    float: left;
+    background-color: #ffffff;
+    height: 27px;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 13px;
+    color: #828282;
+    padding: 0 8px;
+    -webkit-box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.10);
+    box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.10);
+    text-align: left;
+    outline: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.align_goal_divider {
+    width: 100%;
+    height: 80px;
+}
+
+.align_goal_divider .new-form-ui label {
+    width: auto;
+}
+
+.align_goal_divider .new-form-ui .division {
+    margin-top: 0;
+}
+
+.align_goal_divider_1 {
+    width: 25%;
+    float: left;
+}
+
+.create_goal_period {
+    width: 20%;
+    height: 50px;
+    float: left;
+    margin-right: 55px;
+}
+
+.create_goal_startdate {
+    width: 25%;
+    float: left;
+}
+
+.create_goal_startdate:after {
+    content: "";
+    clear: both;
+}
+
+.create_goal_enddate {
+    width: 25%;
+    height: 50px;
+    float: left;
+    margin-left: 10px;
+}
+
+.create_goal_enddate:aftre {
+    content: "";
+    clear: both;
+}
+
+.extra-titles {
+    text-align: left;
+    margin: 0px 0px 5px 0px;
+    font-family: 'PTSansRegular', sans-serif;
+    color: #3b3b3b;
+    font-size: 13px;
+}
+
+.new-form-ui .division img.ui-datepicker-trigger,
+.date-input img.ui-datepicker-trigger {
+    position: absolute;
+    left: auto;
+    right: 16px;
+    top: 0;
+}
+
+
+/* Adding new goal - page css ends here */
+
+
+/* 2.2 goal details - page starts here */
+
+.main-wrapper-okrs {
+    width: 100%;
+    overflow: hidden;
+}
+
+.goal-details-header-bg {
+    overflow: hidden;
+    width: 97%;
+}
+
+.goal-details-btns {
+    float: right;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.goal-details-collapse {
+    width: 40px;
+    height: 30px;
+    float: right;
+    margin-left: 10px;
+    padding: 8px 0 0 0;
+    cursor: pointer;
+}
+
+.goal-details-content-bg {
+    padding: 10px;
+    border-color: rgb(178, 220, 235);
+    border-width: 1px;
+    border-style: solid;
+    background-image: linear-gradient(-90deg, rgb(229, 243, 249) 0%, rgb(209, 244, 255) 100%);
+    border-radius: 5px;
+    margin-top: 15px;
+    float: left;
+}
+
+.milestone-details-content-bg {
+    padding: 10px;
+    border: 1px solid #b3b3b3;
+    background-color: #d9d9d9;
+    margin: 10px 0px 0px 0px;
+    border-radius: 5px;
+    width: 96%;
+    float: left;
+}
+
+.add-goal-comment {
+    padding: 10px;
+    border: 1px solid #b3b3b3;
+    margin: 20px 0px 0px 0px;
+    width: 97%;
+    float: left;
+}
+
+.add-goal-comment input {
+    width: 100%;
+    height: 30px;
+    color: #737373;
+    border: none;
+    padding: 5px;
+    font-size: 15px
+}
+
+.goal-details-headers {
+    float: left;
+    width: 97%;
+    height: auto;
+    padding: 7px;
+    background-color: #aedbea;
+    border: 1px solid #71c2da;
+    margin-bottom: 10px;
+    padding-right: 5px;
+}
+
+.menu-toggle {
+    position: relative;
+}
+
+/*.goal-details-inside-bg-1 {
+    padding: 5px 0px 10px 0px;
+}*/
+
+.goal-details-inside-bg-2 {
+    padding-bottom: 5px;
+    float: left;
+    width: 100%;
+}
+
+.goal-title {
+    width: 75%;
+    float: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 20px;
+    color: #1a5365;
+    text-align: left;
+    border-right: 1px solid #71c2da;
+}
+
+.goal-title a {
+    color: #1a5365;
+    text-transform: capitalize;
+    text-decoration: underline;
+}
+
+.goal-icon {
+    width: 30px;
+    height: 25px;
+    float: right;
+    margin-top: 7px;
+}
+
+.goal-followers {
+    height: 25px;
+    float: right;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15 color: #1a5365;
+    text-align: left;
+    padding: 5px;
+}
+
+.goal-description {
+    font-size: 15px;
+    color: #737373;
+    text-align: left;
+    padding: 5px;
+}
+
+.goal-assessment {
+    height: 25px;
+    float: right;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #737373;
+    text-align: left;
+    padding: 5px;
+}
+
+.goal-linked {
+    padding: 5px;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #737373;
+    text-align: left;
+    border-bottom: 1px dashed #71c2da;
+    float: left;
+    width: 98%;
+}
+
+.goal-linked a {
+    color: #737373;
+}
+
+.goal-details-text-left {
+    height: 15px;
+    float: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #737373;
+    text-align: left;
+    padding: 5px;
+}
+
+.goal-details-text-right {
+    height: 15px;
+    float: right;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #737373;
+    text-align: left;
+    padding: 5px;
+}
+
+.milestone-details {
+    width: 500px;
+    text-align: left;
+    height: 25px;
+    float: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #262626;
+    padding: 5px 0;
+}
+
+.milestones-title {
+    text-align: left;
+    text-transform: uppercase;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #3B3B3B;
+    font-weight: bold;
+    padding-left: 12px;
+    margin-top: 40px;
+    float: left;
+    width: 100%;
+    margin: 40px 0 10px 0;
+}
+
+.milestone-edit-btn {
+    height: 20px;
+    float: right;
+    padding: 5px;
+}
+
+.milestone-icon {
+    width: 30px;
+    height: 20px;
+    float: right;
+    margin: 16px 12px 0px 0px;
+}
+
+.milestone-assesments {
+    height: 20px;
+    float: right;
+    text-align: right;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #262626
+}
+
+.milestone-percentage {
+    width: 100px;
+    height: 20px;
+    float: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #262626;
+    text-align: left;
+    vertical-align: middle;
+    padding: 7px 0px 7px 10px;
+    background-color: #ffffff;
+    border: 1px solid #b3b3b3;
+}
+
+.milestone-percentage-target {
+    height: 25px;
+    float: right;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #262626;
+    text-align: right;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.milestone-comments {
+    width: 70px;
+    height: 20px;
+    float: left;
+    padding: 5px;
+    text-align: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+}
+
+.milestone-comments-icon {
+    width: 20px;
+    height: 20px;
+    float: left;
+    padding: 5px;
+}
+
+.milestone-updated {
+    width: 200px;
+    height: 20px;
+    float: left;
+    padding: 5px;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+}
+
+.milestone-updated-archive {
+    height: 20px;
+    float: right;
+    padding: 5px;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+}
+
+.milestone-btns {
+    height: 20px;
+    float: right;
+    padding-bottom: 5px;
+}
+
+.updates-bg {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    background-color: #e6e6e6;
+    margin-top: 8px;
+    float: left;
+    width: 97%;
+}
+
+.updates-section {
+    width: 100%;
+    margin-bottom: 5px;
+    float: left;
+}
+
+.filter-icon {
+    width: 20px;
+    height: 30px;
+    float: right;
+    padding: 5px;
+}
+
+.updates-filter {
+    float: right;
+}
+
+.updates-details {
+    background-color: #fff;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #b3b3b3;
+}
+
+.updates-profile {
+    float: left;
+    margin-left: 2px;
+    padding-bottom: 5px;
+    /*border-bottom: 1px solid #ccc;*/
+    margin-bottom: 5px;
+}
+
+.updates-profile-pic {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-left: 20px;
+}
+
+.updates-profile-pic img {
+    height: 40px;
+    width: 40px;
+}
+
+.updates-profile:last-child {
+    border: none;
+}
+
+.employee-name {
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    width: auto;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #262626;
+    float: left;
+    padding-top: 5px;
+}
+
+.first-line {
+    text-align: left;
+    border-bottom: 1px dashed #b3b3b3;
+    padding: 10px;
+}
+
+.updates-days {
+    color: #808080;
+    height: 20px;
+    text-align: right;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+
+/* 2.2 goal details - page ends here */
+
+
+/* archive goal popup starts here */
+
+.popup-bg {
+    height: auto;
+    padding: 20px;
+    border: 2px solid #FFF;
+    background-color: #E6E6E6;
+    width: 38%;
+    border-radius: 5px;
+    position: absolute;
+    box-shadow: 3px 1px 15px #000;
+    margin: 0px auto;
+    top: 0%;
+    right: 0px;
+    left: 0%;
+    z-index: 2000;
+}
+
+.popup-transparent-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*dim the background*/
+}
+
+.popup-bg h1 {
+    text-align: center;
+    font-size: 20px;
+    color: #262626;
+    margin: 10px 0px 15px 0px;
+    font-family: 'PTSansRegular', sans-serif;
+}
+
+.popup-bg p {
+    text-align: center;
+    font-size: 15px;
+    color: #8c8c8c;
+    margin: 5px 0px 35px 0px;
+    font-family: 'PTSansRegular', sans-serif;
+}
+
+.popup-bg .cls {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+}
+
+.popup-bg .cls:hover {
+    color: #0072bc;
+}
+
+.popup-btns {
+    margin-left: 8px;
+}
+
+
+/* archive goal popup ends here */
+
+
+/*Assessment Goal starts here*/
+
+.comment-btns {
+    float: right;
+    height: auto;
+    margin-top: 10px;
+    padding-right: 10px;
+}
+
+.score {
+    height: 20px;
+    background-color: #0f9bc3;
+    margin-top: 30px;
+    padding: 7px 20px;
+    float: left;
+    width: 94%;
+}
+
+.score span {
+    font-size: 18px;
+    line-height: 1;
+    color: #fff;
+}
+
+.pre-assessments-bg {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    margin: 10px 0px 0px 0px;
+    max-height: 445px;
+    overflow: auto;
+}
+
+.assessment-content {
+    width: 100%;
+    float: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #262626;
+    float: left;
+    clear: both
+}
+
+.assessment-score {
+    float: left;
+    text-align: left;
+    color: #737373;
+}
+
+.assessment-time {
+    float: right;
+    text-align: right;
+    color: #737373;
+    margin-right: 10px;
+}
+
+.assessment-comment-display {
+    width: 110%;
+    height: 100px;
+    background-color: #f2f2f2;
+    float: left;
+    border: 1px solid #cccccc;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #737373;
+    text-align: left;
+}
+
+
+/*Assessment Goal ends here*/
+
+
+/*move milestone to another goal starts here*/
+
+.move-to-section {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid #8c8c8c;
+    margin-top: 20px;
+}
+
+.move-to-section-header {
+    height: 50px;
+    margin-top: 10px;
+}
+
+.move-title {
+    float: left;
+    width: 150px;
+    height: auto;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #000;
+    padding-top: 18px;
+}
+
+.move-to-section-goal-name {
+    float: left;
+    height: auto;
+    margin-left: 40px;
+}
+
+.move-to-section-goal-2 {
+    margin-top: 20px;
+}
+
+.move-to-section-btns {
+    height: auto;
+    margin-top: 10px;
+}
+
+
+/*move milestone to another goal ends here*/
+
+
+/*css edits by ravi*/
+
+
+/*assesment css begins here*/
+
+p,
+span,
+h2,
+label {
+    font-family: 'PTSansRegular', sans-serif;
+    color: #3b3b3b;
+}
+
+.assessment-header .okrs-title-main {
+    font-size: 16px;
+}
+
+.assessment-header .owner_image {
+    margin-left: 11px;
+}
+
+.assessment_title {
+    float: left;
+    margin-top: 18px;
+    margin-right: 10px;
+    text-transform: none;
+}
+
+.assessment_owner {
+    margin-top: 8px;
+    float: left;
+}
+
+.assessment_owner p {
+    padding-left: 6px;
+    text-transform: none;
+}
+
+.okrs-main-container {
+    padding: 2%;
+    background-color: #ffffff;
+    margin: 0px 0 20px 6px;
+    position: relative;
+    height: auto;
+}
+
+.add-persons {
+    text-align: center;
+    width: 500px;
+    margin: 0 auto;
+    clear: both;
+}
+
+.add-persons .owner_image {
+    margin-right: 10px;
+}
+
+.add-persons span {
+    display: inline-block;
+    float: left;
+    margin-top: 19px;
+    margin-right: 20px;
+    font-weight: 600;
+}
+
+.okrs-row {
+    float: left;
+    width: 100%;
+    clear: both;
+    margin-top: 25px;
+}
+
+.assessment-left {
+    float: left;
+    width: 50%;
+    text-align: left;
+}
+
+.assessment-goal {
+    float: left;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.assessment-selection {
+    float: left;
+    border: 1px solid #cfcfcf;
+    min-height: 400px;
+    max-height: 450px;
+    overflow: auto;
+    width: 100%;
+    padding: 15px;
+    text-align: left;
+}
+
+.assessment-selection .okrs-title-main {
+    margin-top: 6px;
+}
+
+.checkbox {
+    display: table;
+}
+
+.checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    display: table-cell;
+    cursor: pointer;
+}
+
+.checkbox label {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 5px;
+}
+
+.goals-list {
+    width: 440px;
+    padding: 2px;
+    border: 1px solid #cfcfcf;
+    padding: 5px;
+    display: table-cell;
+}
+
+.assessment-goal-seletion {
+    display: table;
+    margin-top: 30px;
+}
+
+.assessment-goal-seletion .checkbox {
+    display: table-cell;
+    vertical-align: middle;
+    width: 36px;
+}
+
+.selection-row {
+    margin-bottom: 20px;
+    display: table;
+}
+
+.selection-row:hover .goals-list {
+    background: rgb(209, 244, 255);
+}
+
+.assessment-right {
+    width: 32%;
+    float: left;
+    margin-left: 60px;
+}
+
+.assessment-selection .owner_image,
+.assessment-selection .owner_image img {
+    height: 35px;
+    width: 35px;
+}
+
+.wrapperdivright {
+    padding-bottom: 20px;
+}
+
+.remove-people {
+    float: left;
+    width: 25px;
+    padding-top: 20px;
+    cursor: pointer;
+}
+
+.remove-people img {
+    width: 20px;
+}
+
+.assessment-right .selection-row {
+    border-bottom: 1px solid #cfcfcf;
+    padding-bottom: 15px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.assessment-right .selection-row:last-child {
+    border: none;
+}
+
+.owner_image img {
+    height: 40px;
+    width: 40px;
+}
+
+.okrs-header {
+    width: 100%;
+    margin-bottom: 20px;
+    position: initial;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+.okrs-header h2 {
+    font-size: 24px;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.assessment-details-left {
+    width: 55%;
+    float: left;
+}
+
+.assessment-details-left .goal-title {
+    width: 73%;
+}
+
+.assessment-details-left .goal-linked {
+    height: auto;
+}
+
+.assessment-details-right {
+    float: right;
+    width: 42%;
+}
+
+.assessment-details-left .goal-icon {
+    width: 22px;
+}
+
+.updates-details {
+    float: left;
+    height: auto;
+}
+
+.updates-details:after {
+    content: "";
+    clear: both;
+}
+
+.assessment-details-left .assessment-content {
+    display: block;
+    float: left;
+    width: 56%;
+    margin-top: 14px;
+    margin-left: 0;
+}
+
+.assessment-details-left .comment-section {
+    float: left;
+    width: 96%;
+    margin-left: 0;
+    margin-top: 10px;
+}
+
+.assessment-details-right .updates-profile {
+    margin-left: 0;
+    width: 37%;
+    height: auto;
+}
+
+.assessment-details-right .updates-profile img {
+    height: 40px;
+    float: left;
+}
+
+.assessment-details-right .employee-name {
+    font-size: 16px;
+    width: auto;
+    height: auto;
+    margin-top: 8px;
+}
+
+.assessment-details-right .assessment-content.comment-section {
+    width: 97%;
+}
+
+.assessment-details-right .assessment-content {
+    margin-left: 0;
+    width: 102%;
+}
+
+.assessment-details-right .assessment-score {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.assessment-details-right .assessment-time {
+    margin-top: 12px;
+}
+
+.assessment-details-left .milestone-details {
+    width: 50%;
+}
+
+.assessment-details-left .goal-details-inside-bg-1 {
+    width: 100%;
+}
+
+.assessment-details-left .milestone-details-content-bg {
+    height: 185px;
+}
+
+.assessment-details-left .milestone-btns {
+    clear: both;
+}
+
+.inline {
+    display: inline;
+}
+
+.okrs-search-goal {
+    width: 95%;
+    float: left;
+}
+
+.okrs-search-goal .create_goal_form {
+    clear: both;
+}
+
+.options {
+    float: none!important;
+    margin-left: 10px!important;
+}
+
+.option-row {
+    display: block;
+    margin-top: 10px;
+    margin-left: 40px;
+}
+
+.assActive {
+    background: #aedbea;
+}
+
+.assmenttype-header {
+    text-transform: capitalize;
+    font-size: 20px;
+    text-align: left;
+}
+
+.comments-on-milestone .assessment-time {
+    float: none;
+    font-weight: 700;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+}
+
+.comments-on-milestone .assessment-comment-display {
+    position: relative;
+    padding: 10px 5px 5px 10px;
+    overflow: hidden;
+}
+
+.assessment-comment-display p {
+    margin-bottom: 10px;
+}
+
+.comments-on-milestone .updates-details {
+    width: 97%;
+}
+
+.mrgn-top-10 {
+    margin-top: 10px;
+}
+
+.error {
+    font-family: 'PTSansRegular', sans-serif;
+    color: #fd8080;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.new-form-ui .division img.ui-datepicker-trigger2,
+.date-input img.ui-datepicker-trigger2 {
+    padding: 5px 0px 0px 3px;
+    float: left;
+    cursor: pointer;
+    position: absolute;
+    / left: 261px;
+    / left: 150px;
+}
+
+
+/*2 -Goals starts*/
+
+.owner-container {
+    float: left;
+    height: auto;
+    text-align: left;
+}
+
+.mrgn-left-15 {
+    margin-left: 15px;
+}
+
+.mrgn-right-15 {
+    margin-right: 15px;
+}
+.mrgn-right-20 {
+    margin-right: 20px;
+}
+.mrgn-right-25 {
+    margin-right: 25px;
+}
+
+.pull-right {
+    float: right;
+}
+
+.goal-wrapper {
+    margin-top: 0px;
+}
+
+.goal-wrapper:after {
+    content: "";
+    clear: both;
+}
+
+.goal-owners {
+    float: left;
+    padding: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    margin: 10px 0px 0px 15px;
+    max-height: 507px;
+    width: 190px;
+}
+
+.goal-owners2 {
+    margin: 10px 0px 0px 0px;
+    padding: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    width: 590px;
+    max-height: 507px;
+}
+
+.goal-details-display {
+    text-align: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 13px;
+    color: #262626;
+    padding: 5px;
+}
+
+.goal-inside-titles {
+    float: left;
+}
+
+.goal-inside-titles:after {
+    content: "";
+    clear: both;
+}
+
+.goal-header-page {
+    width: 100%;
+    height: 15px;
+    margin-top: 5px;
+    text-align: left;
+    font-family: 'PTSansRegular', sans-serif;
+    font-size: 15px;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.title-owner {
+    width: 145px;
+    height: 15px;
+    float: left;
+}
+
+.title-goals {
+    width: 247px;
+    height: 15px;
+    float: left;
+}
+
+.title-details {
+    width: 190px;
+    height: 15px;
+    float: left;
+}
+
+.save-row {
+    float: left;
+    width: 910px;
+}
+
+
+/*2 -Goals ends*/
+
+h1.h1class {
+    color: #3e3e3e;
+    font-family: 'PTSansRegular', sans-serif;
+    text-align: left;
+    padding-bottom: 15px;
+    margin-left: 0;
+}
+
+.collapse-item {
+    text-align: left;
+    width: 150px;
+    max-height: 200px;
+    background-color: #ffffff;
+    border: 1px solid #b3b3b3;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    position: absolute;
+    right: 110px;
+    display: none;
+    top: 73px;
+}
+
+.collapse-item li {
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.collapse-item li:last-child {
+    border: none;
+}
+
+.collapse-item a {
+    color: #3B3B3B;
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.collapse-sub-menu li:first-child {
+    border-top: 1px solid #b3b3b3;
+}
+
+.collapse-sub-menu li a {
+    padding: 6px 2px 6px 28px;
+    color: #929292;
+}
+
+.collapse-item a:hover {
+    background-color: #f5f5f5;
+}
+
+.goal-details-collapse:hover .collapse-item {
+    top: 23px;
+    transition: top 1s ease;
+    display: block;
+    overflow: auto; 
+}
+
+.menu-toggle {
+    position: relative;
+    float: left;
+}
+
+
+.milestone-row .menu-toggle {
+    padding-top: 8px;
+}
+
+.milestone-row .menu-toggle:hover .collapse-item {
+    right: 8px;
+    top: 17px;
+    display: block;
+    overflow: auto; 
+}
+
+.milestone-container {
+    float: left;
+    width: 96%;
+}
+
+.milestone-container strong,
+.milestone-row strong {
+    font-weight: 700;
+}
+
+.assessment,
+.percent-target,
+.last-updated {
+    width: 100%;
+    float: left;
+    padding: 5px 0;
+    font-size: 15px;
+    color: #262626;
+}
+
+.milestone-units {
+    float: left;
+    width: 98%;
+}
+
+.goal-container-block {
+    width: 88%;
+}
+
+.user-block {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.user-block .employee-name {
+    width: 100%;
+    font-weight: 600;
+    font-size: 14px;
+    color: #0869a5;
+}
+
+.goals-main-block {
+    width: 96%
+}
+
+
+.milestone-main-container {
+    width: 97%;
+}
+
+.milestone-row {
+    width: 100%;
+    float: left;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.comment {
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.comment img {
+    vertical-align: bottom;
+    margin-left: 5px;
+}
+
+.toggle-box img {
+    margin-right: 10px;
+}
+
+.okrs-search-goal .option-row {
+    margin-left: 0;
+}
+
+.okrs-search-goal .form-inline {
+    float: left;
+    clear: none;
+    margin: 0 15px 0px 0px;
+    width: 24%;
+    text-align: left;
+    line-height: 27px;
+}
+
+.okrs-search-goal .horiz-form {
+    width: 100%;
+    float: left;
+}
+
+.form-group label,
+.form-block label {
+    font-size: 13px;
+}
+
+.form-group .custom-label,
+.form-block .custom-label {
+    line-height: 30px;
+}
+
+.custom-select {
+    width: 210px;
+}
+
+.form-block {
+    float: left;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.form-block input,
+.form-group input {
+    padding: 6px;
+    width: 190px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #ccc;
+}
+
+.division img.ui-datepicker-trigger {
+    position: absolute;
+    right: 38px;
+    top: 4px;
+}
+
+
+/*.pre-assessments-bg .updates-details {
+    width: 94%;
+}
+
+.pre-assessments-bg .assessment-details-right .assessment-content.comment-section {
+    width: 91%;
+}*/
+
+.pre-assessments-bg .assessment-comment-display {
+    width: 97%;
+    padding: 10px 10px 0 10px;
+}
+
+.pre-assessments-bg .updates-details {
+    width: 97%;
+}
+
+.asseessment-user-details .pre-assessments-bg .updates-details {
+    width: 94%;
+}
+
+.mrgn-top-30 {
+    margin-top: 30px;
+}
+
+ul.tokens-token-list .tokens-list-token-holder {
+    padding: 3px 6px!important;
+    font-size: 13px!important;
+}
+
+.assessment-content.assessment-container,
+.assessment-container .assessment-comment-display {
+    height: auto;
+}
+
+.assessment-container .assessment-comment-display {
+    width: 98%;
+}
+
+.updates-profile.profile-inner {
+    padding-right: 23px;
+    width: 110px;
+}
+
+.comment-inner {
+    float: left;
+}
+
+.profile-inner .employee-name {
+    clear: both;
+    float: left;
+    color: #0869a5;
+    font-weight: 600;
+}
+
+.comments-on-milestone {
+    float: left;
+    width: 100%;
+    overflow: auto;
+    max-height: 300px;
+}
+
+.milestone-details-content-bg.assessment-container {
+    float: left;
+    height: auto;
+}
+
+.assessment-details-left .milestone-details-content-bg .goal-details-inside-bg-1 {
+    float: left;
+}
+
+.assessment-container p {
+    /*float: left;*/
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.new-form-ui-submit button.cancel-popup-btn {
+    margin-top: 0;
+    background-color: #e63636;
+    border: #ab1717;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    height: 26px;
+    padding: 3px 10px 4px 10px;
+    font-size: 14px;
+    text-shadow: 0 1px 0 #e63636;
+    font-family: 'PTSansRegular', sans-serif;
+    color: #ffffff;
+    -webkit-box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+    text-transform: uppercase;
+    outline: 0;
+    line-height: 18px;
+}
+
+.new-form-ui label,
+.grpnamecls label {
+    clear: left;
+    width: 20%;
+}
+
+.new-form-ui {
+    width: 100%;
+    margin-bottom: 30px;
+    height: auto;
+}
+
+
+.new-form-ui textarea, .new-form-ui input {
+    width: 500px;
+}
+
+.newframe-div {
+    width: 90%;
+}
+
+.new-form-ui .division {
+    width: auto;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.new-form-ui.form-inline {
+    width: 48%;
+    margin-right: 0;
+} 
+
+.new-form-ui.form-inline label, .grpnamecls label {
+    width: 48%;
+}
+
+.new-form-ui.form-inline .division input {
+    width: 270px;
+}
+
+.btn-not-allowed {
+  opacity: 0.65; 
+  cursor: not-allowed;
+}
+
+.modal-form {
+    width: 100%;
+    padding-bottom: 30px;
+    height: auto;
+    float: left;
+    padding: 0px;
+    color: #3b3b3b;
+    margin: 0 15px 0px 0px;
+    position: relative;
+    margin-bottom: 30px;
+}
+

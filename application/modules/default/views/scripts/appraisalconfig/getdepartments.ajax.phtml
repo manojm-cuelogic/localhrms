@@ -1,0 +1,17 @@
+<?php 
+//$options_data = "";
+//$servicedesk_data = "";
+   //$options_data .= sapp_Global::selectOptionBuilder('', 'Select Receiver');
+  // $servicedesk_data .= sapp_Global::selectOptionBuilder('', 'Select category');
+
+if(!empty($this->implementationdata))
+{
+	$output['implement'] = $this->implementationdata['performance_app_flag'];
+}else
+{
+	$output['implement'] = '';
+}
+
+echo json_encode($output);
+?> 
+ 

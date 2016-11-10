@@ -1,0 +1,17 @@
+<?php 
+$options_data = "";
+$options_data .= sapp_Global::selectOptionBuilder('', 'Select Position');
+	if($this->flag != 'true')
+	{
+	foreach ($this->positionlistArr as $positionlist) {
+			$options_data .= sapp_Global::selectOptionBuilder($positionlist['id'],utf8_encode($positionlist['positionname']));
+		}
+		echo $options_data;
+	}
+	else
+	{
+	    echo "nopositions";
+	}
+
+?> 
+ 

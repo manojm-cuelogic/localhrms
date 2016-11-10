@@ -1,0 +1,89 @@
+
+<div id="changemanagerrequest" style="display:none;">
+	<div class="newframe-div">
+		<input type="hidden" value="" id="objectId" name="objectId">
+		<input type="hidden" value="" id="controllername" name="controllername">
+		<input type="hidden" value="" id="url" name="url">
+
+		<div class="new-form-ui">
+			<label  class="required">Reporting Manager</label>
+			<div class="division">
+				<select style="box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);padding: 12px 16px;margin-top:20px;" class="not_appli" name="reporting_manager" id="reporting_manager">
+					<option value="">Select a Reporting Manager</option>
+					<?php foreach($this->reportingManagers as $reportingManager){?>
+					<option value="<?php echo $reportingManager['id'];?>" ><?php echo $reportingManager['name'];?></option>
+					<?php }?>
+				</select>
+				<span class="errors" id="new_rm_err"></span>
+			</div>
+		</div>
+		<div class="new-form-ui-submit">
+			<input type="button" onclick="submitChangeManager()" value="Submit"/>	
+			<button name="Canceldialog" id="Canceldialog" onclick="$('#changemanagerrequest').dialog('close');" type="button">Cancel</button>
+		</div>
+	</div>
+
+</div>
+
+<?php 
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity())
+{
+ $loginUserId = $auth->getStorage()->read()->id;
+ $loginuserRole = $auth->getStorage()->read()->emprole;
+ $loginuserGroup = $auth->getStorage()->read()->group_id;
+}
+
+if($loginuserGroup==MANAGER_GROUP || $loginuserGroup==MANAGEMENT_GROUP || $loginuserRole==SUPERADMINROLE)
+            {
+			if($this->call != 'ajaxcall'){
+?>
+				<div class="flt_right"  style="clear: both;">
+					<div class="actions_div">
+						<a class="importformatlink flt_left" href="<?php echo BASE_URL; ?>myemployees/employeereport">My Team Report</a>
+					</div>	
+				</div>
+<?php 
+            }
+			}
+?>
+<?php if (count($this->messages)) {?>
+	<div id="dispmsgmyemp" class="settingssuccess">
+		<?php foreach ($this->messages as $message){?>
+		 <?php echo $this->escape($message); ?>
+		<?php } ?>
+	</div>	
+	
+<?php } ?>
+<span id="error_message"></span>
+<?php if($this->dataArray[0]['emptyroles'] == 1)
+{
+ ?>
+	 <div class="ml-alert-1-info m1-info-set">
+		<div class="style-1-icon info"></div>
+		My Team grid will not work as Roles are not added yet.
+	</div>
+ <?php	} else	{	
+
+if($this->call == 'ajaxcall'){
+	$div = ''; $endDiv = ''; 
+} else { 
+	$div = '<div id="grid_'.$this->dataArray[0]['objectname'].'" class="all-grid-control">'; $endDiv = '</div>';
+}
+	echo $div.'<div id="msg" style="display:none;font-style: oblique; font-weight: bold; color: green;""></div>'.$this->grid($this->dataArray[0]).$endDiv;
+
+}
+	?>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+<?php if (count($this->messages)) {?>
+      setTimeout(function(){
+			$('#dispmsgmyemp').fadeOut('slow');
+		},3000);
+
+<?php } ?>
+
+})
+</script>
+

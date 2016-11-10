@@ -1,0 +1,20 @@
+<div class="maincontentdiv">
+  <div style="padding-bottom:70px"><h2 style="float:left;"><u><?php echo $this->title; ?></u></h2></div>
+    <div id="error_message" style="display:none;"></div>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="total-form-controller">
+            <div >
+              <label>Import CSV/Excel</label>
+              <input required type="file" name="emp_leave_excel" style="width: 226px; height: 30px; font-size: 14px; padding:12px;  cursor: pointer;  z-index: 2147483583; ">
+            
+              <!-- <input type="submit" name="submitForm" value="Import"/> -->
+
+              <div class="new-form-ui-submit" style="margin:auto">
+                  <center>
+                      <input type="submit" style="float:none" name="submitForm" id="submitForm" value="Import">
+                  </center>
+              </div>
+            </div>
+        </div>
+    </form>
+</div>

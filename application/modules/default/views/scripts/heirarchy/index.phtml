@@ -1,0 +1,42 @@
+<?php if(empty($this->orgData) && empty($this->allEmpdata)){ ?>	
+		<div class="ml-alert-1-info"><div class="style-1-icon info"></div>Organization information and employees are not added yet<!--to configure organization hierarchy-->. </div>	
+<?php }else if(empty($this->allEmpdata)){ ?>
+		<div class="ml-alert-1-info"><div class="style-1-icon info"></div>Employees are not added yet<!--to configure organization hierarchy-->. </div>	
+<?php } else if(empty($this->orgData)){ ?>
+		<div class="ml-alert-1-info"><div class="style-1-icon info"></div>Organization Information is not added yet<!--to configure organization hierarchy-->. </div>	
+<?php } 
+else if($this->output != '') { ?>
+ <style>
+	#ifrDiv{ z-index:1000;position:absolute;border:1px solid red;top:200px;left:200px;}	
+  </style>  
+<span id="error_message"></span>
+<div id = "grayout" ></div>
+
+	<?php echo $this->output;?>
+<script type='text/javascript'>
+jQuery(document).ready(function() {
+	$('#grayout').slimScrollHorizontal({
+	  alwaysVisible: false,
+	  start: 'left',
+	  position: 'bottom',
+	}).css({ background: '#ccc', paddingBottom: '10px' }); 
+	$("div.node").each(function(){
+	   var text = $(this).text();
+	   text = $.trim(text);
+	   var subtext = text.substring(0,30);
+	   $(this).html(subtext);
+	   $(this).attr("title",$.trim(text));
+	});
+	    $("#org").jOrgChart();
+
+});
+</script>
+
+<div id="addlist"></div>
+
+<?php } else { ?> 
+<div class="ml-alert-1-info"><div class="style-1-icon info"></div>
+		Employees are not added yet.
+</div>
+<div id="addlist" style="display:none;"></div>
+<?php } ?>

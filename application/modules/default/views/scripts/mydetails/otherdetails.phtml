@@ -1,0 +1,79 @@
+<?php if(empty($this->empdata)){ ?>
+   <div class="ml-alert-1-info m1-info-set">
+                <div class="style-1-icon info"></div>
+                <?php if($this->rowexist == 'norows'){?>
+                        No data found.
+                <?php }else{?>
+                        Employee deleted
+                <?php }?>
+    </div>
+
+<?php   
+}
+else
+{
+    if(!empty($this->employeedata))
+    {
+        echo $this->employeedetails($this->employeedata,'mydetails',$this->id); 
+    } 
+    ?>
+    <div class="right-block-data">
+        <div id="error_message" style="display:none;"></div>
+        <form name="<?php echo $this->form->getName(); ?>" id="<?php echo $this->form->getId(); ?>" action="<?php echo $this->form->getAction();?>" method="<?php echo $this->form->getMethod(); ?>">
+        <?php echo $this->form->id;
+        echo $this->form->user_id;
+        ?>
+        <div class="total-form-controller cancel-set view-form-detail">
+            <div class="new-form-ui">
+              <label>Functional Area</label>
+            <div class="division"><?php echo $this->form->functional_area; ?></div>
+            </div>
+            
+            <div class="new-form-ui">
+              <label>Project Status</label>
+            <div class="division"><?php echo $this->form->project_status; ?></div>
+            </div>
+
+            <div class="new-form-ui">
+              <label>Project</label>
+            <div class="division"><?php echo $this->form->project; ?></div>
+            </div>
+
+
+            <div class="new-form-ui">
+              <label>Skype Id</label>
+            <div class="division"><?php echo $this->form->skype_id; ?></div>
+            </div>
+
+            <div class="new-form-ui">
+              <label>Previous Org HR Email</label>
+            <div class="division"><?php echo $this->form->prev_hr_email; ?></div>
+                   <span class="errors" id="errors-<?php echo $this->form->prev_hr_email->getId(); ?>"></span>
+            </div>
+            <div class="new-form-ui-submit">
+                    <?php echo $this->form->submit; ?>
+            </div> 
+        </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#emp_others').addClass('active')
+        });
+        function submitOtherDetails(e) { 
+            
+            var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if($.trim($('#prev_hr_email').val()) == "" || $('#prev_hr_email').val().match(pattern))
+            {
+                console.log("validated")
+            } 
+            else {
+                $('#errors-prev_hr_email').html("Invalid email address");
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        }
+    </script>
+     <?php
+}
+?>

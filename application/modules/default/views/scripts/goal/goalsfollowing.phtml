@@ -1,0 +1,49 @@
+<h1 style="color:#000;text-align:left">Goals that you are following</h1>
+
+<?php
+if($this->goals && count($this->goals) > 0) {
+	foreach($this->goals as $goal)
+		echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+		            'goal' => $goal
+		        ));
+
+	?>
+	<script>
+	$(document).ready(function(){
+		$('.goal-icon img').on('click', function(){
+        var obj = this;
+        var goal_id = $(this).attr('data-id');
+        var follow = $(this).prev(".isFollowing").val();
+        console.log(follow);
+        follow = (parseInt(follow)) ? 0 : 1; console.log(follow);
+        $.blockUI({ width:'50px',message: $("#spinner").html() });
+        $.post(base_url + '/goal/followunfollowgoal', {goal_id:goal_id, follow:follow}, function(data){
+                if(follow) {
+                    $(obj).prev(".isFollowing").val(1); 
+                    var imgPath = "<?php echo MEDIA_PATH . 'images/okr/goal_icon.png' ?>";
+                    var title="Unollow this goal";
+                }
+                else {
+                    $(obj).prev(".isFollowing").val(0); 
+                    var imgPath = "<?php echo MEDIA_PATH . 'images/okr/goal_icon_gray.png' ?>";
+                    var title="Follow this goal";
+                }
+                $(obj).attr({'src':imgPath,'title':title})
+                //loadComments(true);
+                $.unblockUI();
+            })
+    })
+	});
+		
+    </script>
+	<?php
+}
+else {
+	?>
+	<div class="ml-alert-1-info">
+                <div class="style-1-icon info"></div>
+                                You are not following any goal.
+    </div>
+	<?php
+}
+?>

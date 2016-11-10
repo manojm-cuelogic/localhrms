@@ -1,0 +1,207 @@
+
+
+<!--page - adding new goal - starts here -->
+
+<!--Header section of the page starts here-->
+<form id="goal_form" method="POST">
+<div class="okrs-content-bg">
+    <div class="create_goal_header">
+        <div class="create_goal_title" style="width:20%">Create a Company Goal</div>
+        
+        
+    </div>
+</div>
+
+<!--Header section of the page ends here-->
+
+
+
+
+
+<!-- Create goal form starts  -->
+<div class="okrs-content-bg">
+    <div class="create_goal_form ">
+        <label class="required">What is your Goal?</label>
+        <div class="division"> <!-- Common class -->
+            <input required="true" name='goal_form[name]' type="text" placeholder="Type company goal" >
+            <span class="error"></span>
+        </div>
+    </div>
+
+
+    <div class="create_goal_form ">
+        <label class="required">Describe your Goal?</label>
+        <div class="division">
+            <input required="true" name='goal_form[description]' type="text" placeholder="Description for company goal">
+            <span class="error"></span>
+        </div>
+    </div>
+
+
+    
+
+
+    <div class="create_goal_form keyword-div">
+        <label>Keywords</span></label>
+        <div class="division">
+            <input required="true" class="form-control" name='goal_form[align_keyword_id]' id="goal_keyword" type="text" placeholder="Select the keyword(s)Training, Delivery, Technology, Hiring, HR, Sales" />
+            <span class="error"></span>
+        </div>
+    </div>
+
+
+
+    <div class="align_goal_divider mrgn-top-30"> <!-- Period, Date section -->
+        <div class="create_goal_period">
+            <div class="create_goal_form ">
+                <label>Which Period</label>
+                <div class="division">
+                    <select required="true" id="align_period_id" name='goal_form[align_period_id]'>
+                        <option value=''>Select Period</option>
+                        <?php foreach($this->cycles as $cycle) {
+                            echo '<option value="' . $cycle['id'] . '">' . $cycle['displayName'] . '</option>';
+                        } ?>
+                    </select>
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="create_goal_startdate">
+            <div class="create_goal_form new-form-ui ">
+                <label>Start date</label> <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" id="startDate" value=""  required="true" name='goal_form[align_start_date]' />
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="create_goal_enddate">
+            <div class="create_goal_form new-form-ui ">
+                <label>End date</label>  <!-- add date plugin from leave request page here -->
+                <div class="division">
+                    <input type="text2" id="endDate" value="" required="true" name='goal_form[align_end_date]' />
+                    <span class="error"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="create_goal_form keyword-div">
+        <label>&nbsp;</label>
+        <div class="division">
+            <button type="button" class="submit-btn active-btn">Create</button>&nbsp;
+            <button type="button" class="gray-btn">Cancel</button>
+        </div>
+    </div>
+    <!-- Create goal form ends  -->
+</div>
+</form>
+<!--page - adding new goal - ends here -->
+
+<script>
+    var cycles = <?php echo json_encode($this->cycles); ?>;
+    $(document).on('ready', function(){
+        $('#align_goal_owner').on('change', function() {
+            owner_id = $('#align_goal_owner').val()
+            $.blockUI({ width:'50px',message: $("#spinner").html() });
+            $.post(base_url+"/goal/getallgoals",{owner_id:owner_id},function(data){
+                
+                data = JSON.parse(data);console.log(data);
+                $.unblockUI();
+                var html = '<option value="">Please select goal</option>';
+                $.each(data['result'], function(i, v) {
+                    html += "<option value='" + v.id + "'>" + v.name + "</option>";
+                })
+                $('#align_goal_id').html(html).val('').trigger('change');
+            });
+        });
+
+        var yearrange = '<?php echo date(Y); ?>:<?php echo date(Y); ?>';
+        $('#startDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true ,
+                         onClose:function(){
+
+                                        var minDate = new Date($('#startDate').val());
+                                         $("#endDate").datepicker( "option", "minDate", minDate );
+                                    }
+            });
+        var yearrange = '<?php echo date(Y); ?>:<?php echo date(Y); ?>';
+        $('#endDate').datepicker({
+                    showOn:'both',
+                    yearRange: yearrange,
+                    dateFormat: 'dd MM yy',
+                    buttonImage: "<?php echo MEDIA_PATH;?>images/cal.png",
+                    buttonImageOnly: true,
+                    buttonText: "",
+                    changeMonth: true,
+                    changeYear: true, 
+                    showButtonPanel: true ,
+                         onClose:function(){
+                                        var maxDate = new Date($('#endDate').val());
+                                        $( "#startDate" ).datepicker( "option", "maxDate", maxDate );
+                                    }
+            });
+            $('.submit-btn').on('click', function(){
+                if(validateForm()) {
+                     var keywords= "";
+                    $(".tokens-list-token-holder").each(function(i,v){
+                        if(i != 0) keywords += ",";
+                        keywords += $(v).find('p').html();
+                    })
+                    $('#goal_keyword').val(keywords);
+                    if($('#goal_keyword').length == 0) {
+                        var ht = "<input id='goal_keyword' type='text' value='"+keywords+"' name='goal_form[align_keyword_id]' />";
+                        $(".keyword-div").append(ht);
+                    } else { $('#goal_keyword').val(keywords);}
+                    $('#goal_form').submit();
+                }
+            });
+            $('#align_period_id').on('change', function() {
+                var id = $('#align_period_id').val();
+                $.each(cycles, function(i,v){
+                    if(v.id == id) {
+                        $('#startDate').datepicker('setDate', new Date(v.startDate));
+                        $('#endDate').datepicker('setDate', new Date(v.endDate));
+                    }
+                })
+            });
+            
+            $('#goal_keyword').tokens({
+                <?php if(count($this->allKeywords) > 0) { ?>
+                  source : [ '<?php echo implode("','",$this->allKeywords) ?>' ],
+                  <?php } else { ?>
+                    source : [],
+                    <?php } ?>
+              <?php if(strlen(trim($this->keywords)) > 0) { ?>
+              initValue : [ '<?php echo implode("','",explode(",",$this->keywords)) ?>' ]
+              <?php } ?>
+
+            });
+
+//goal_keyword
+    });
+    function validateForm() {
+        $('.error').html("");
+        var noerror = true;
+        $('[required="true"]').each(function(i,v) {
+            if($.trim($(v).val()) == '') {
+                noerror = false;
+                $(v).parent().find('.error').html("This can not be blank");
+            } else console.log($.trim($(v).val()));
+        });
+        return noerror;
+    }
+
+</script>
+
+

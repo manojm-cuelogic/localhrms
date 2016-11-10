@@ -1,0 +1,99 @@
+
+
+<?php if(isset($this->rowexist) || $this->accessRight == 'denied') { ?>
+
+    <?php if($this->accessRight == 'denied'){ ?> 
+    	<div class="page-not-authorized"><div class="div-authorized"></div><p class="sry-text">You are not authorized to access this page.</p></div>
+		<?php } else {
+			?>
+			<div class="ml-alert-1-info">
+			<div class="style-1-icon info"></div>
+    		Invalid request.
+    		</div>
+		<?php 			
+		}
+     ?>
+<?php } else { ?>
+
+	  <?php if($this->is_cxo_goal || $this->isChildGoalsArchived) { ?>
+		    <div>
+		    	<form class="pull-right" style="margin-right:20px;margin-top:20px;" id = "archive-form" method = "POST">
+		    		<input type="hidden" value="1" name="archive_goal"/>
+		        	<input id="archive" style="padding:8px 14px;" type="button" class="active-btn" onclick="submitForm()"  value="Archive Goal"/>
+		        </form>
+	       </div>
+	       <script>
+	       		function submitForm () {
+	       			if(confirm("Are you sure to archive this goal? This can not be unarchived?")) {
+	       				$("#archive-form").submit()
+	       			}
+	       		}
+	       </script>
+	    <?php } else { ?>
+	    	<div>
+	    	<form class="pull-right" style="margin-right:20px;margin-top:20px;" >
+	        	<input id="archive" title="All dependent goals are not in archive state." style="padding:8px 14px;" type="button" class="active-btn disabled"  value="Archive Goal"/>
+	        </form>
+	       </div>
+	   <?php } ?>
+
+	
+	<?php
+        echo $this->partial('assessment/goal_detail_upperbar.phtml', array(
+            'goal' => $this->goal,
+        ));
+    ?>
+    <?php if(!$this->is_cxo_goal && !$this->isChildGoalsArchived) { ?>
+    	<span class="pull-left hint" style="padding-left:15px;font-style:italic;color:#f77;">Note: All dependent goals are not archived for this goal. Once all dependent goals are archived then only this goal can be archived.</span>
+    <?php } ?>
+
+
+    <div class="milestones-title">Dependent Goals</div>
+    
+    <?php if(count($this->dep_goals) > 0) { ?>
+	    <?php
+	        echo $this->partialLoop('goal/partialDependentGoal.phtml', $this->dep_goals);
+	    ?>
+	    <?php if($this->is_cxo_goal || $this->isChildGoalsArchived) { ?>
+		    <div>
+		    	<form class="pull-right" style="margin-right:20px;margin-top:20px;" id = "archive-form" method = "POST">
+		    		<input type="hidden" value="1" name="archive_goal"/>
+		        	<input id="archive" style="padding:8px 14px;" type="button" class="active-btn" onclick="submitForm()"  value="Archive Goal"/>
+		        </form>
+	       </div>
+	       <script>
+	       		function submitForm () {
+	       			if(confirm("Are you sure to archive this goal? This can not be unarchived?")) {
+	       				$("#archive-form").submit()
+	       			}
+	       		}
+	       </script>
+	    <?php } else { ?>
+	    	<div>
+	    	<form class="pull-right" style="margin-right:20px;margin-top:20px;" >
+	        	<input id="archive" title="All dependent goals are not in archive state." style="padding:8px 14px;" type="button" class="active-btn disabled"  value="Archive Goal"/>
+	        </form>
+	       </div>
+	   <?php } ?>
+	<?php } else {
+		?>
+			<div class="ml-alert-1-info">
+			    <div class="style-1-icon info"></div>
+			    No Dependent goals
+			</div>
+			<div>
+		    	<form class="pull-right" style="margin-right:20px;margin-top:20px;" id = "archive-form" method = "POST">
+		    		<input type="hidden" value="1" name="archive_goal"/>
+		        	<input id="archive" style="padding:8px 14px;" type="button" class="active-btn" onclick="submitForm()"  value="Archive Goal"/>
+		        </form>
+	       </div>
+	       <script>
+	       		function submitForm () {
+	       			if(confirm("Are you sure to archive this goal? This can not be unarchived?")) {
+	       				$("#archive-form").submit()
+	       			}
+	       		}
+	       </script>
+		<?php 
+	} ?>
+<?php } ?>

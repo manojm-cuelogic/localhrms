@@ -1,0 +1,60 @@
+<div id="cancelleaverequest" style="display:none;">
+	<div class="newframe-div">
+		<input type="hidden" value="" id="objectId" name="objectId">
+		<input type="hidden" value="" id="controllername" name="controllername">
+
+		<div class="new-form-ui">
+			<label class="required">Reason</label>
+			<div class="division">
+			<textarea id="leave_comment"></textarea>
+			</div>
+			<span class="errors" id="leave_comment_err"></span>
+		</div>
+		<div class="new-form-ui-submit">
+			<input type="button" onclick="cancelLeaveWithComment()" value="Submit"/>	
+			<button name="Canceldialog" id="Canceldialog" onclick="$('#cancelleaverequest').dialog('close');" type="button">Cancel</button>
+		</div>
+	</div>
+</div>
+<?php if (count($this->messages)) {?>
+	<div id="dispmsgapprovedleaves" class="settingssuccess">
+		<?php foreach ($this->messages as $message){?>
+		 <?php echo $this->escape($message); ?>
+		<?php } ?>
+	</div>		
+<?php } ?>
+<span id="error_message"></span>
+<?php 
+if($this->call == 'ajaxcall'){
+	$div = ''; $endDiv = ''; 
+} else { 
+	$div = '<div id="grid_'.$this->dataArray[0]['objectname'].'" class="all-grid-control">'; $endDiv = '</div>';
+}
+	echo $div.'<div id="msg" style="display:none;font-style: oblique; font-weight: bold; color: green;""></div>'.$this->grid($this->dataArray[0]).$endDiv;
+?>
+
+<script type='text/javascript'>
+var cancellable_day = <?php echo LEAVE_CANCEL_DAY; ?>;
+var now_time = <?php echo time(); ?>*1000;
+$(document).ready(function(){
+<?php if (count($this->messages)) {?>
+      setTimeout(function(){
+			$('#dispmsgapprovedleaves').fadeOut('slow');
+		},3000);
+
+<?php } ?>
+	var d = new Date(now_time); // today!
+	d.setDate(d.getDate() - cancellable_day);
+	var cancellable_time = d.getTime();
+$('.grid tbody tr').each(function(i,v){
+	var date = new Date($(v).find('td:eq(4) span').attr('title'));//console.log($(v).find('td:eq(4)').html())
+	var row_ts = date.getTime();
+	if(cancellable_time >  row_ts) {
+		console.log($(v).find('.row1').find('td:eq(0) div'));
+		$(v).find('td:eq(0) div').find('.cancel-lev').remove();
+	}
+
+
+});//$('.grid tbody tr').length;
+});
+</script>
