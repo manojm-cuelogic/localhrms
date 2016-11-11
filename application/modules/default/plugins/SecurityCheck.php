@@ -27,7 +27,7 @@ class Default_Plugin_SecurityCheck extends Zend_Controller_Plugin_Abstract
         
        	$this->_action= $this->getRequest()->getActionName();  
 		
-        $withoutloginActionArr = array('index','login','loginsave','loginpopupsave','forgotpassword','editforgotpassword','sendpassword','popup','getemployeedetails', 'getemployeeleaves', 'getholidays','creditmonthlyemployeeleaves','leavereminders');
+        $withoutloginActionArr = array('index','login','loginsave','loginpopupsave','forgotpassword','editforgotpassword','sendpassword','popup','getemployeedetails', 'getemployeeleaves', 'getholidays','creditmonthlyemployeeleaves','leavereminders','cronautoapproveleave');
 		
         if($this->_module == self::MODULE && $data['employeeId']){
 
@@ -50,7 +50,7 @@ class Default_Plugin_SecurityCheck extends Zend_Controller_Plugin_Abstract
 		
         $redirect = '';
        
-        $withoutloginArr = array('default_cronjob_logcron','default_cronjob_inactiveusers','default_cronjob_requisition','default_cronjob_leaveapprove','default_cronjob_empexpiry','default_cronjob_empdocsexpiry','default_cronjob_index','default_index_index','default_index_loginpopupsave','default_csi_getemployeedetails', 'default_csi_getemployeeleaves', 'default_csi_getholidays','default_index_login','default_index_loginsave','default_index_browserfailure','default_index_forgotpassword','default_index_editforgotpassword','default_index_sendpassword','default_index_popup','services_index_index','services_index_post','services_index_get','services_index_login','timemanagement_cronjob_index','timemanagement_cronjob_mailreminder','default_cronjob_leavereminders','default_cronjob_creditmonthlyemployeeleaves','timemanagement_cronjob_monthlyempblockremainder','timemanagement_cronjob_monthlyblockedemp');
+        $withoutloginArr = array('default_cronjob_logcron','default_cronjob_inactiveusers','default_cronjob_requisition','default_cronjob_leaveapprove','default_cronjob_empexpiry','default_cronjob_empdocsexpiry','default_cronjob_index','default_index_index','default_index_loginpopupsave','default_csi_getemployeedetails', 'default_csi_getemployeeleaves', 'default_csi_getholidays','default_index_login','default_index_loginsave','default_index_browserfailure','default_index_forgotpassword','default_index_editforgotpassword','default_index_sendpassword','default_index_popup','services_index_index','services_index_post','services_index_get','services_index_login','timemanagement_cronjob_index','timemanagement_cronjob_mailreminder','default_cronjob_leavereminders','default_cronjob_creditmonthlyemployeeleaves','timemanagement_cronjob_monthlyempblockremainder','timemanagement_cronjob_monthlyblockedemp','default_cronjob_cronautoapproveleave');
         $contolleractionstring = $this->_module.'_'.$this->_controller.'_'.$this->_action; 
       
         if(!in_array($contolleractionstring,$withoutloginArr))

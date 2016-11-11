@@ -5653,14 +5653,16 @@ function employeeAvailableLeaves(empid, leavetype) {
                     var availableLeaves = response['available_leaves'] - response['unapproved_leaves_count'];
                     if (availableLeaves <= 0) {
                         availableLeaves = 0;
-                        $("#no_of_days").val(availableLeaves);
+                        
 
                     }
+                    $("#no_of_days").val(availableLeaves);
                     // if (response['available_leaves'])
 
                 } else {
                     $("#no_of_days").val(0);
                 }
+                
                 $('#unapprovedleavesdaycount').val(response['unapproved_leaves_count']);
             }
         });

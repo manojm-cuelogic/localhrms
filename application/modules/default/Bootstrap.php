@@ -190,6 +190,14 @@ class Default_Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 				'controller' => 'cronjob',
 				'action' => 'leavereminders',
 			));
+                /*
+                 * Auto Approve Cron Set
+                 */
+                $cronautoapproveleave_route = new Zend_Controller_Router_Route('cronjob/cronautoapproveleave/:key',array(
+				'module' => 'default',
+				'controller' => 'cronjob',
+				'action' => 'cronautoapproveleave',
+			));
 		$router->addRoute('login', $route); 
 		$router->addRoute('welcome', $welcomeroute);		
 		$router->addRoute('viewsettings', $viewsettingsroute);
@@ -204,6 +212,7 @@ class Default_Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$router->addRoute('multiplepolicydocuments',$multiplepolidydocs_route);
 		$router->addRoute('credit_monthly_leave_route',$credit_monthly_leave_route);
 		$router->addRoute('leave_reminder_route',$leave_reminder_route);
+                $router->addRoute('cronautoapproveleave_route',$cronautoapproveleave_route);
     }  
 }
 

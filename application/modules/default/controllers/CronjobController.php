@@ -11,12 +11,14 @@ class Default_CronjobController extends Zend_Controller_Action
     
     public function init()
     {
+        
         $this->_options= $this->getInvokeArg('bootstrap')->getOptions();        
     }
 
     public function indexAction()
     {
-    $this->_helper->viewRenderer->setNoRender(true);
+   
+        $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout();
         
         $date = new Zend_Date();
@@ -709,6 +711,7 @@ class Default_CronjobController extends Zend_Controller_Action
         
     }
     public function leaveremindersAction () {
+     
         $key = $this->getRequest()->getParam('key');
         if($key == $this->cron_key) {
             $holidaydatesmodel = new Default_Model_Holidaydates();
@@ -1041,13 +1044,108 @@ class Default_CronjobController extends Zend_Controller_Action
         }
         //insert into main_employeeleaves (user_id, emp_leave_limit, leavetypeid, used_leaves, alloted_year, createdby, modifiedby, createddate, modifieddate)
     }
-
-    public function autoapproveleaveAction()
+    
+    
+    
+    /*
+     * Auto Approve Action call leaves
+     */
+    public function cronautoapproveleaveAction()
     {
+        
+        $key = $this->getRequest()->getParam('key');
+         if($key == $this->cron_key) {
+             
+        $leaverequestmodel = new Default_Model_Leaverequest();
+        $adapterDb = $leaverequestmodel->getAdapter();
+        try {
+            
+            /*IMPORTANT
+             * Never append die in between before commit 
+             * if want to get output comment the trasactions 
+             */
+            
+           $adapterDb->beginTransaction();
 
+            $getdetails = $leaverequestmodel->getdetailspeandinlevesCron();
+          //  Zend_Debug::dump($getdetails);die();
+             
+            foreach ($getdetails as $recordforapprove) 
+            {
+                $data = array('leavestatus' => 2,
+                    'approved_by' => $recordforapprove['rep_mang_id'],
+                    'modifiedby' => $recordforapprove['rep_mang_id'],
+                    'modifieddate' => gmdate("Y-m-d H:i:s"));
+                $where = array('id = ?' => $recordforapprove['id']);
+                //Zend_Debug::dump($data);
+                //Zend_Debug::dump($where);
+                
+                $Id = $leaverequestmodel->SaveorUpdateLeaveRequest($data, $where);
+                $updateemployeeleave = $leaverequestmodel->updateemployeeleaves($recordforapprove['appliedleavescount'],$recordforapprove['user_id'],$recordforapprove['leavetypeid']);
+                /* Mail to Employee */
+                $options['header'] = 'Leave Request';
+                $options['toEmail'] = $recordforapprove['emp_email'];
+                $options['toName'] = $recordforapprove['emp_name'];
+                $cc_temp = EMAIL_LEAVE_CC;
+                $cc = explode(",", $cc_temp);
+                //$cc ="manoj.mahamunkar@cuelogic.co.in";
+                $options['cc'] = $cc;
+                $options['subject'] = 'HRMS - Leave Request Auto Approved- ' . $recordforapprove['emp_name'] . ' #'.$recordforapprove['user_id'];
+                $options['message'] = '<div>Hi,</div><div>The below leave(s) has been approved.</div>';
+                $options['message'] .= '<div>
+                <table width="100%" cellspacing="0" cellpadding="15" border="0" style="border:3px solid #BBBBBB; font-size:16px; font-family:Arial, Helvetica, sans-serif; margin:30px 0 30px 0;" bgcolor="#ffffff">
+                      <tbody><tr>
+                        <td width="28%" style="border-right:2px solid #BBBBBB;">Employee Name</td>
+                        <td width="72%">'.$recordforapprove['emp_name'].'</td>
+                      </tr>
+                      <tr bgcolor="#e9f6fc">
+                        <td style="border-right:2px solid #BBBBBB;">No. of Day(s)</td>
+                        <td>'.$recordforapprove['appliedleavescount'].'</td>
+                      </tr>
+                      <tr>
+                        <td style="border-right:2px solid #BBBBBB;">From</td>
+                        <td>'.date("d F Y", strtotime($recordforapprove['from_date'])).'</td>
+                      </tr>
+                      <tr bgcolor="#e9f6fc">
+                        <td style="border-right:2px solid #BBBBBB;">To</td>
+                        <td>'.date("d F Y", strtotime($recordforapprove['to_date'])).'</td>
+            	     </tr>
+            	     <tr>
+    	                 <td style="border-right:2px solid #BBBBBB;">Leave Type</td>
+                        <td>'.$recordforapprove['leavetype'].'</td>
+                        </tr>
+                      <tr bgcolor="#e9f6fc">
+                        <td style="border-right:2px solid #BBBBBB;">Reason for Leave</td>
+                        <td>'.$recordforapprove['reason'].'</td>
+                  	</tr>
+                  
+                </tbody></table>
 
-        echo "Autoapproveleave";
-
+            </div>';
+            	
+            $result = sapp_Global::_sendEmail($options);
+             //Zend_Debug::dump($options);    
+                
+               $options['toEmail'] = $recordforapprove['rep_mang_email'];
+               $options['toName'] = $recordforapprove['rep_name'];
+               $cc_temp = EMAIL_LEAVE_CC;
+               //Zend_Debug::dump($options);
+              $result1 = sapp_Global::_sendEmail($options);
+            }
+            
+           $adapterDb->commit();
+           echo "Auto Approve of leaves Done";
+        } catch (Zend_Exception $ex) {
+          $adapterDb->rollBack();
+            Zend_Log::ERR('cronautoapproveleaveAction: ' . $ex->getMessage());
+            
+        }
+       
+       }
+       else {
+                echo "Invalid Request";exit;
+        }
+       
     }
 
 }
